@@ -1144,7 +1144,7 @@
 
       .task-actions {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 8px;
         padding: 0 10px 10px;
       }
@@ -2941,7 +2941,7 @@
           name: "咖啡机清洁（洗机、咖啡槽）",
           store: "大学城南门店",
           level: "审核任务",
-          status: "未生成",
+          status: "待处理",
           object: "今日必完成任务",
           detail: "兼职已提交吧台、出杯口、取餐柜清洁图片，请运营确认图片是否完整、清洁结果是否达标。",
           owner: "李晴",
@@ -2969,7 +2969,7 @@
           name: "液体墙、糖浆机、制冰机清洁（出口、槽）",
           store: "鼎好 DH3-A座",
           level: "审核任务",
-          status: "未生成",
+          status: "待处理",
           object: "今日必完成任务",
           detail: "兼职已提交巡店检查结果，包含门头、设备外观、物料摆放和营业准备情况，请运营审核是否通过。",
           owner: "李晴",
@@ -3326,7 +3326,8 @@
       function taskCard(task) {
         const cls = task.type === "review" ? "review" : task.level === "致命报警" ? "danger" : "warn";
         const canHandle = roles[roleIndex] === "门店运营";
-        const active = ["处理中", "暂缓中"].includes(task.status);
+        const active = task.status === "处理中";
+        const suspended = task.status === "暂缓中";
         const terminal = ["已完成", "已关闭"].includes(task.status);
         const copyIcon = (value, label) => `
           <button class="copy-icon" data-copy-text="${escapeHtml(value)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
@@ -3347,9 +3348,6 @@
         const detailRows =
           `
               ${fieldRow("报警触发人", task.trigger || "系统")}
-              ${fieldRow("严重级别", task.level)}
-              ${fieldRow("报警频次", task.interval)}
-              ${fieldRow("报警次数", `${task.alarmCount || 1}次`)}
               ${fieldRow("最新报警时间", task.latestAlarmAt)}
               ${fieldRow("报警对象", task.object)}
               ${fieldRow("报警详情", task.detail)}
@@ -3362,24 +3360,23 @@
               <label>跟进备注
                 <textarea data-note="${task.id}" maxlength="100" placeholder="请输入跟进备注，100字以内">${escapeHtml(task.note || "")}</textarea>
               </label>
-              <label>处理进度
-                <select data-progress="${task.id}">
-                  ${["排查中", "已解决", "无需解决"].map((item) => `<option value="${item}" ${task.progress === item ? "selected" : ""}>${item}</option>`).join("")}
-                </select>
-              </label>
             </div>`
           : "";
         const actions = terminal
-          ? `<div class="task-actions"><button disabled type="button">已完成</button><button data-ask="${task.id}" type="button">查看建议</button></div>`
-          : active
+          ? ""
+          : suspended
             ? `<div class="task-actions">
-                <button class="danger" data-pause="${task.id}" type="button">${task.status === "暂缓中" ? "继续处理" : "暂缓处理"}</button>
-                <button class="primary" data-complete="${task.id}" type="button">${task.type === "review" ? "完成审核" : "完成任务"}</button>
+                <button class="primary single" data-resume="${task.id}" type="button">继续处理</button>
               </div>`
-            : `<div class="task-actions">
-                <button class="primary" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>${task.type === "review" ? "开始审核" : "开始处理"}</button>
-                <button data-ask="${task.id}" type="button">${task.type === "review" ? "问 AI 审核建议" : "问 AI 建议"}</button>
-              </div>`;
+            : active
+              ? `<div class="task-actions">
+                  <button data-suspend="${task.id}" type="button">暂缓</button>
+                  <button class="danger" data-close="${task.id}" type="button">关闭</button>
+                  <button class="primary" data-complete="${task.id}" type="button">${task.type === "review" ? "完成审核" : "完成"}</button>
+                </div>`
+              : `<div class="task-actions">
+                  <button class="primary single" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>${task.type === "review" ? "开始审核" : "开始处理"}</button>
+                </div>`;
         return `
           <article class="task-card ${cls}" data-task-card="${escapeHtml(task.id)}">
             <div class="task-card-head">
@@ -3388,7 +3385,6 @@
               </div>
               <em class="task-level">${escapeHtml(task.level)}</em>
             </div>
-            ${task.situation ? `<div class="task-situation"><span>处理情况</span>${escapeHtml(task.situation)}</div>` : ""}
             <div class="task-meta">
               ${copyRow("任务ID", task.id)}
               ${copyRow("店铺名称", task.store)}
@@ -3463,7 +3459,6 @@
               <div>
                 ${copyRow("任务名称", task.name)}
                 ${copyRow("店铺名称", task.store)}
-                <div class="task-situation"><span>处理情况</span>今日固定清洁任务，完成后会生成运营审核任务。</div>
               </div>
               <em class="task-level">${terminal ? "已提交" : active ? "处理中" : "待清洁"}</em>
             </div>
@@ -3511,12 +3506,11 @@
             </div>`
           : "";
         const actions = terminal
-          ? `<div class="task-actions"><button disabled type="button">已完成</button><button data-ask="${task.id}" type="button">查看建议</button></div>`
+          ? ""
           : active
             ? `<div class="task-actions"><button class="primary single" data-complete="${task.id}" type="button">完成审核</button></div>`
             : `<div class="task-actions">
-                <button class="primary" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>开始审核</button>
-                <button data-ask="${task.id}" type="button">问 AI 审核建议</button>
+                <button class="primary single" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>开始审核</button>
               </div>`;
         return `
           <article class="task-card ${cls}" data-task-card="${escapeHtml(task.id)}">
@@ -3525,7 +3519,6 @@
               <div>
                 ${copyRow("任务名称", task.name)}
                 ${copyRow("店铺名称", task.store)}
-                <div class="task-situation"><span>处理情况</span>${escapeHtml(task.situation || "")}</div>
               </div>
               <em class="task-level">${escapeHtml(task.reviewStatus || "待审核")}</em>
             </div>
@@ -3948,7 +3941,7 @@
         if (role === "兼职") {
           return ["我今天的任务", "查看审核反馈", "查看门店状态看板"];
         }
-        return ["智能巡店", "查看待处理任务", "今天还有哪些报警没处理？", "今天已完成的任务"];
+        return ["智能巡店", "查看待处理任务", "查看清洁审核任务", "今天已完成的任务"];
       }
 
       function renderSuggestions() {
@@ -4502,6 +4495,16 @@
           return;
         }
 
+        if (query.includes("清洁审核")) {
+          const reviewTasks = activeTasks.filter((task) => task.type === "review");
+          if (!reviewTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有待审核的清洁任务。兼职提交清洁任务后会自动生成审核任务。</div>`);
+            return;
+          }
+          addMessage("assistant", `<div class="bubble">当前有 ${reviewTasks.length} 条清洁审核任务待处理。</div>${reviewTasks.map(taskCard).join("")}`);
+          return;
+        }
+
         if (query.includes("报警") || query.includes("任务")) {
           if (!activeTasks.length) {
             addMessage("assistant", `<div class="bubble">当前没有待处理运营任务。你可以输入"今天已完成""本周处理记录"查看历史闭环。</div>`);
@@ -4803,29 +4806,32 @@
       }
 
       function refreshTaskCardsInConversation(task) {
-        const cards = conversation.querySelectorAll(`[data-task-card="${task.id}"]`);
-        cards.forEach((card) => {
+        let count = 0;
+        conversation.querySelectorAll("[data-task-card]").forEach((card) => {
+          if (card.getAttribute("data-task-card") !== task.id) return;
           card.outerHTML = taskCard(task);
+          count++;
         });
-        return cards.length;
+        return count;
       }
 
       function replaceTaskCardWithReceipt(task) {
-        const selector = `[data-task-card="${CSS.escape(task.id)}"]`;
-        conversation.querySelectorAll(selector).forEach(function (card) {
+        const statusLabel = task.status === "已关闭" ? "已关闭" : "已完成";
+        const statusColor = task.status === "已关闭" ? "var(--muted)" : "var(--brand)";
+        const statusBg = task.status === "已关闭" ? "#eee" : "#e8f7f4";
+        conversation.querySelectorAll('[data-task-card]').forEach(function (card) {
+          if (card.getAttribute("data-task-card") !== task.id) return;
           card.classList.add("completed");
           card.innerHTML =
             '<div class="task-card-head">' +
               '<div><strong>' + escapeHtml(task.name) + '</strong></div>' +
-              '<em class="task-level" style="color:var(--brand);background:#e8f7f4;">已完成</em>' +
+              '<em class="task-level" style="color:' + statusColor + ';background:' + statusBg + ';">' + statusLabel + '</em>' +
             '</div>' +
             '<div class="task-meta">' +
               '<div><span>任务ID</span><strong>' + escapeHtml(task.id) + '</strong></div>' +
               '<div><span>完成时间</span><strong>' + escapeHtml(task.handledAt || nowLabel()) + '</strong></div>' +
-              '<div><span>处理结果</span><strong>' + escapeHtml(task.progress || "已解决") + '</strong></div>' +
               '<div><span>跟进备注</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
-            '</div>' +
-            '<div class="task-actions"><button disabled type="button">已完成</button><button data-ask="' + escapeHtml(task.id) + '" type="button">查看建议</button></div>';
+            '</div>';
         });
       }
 
@@ -5365,7 +5371,7 @@
           renderBrief();
           showToast(task.type === "review" ? "已开始审核" : "已开始处理，任务状态更新为处理中");
           if (!refreshTaskCardsInConversation(task)) {
-            renderHandlingReply(task, task.type === "review" ? `已进入审核态。你可以填写审核备注、更新处理进度，审核完成后点击"完成审核"。` : `已进入处理态。你可以填写跟进备注、更新处理进度，处理完成后点击"完成任务"。`);
+            renderHandlingReply(task, task.type === "review" ? `已进入审核态。你可以填写审核备注，审核完成后点击"完成审核"。` : `已进入处理态。你可以填写跟进备注，处理完成后点击"完成"。`);
           }
           return;
         }
@@ -5433,18 +5439,46 @@
           return;
         }
 
-        const pause = event.target.closest("[data-pause]");
-        if (pause) {
-          const task = tasks.find((item) => item.id === pause.dataset.pause);
+        const suspend = event.target.closest("[data-suspend]");
+        if (suspend) {
+          const task = tasks.find((item) => item.id === suspend.dataset.suspend);
           if (!task) return;
           updateTaskFromDom(task);
-          task.status = task.status === "暂缓中" ? "处理中" : "暂缓中";
-          recordTask(task, task.status === "暂缓中" ? `暂缓处理：${task.note || "等待进一步反馈"}` : "继续处理：恢复任务跟进");
+          task.status = "暂缓中";
+          recordTask(task, `暂缓：${task.note || "等待进一步处理"}`);
           renderBrief();
-          showToast(task.status === "暂缓中" ? "已暂缓处理" : "已恢复处理中");
           if (!refreshTaskCardsInConversation(task)) {
-            renderHandlingReply(task, task.status === "暂缓中" ? "我已记录暂缓原因，后续会继续提醒你闭环。" : "任务已恢复处理中，可以继续更新进度。");
+            addMessage("assistant", taskCard(task));
           }
+          showToast("已暂缓处理");
+          return;
+        }
+
+        const close = event.target.closest("[data-close]");
+        if (close) {
+          const task = tasks.find((item) => item.id === close.dataset.close);
+          if (!task) return;
+          updateTaskFromDom(task);
+          task.status = "已关闭";
+          task.handledAt = nowLabel();
+          recordTask(task, `关闭：${task.note || "已关闭任务"}`);
+          renderBrief();
+          replaceTaskCardWithReceipt(task);
+          showToast("任务已关闭");
+          return;
+        }
+
+        const resume = event.target.closest("[data-resume]");
+        if (resume) {
+          const task = tasks.find((item) => item.id === resume.dataset.resume);
+          if (!task) return;
+          task.status = "处理中";
+          recordTask(task, `继续处理：${task.note || "恢复任务跟进"}`);
+          renderBrief();
+          if (!refreshTaskCardsInConversation(task)) {
+            addMessage("assistant", taskCard(task));
+          }
+          showToast("已恢复处理中");
           return;
         }
 
@@ -5454,13 +5488,12 @@
           if (!task) return;
           updateTaskFromDom(task);
           task.status = "已完成";
-          task.progress = task.progress === "无需解决" ? "无需解决" : "已解决";
           if (task.type === "review") task.reviewStatus = task.auditResult || "满意";
           task.handledAt = nowLabel();
           if (task.type === "review") {
             createFeedbackForCleaning(task);
           } else {
-            recordTask(task, `完成任务：${task.note || "已确认问题处理完成"}`);
+            recordTask(task, `完成：${task.note || "已确认问题处理完成"}`);
           }
           renderBrief();
           replaceTaskCardWithReceipt(task);
@@ -5477,13 +5510,6 @@
           renderWorkbench();
           showToast("消息已关闭");
           return;
-        }
-
-        const ask = event.target.closest("[data-ask]");
-        if (ask) {
-          const task = tasks.find((item) => item.id === ask.dataset.ask);
-          if (!task) return;
-          answer(`生成处理建议 ${task.store} ${task.name}`);
         }
 
         const showRecord = event.target.closest("[data-show-record]");
@@ -5556,16 +5582,6 @@
           upload.value = "";
           return;
         }
-      });
-
-      document.addEventListener("change", (event) => {
-        const progress = event.target.closest("[data-progress]");
-        if (!progress) return;
-        const task = tasks.find((item) => item.id === progress.dataset.progress);
-        if (!task) return;
-        task.progress = progress.value;
-        recordTask(task, `更新进度：${task.progress}`);
-        showToast("处理进度已记录");
       });
 
       drawerOpen.addEventListener("click", () => setDrawerOpen(true));
