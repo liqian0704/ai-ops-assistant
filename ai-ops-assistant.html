@@ -3826,8 +3826,12 @@
         return query.includes("巡检配置") || query.includes("配置中心") || query.includes("报警记录") || query.includes("配置项");
       }
 
-      function isInspectionTaskQuery(query) {
-        return /定时巡检|系统巡检|巡检任务|巡检结果|智能巡检|一键巡检|执行巡检|智能巡店|巡店/.test(query) && !isInspectionConfigQuery(query);
+      function isTimedInspectionQuery(query) {
+        return /定时巡检|系统巡检|后台巡检|巡检任务|巡检生成/.test(query) && !isInspectionConfigQuery(query);
+      }
+
+      function isSmartInspectionQuery(query) {
+        return /智能巡检|一键巡检|执行巡检|智能巡店/.test(query) && !isInspectionConfigQuery(query);
       }
 
       function maskPhone(value) {
@@ -5088,8 +5092,12 @@
             addMessage("assistant", `<div class="bubble"><strong>配置中心本期暂不开放。</strong><br />当前版本先聚焦报警触达、任务处理和处理结果看板。巡检配置会放到后续版本再评估。</div>`);
             return;
           }
-          if (isInspectionTaskQuery(query)) {
-            addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于一键检查所负责门店的巡检项报警情况。你可以通过下方看板查看整体运营数据。</div>`);
+          if (isTimedInspectionQuery(query)) {
+            addMessage("assistant", timedInspectionHTML());
+            return;
+          }
+          if (isSmartInspectionQuery(query)) {
+            addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于运营主动检查所负责门店的巡检项报警情况。你可以通过下方看板查看整体运营数据。</div>`);
             return;
           }
           applyManagerQuery(query);
@@ -5106,9 +5114,14 @@
           return;
         }
 
-        if (isInspectionTaskQuery(query)) {
+        if (isTimedInspectionQuery(query)) {
+          addMessage("assistant", timedInspectionHTML());
+          return;
+        }
+
+        if (isSmartInspectionQuery(query)) {
           if (roles[roleIndex] !== "门店运营") {
-            addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于一键检查所负责门店的巡检项报警情况。</div>`);
+            addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于运营主动检查所负责门店的巡检项报警情况。</div>`);
             return;
           }
           addMessage("assistant", smartInspectionHTML());
@@ -5627,8 +5640,7 @@
           return !st || st.operator === currentOperator;
         });
         var myStoreNames = myStores.map(function (s) { return s.name; });
-        var activeAlarms = tasks.filter(function (t) { return !isDoneStatus(t.status) && t.type === "alarm" && myStoreNames.indexOf(t.store) !== -1; });
-        var inspectionTasks = activeAlarms.filter(function (t) { return t.source === "定时巡检"; });
+        var activeAlarms = tasks.filter(function (t) { return !isDoneStatus(t.status) && t.type === "alarm" && t.source !== "定时巡检" && myStoreNames.indexOf(t.store) !== -1; });
         var storeAlarms = {};
         myStores.forEach(function (s) {
           var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
@@ -5653,7 +5665,7 @@
         if (totalFatal) summaryParts.push("致命报警 " + totalFatal + " 条");
         if (totalWarning) summaryParts.push("预警 " + totalWarning + " 条");
         if (!totalFatal && !totalWarning) summaryParts.push("所有门店运行正常");
-        var html = '<div class="bubble"><strong>智能巡检完成</strong><br />' + summaryParts.join("，") + "。本轮定时巡检生成 " + inspectionTasks.length + " 条运营任务。</div>";
+        var html = '<div class="bubble"><strong>智能巡检完成</strong><br />' + summaryParts.join("，") + "。本次结果来自运营主动触发的巡检，不包含后台定时巡检任务。</div>";
         html += '<div class="inspection-summary"><table><thead><tr><th>店铺名称</th><th>致命报警</th><th>预警</th><th>负责人</th></tr></thead><tbody>';
         entries.forEach(function (entry) {
           var store = entry[0];
@@ -5662,9 +5674,6 @@
         });
         html += "</tbody></table></div>";
         if (!activeAlarms.length) return html;
-        if (inspectionTasks.length) {
-          html += '<div class="bubble"><strong>本轮定时巡检生成任务</strong><br />以下任务由系统定时巡检触发，已自动分配给对应运营处理。</div>';
-        }
         var storeOrder = {};
         entries.forEach(function (entry, i) { storeOrder[entry[0]] = i; });
         var sortedTasks = activeAlarms.sort(function (a, b) {
@@ -5673,6 +5682,26 @@
           return a.level === "致命报警" ? -1 : 1;
         });
         html += sortedTasks.map(taskCard).join("");
+        return html;
+      }
+
+      function timedInspectionHTML() {
+        var currentOperator = managerPeople[0].name;
+        var myStores = operatorStores.filter(function (s) {
+          var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
+          return !st || st.operator === currentOperator;
+        });
+        var myStoreNames = myStores.map(function (s) { return s.name; });
+        var inspectionTasks = tasks.filter(function (t) {
+          return !isDoneStatus(t.status) && t.type === "alarm" && t.source === "定时巡检" && myStoreNames.indexOf(t.store) !== -1;
+        });
+        var fatalCount = inspectionTasks.filter(function (t) { return t.level === "致命报警"; }).length;
+        var warningCount = inspectionTasks.filter(function (t) { return t.level !== "致命报警"; }).length;
+        var html = '<div class="bubble"><strong>定时巡检任务</strong><br />后台定时巡检已按配置自动执行，并生成 ' + inspectionTasks.length + ' 条运营任务：致命报警 ' + fatalCount + ' 条，预警 ' + warningCount + ' 条。</div>';
+        if (!inspectionTasks.length) {
+          return html + '<div class="bubble">当前没有由后台定时巡检生成的待处理任务。</div>';
+        }
+        html += inspectionTasks.map(taskCard).join("");
         return html;
       }
 
