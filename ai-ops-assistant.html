@@ -3629,7 +3629,6 @@
           trigger: "定时巡检",
           source: "定时巡检",
           inspectionItem: "机械臂状态",
-          inspectionBatch: "17:30 批次",
           owner: "李晴",
           createdAt: "2026-05-28 17:33:00",
           overdue: true,
@@ -3655,7 +3654,6 @@
           trigger: "定时巡检",
           source: "定时巡检",
           inspectionItem: "制冰机状态",
-          inspectionBatch: "18:15 批次",
           owner: "李晴",
           createdAt: "2026-05-28 17:50:00",
           reason: "制冰不足会连锁影响多款饮品供应。",
@@ -3679,7 +3677,6 @@
           trigger: "定时巡检",
           source: "定时巡检",
           inspectionItem: "咖啡机状态",
-          inspectionBatch: "18:20 批次",
           owner: "李晴",
           createdAt: "2026-05-28 18:15:00",
           reason: "水温异常可能影响出品品质和顾客体验。",
@@ -4124,7 +4121,7 @@
         codeLoginSheet.hidden = false;
         codePhoneText.textContent = `验证码已发送至 ${maskPhone(phone)}`;
         codeLoginInput.value = "";
-        codeLoginBtn.disabled = false;
+        codeLoginBtn.disabled = true;
         renderCodeBoxes();
         requestAnimationFrame(() => codeLoginInput.focus());
       }
@@ -4142,7 +4139,7 @@
           box.textContent = digits[index] || "";
           box.classList.toggle("active", index === Math.min(digits.length, 3));
         });
-        codeLoginBtn.disabled = false;
+        codeLoginBtn.disabled = digits.length !== 4;
       }
 
       function clearCodeInput() {
@@ -4247,7 +4244,6 @@
               ${fieldRow("报警触发人", task.trigger || "系统")}
               ${task.source ? fieldRow("任务来源", task.source) : ""}
               ${task.inspectionItem ? fieldRow("巡检项", task.inspectionItem) : ""}
-              ${task.inspectionBatch ? fieldRow("巡检批次", task.inspectionBatch) : ""}
               ${fieldRow("最新报警时间", task.latestAlarmAt)}
               ${fieldRow("报警对象", task.object)}
               ${fieldRow("报警详情", task.detail)}
@@ -6005,6 +6001,7 @@
         }
 
         if (event.target.closest("[data-code-login]")) {
+          if (codeLoginBtn.disabled) return;
           if (loginBusy) return;
           const codeValue = codeLoginInput.value.replace(/\D/g, "");
           if (!codeValue) {
