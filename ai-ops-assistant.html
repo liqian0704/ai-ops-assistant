@@ -1633,11 +1633,18 @@
 
       .feedback-card {
         display: grid;
-        gap: 6px;
+        gap: 10px;
         padding: 12px;
         border: 1px solid #dce8e4;
         border-radius: 10px;
         background: #fff;
+      }
+
+      .feedback-card-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
       }
 
       .feedback-card-head strong {
@@ -1646,17 +1653,97 @@
         line-height: 1.4;
       }
 
-      .feedback-card.unsat {
-        border-left: 3px solid var(--warn);
+      .feedback-result {
+        flex: 0 0 auto;
+        padding: 3px 8px;
+        border-radius: 999px;
+        color: var(--brand);
+        background: #e8f7f4;
+        font-size: 11px;
+        font-weight: 700;
       }
+
+      .feedback-result.unsat {
+        color: var(--danger);
+        background: #fee2e2;
+      }
+
+      .feedback-card.unsat {
+        border-color: #ffd6d6;
+        border-left: 3px solid var(--danger);
+      }
+
       .feedback-card-body {
+        display: grid;
+        gap: 7px;
         color: #4b5552;
         font-size: 13px;
         line-height: 1.5;
       }
+
+      .feedback-row {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 8px;
+      }
+
+      .feedback-row span {
+        color: var(--muted);
+      }
+
+      .feedback-row strong {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
       .feedback-card-time {
         color: var(--muted);
         font-size: 11px;
+      }
+
+      .feedback-photo-panel {
+        display: grid;
+        gap: 8px;
+        padding-top: 2px;
+      }
+
+      .feedback-photo-group {
+        display: grid;
+        gap: 6px;
+      }
+
+      .feedback-photo-group > span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 650;
+      }
+
+      .feedback-photo-strip {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .feedback-photo-strip .review-photo {
+        width: 82px;
+        min-width: 82px;
+        height: 72px;
+      }
+
+      .feedback-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .feedback-actions button {
+        border: 0;
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: #fff;
+        background: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
       }
 
       .sat-count {
@@ -3377,6 +3464,8 @@
           trigger: "系统",
           owner: "李晴",
           createdAt: "2026-05-28 17:42:10",
+          overdue: true,
+          overdueMinutes: 46,
           reason: "影响营业，且已连续触发。",
           situation: "系统已连续触发 3 次闭店报警，当前判断为影响营业的高优先级任务，建议优先确认是否异常闭店。",
           progress: "排查中",
@@ -3419,6 +3508,8 @@
           trigger: "系统",
           owner: "李晴",
           createdAt: "2026-05-28 16:51:08",
+          overdue: true,
+          overdueMinutes: 38,
           reason: "用户等待时间较长。",
           situation: "订单已超过正常制作等待时间，系统已生成履约异常任务，建议先确认订单状态和设备可用性。",
           progress: "排查中",
@@ -3541,6 +3632,8 @@
           inspectionBatch: "17:30 批次",
           owner: "李晴",
           createdAt: "2026-05-28 17:33:00",
+          overdue: true,
+          overdueMinutes: 35,
           reason: "机械臂抓取失败直接影响出杯，已连续 3 次触发。",
           situation: "机械臂连续抓取失败可能由机械卡滞、视觉定位偏移或气压不足引起，建议安排现场排查。",
           progress: "排查中",
@@ -3675,13 +3768,10 @@
       ];
 
       const feedbackMessages = [
-        { id: "FB-DEMO-001", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "王可", title: "咖啡机清洁审核结果：满意", detail: "运营已审核满意，本次清洁任务已闭环。", time: "2026-06-03 09:30:00", closed: false },
-        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "王可", title: "咖啡机清洁审核结果：满意", detail: "运营已审核满意，清洁质量符合标准。", time: "2026-06-02 10:15:00", closed: false },
-        { id: "FB-DEMO-005", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "王可", title: "咖啡机清洁审核结果：不满意", detail: "运营审核不满意：咖啡槽角落有咖啡渣残留，请用专用刷清洁后再拍摄。", time: "2026-06-03 14:00:00", closed: false },
-        { id: "FB-DEMO-003", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "赵琳", title: "液体墙清洁审核结果：不满意", detail: "运营审核不满意：液体墙出口仍有残留糖浆，请按示例标准重新清洁。", time: "2026-06-03 11:00:00", closed: false },
-        { id: "FB-DEMO-006", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "赵琳", title: "糖浆机清洁审核结果：不满意", detail: "运营审核不满意：糖浆机出口未拆卸清洗，仅擦了表面，请拆卸后彻底清洁。", time: "2026-06-02 09:45:00", closed: false },
-        { id: "FB-DEMO-004", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "赵琳", title: "制冰机清洁审核结果：不满意", detail: "运营审核不满意：制冰机槽位未清理干净，拍照角度无法确认出口清洁情况，请重新清洁并按要求拍摄。", time: "2026-06-01 16:20:00", closed: false },
-        { id: "FB-DEMO-007", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "赵琳", title: "液体墙清洁审核结果：不满意", detail: "运营审核不满意：清洁后未擦拭周边溅出的液体，整体台面不整洁。", time: "2026-06-01 08:30:00", closed: false },
+        { id: "FB-DEMO-001", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "咖啡机清洁（洗机、咖啡槽）审核结果：满意", detail: "运营已审核满意，本次清洁任务已闭环。", time: "2026-06-08 09:30:00", closed: false },
+        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-003", store: "望京 SOHO 店", operator: "周岩", partTimer: "兼职-王可", title: "取餐口、台面与垃圾桶清洁审核结果：不满意", detail: "运营审核不满意：取餐口边缘还有咖啡渍残留，请重新擦拭后补拍水印照片。", time: "2026-06-08 10:15:00", closed: false },
+        { id: "FB-DEMO-003", taskId: "CLEAN-20260528-004", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：满意", detail: "运营已审核满意，图片完整，清洁质量符合标准。", time: "2026-06-07 17:20:00", closed: false },
+        { id: "FB-DEMO-004", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "兼职-赵琳", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：不满意", detail: "运营审核不满意：液体墙出口仍有残留糖浆，请按示例标准重新清洁。", time: "2026-06-08 11:00:00", closed: false },
       ];
 
       const inspectionItems = [
@@ -3814,8 +3904,113 @@
         return visibleTasksForRole().filter((task) => !isDoneStatus(task.status));
       }
 
+      function isTaskOverdue(task) {
+        if (!task || isDoneStatus(task.status) || task.type !== "alarm") return false;
+        if (task.overdue) return true;
+        const created = new Date(task.createdAt);
+        if (Number.isNaN(created.getTime())) return false;
+        const limit = task.level === "致命报警" ? 30 * 60 * 1000 : 120 * 60 * 1000;
+        return Date.now() - created.getTime() > limit;
+      }
+
       function visibleFeedbackMessages() {
         return feedbackMessages.filter((message) => !message.closed);
+      }
+
+      function feedbackResultOf(message) {
+        return (message.title || "").includes("不满意") ? "不满意" : "满意";
+      }
+
+      function feedbackTaskName(message) {
+        return (message.title || "").replace("审核结果：不满意", "").replace("审核结果：满意", "");
+      }
+
+      function feedbackOpinion(message) {
+        return (message.detail || "").replace("运营审核不满意：", "").replace("运营已审核满意，", "").replace("运营已审核满意，", "");
+      }
+
+      function feedbackCleaningTask(message) {
+        return cleaningTasks.find((task) => task.id === message.taskId) || null;
+      }
+
+      function feedbackPhotosHTML(message, unsat) {
+        if (!unsat) return "";
+        const task = feedbackCleaningTask(message);
+        if (!task) return "";
+        const submittedPhotos = task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"];
+        const examplePhotos = task.examplePhotos && task.examplePhotos.length ? task.examplePhotos : ["示例图片 1", "示例图片 2"];
+        const submittedHTML = submittedPhotos
+          .slice(0, 3)
+          .map((photo, index) => `<button class="review-photo" data-preview-feedback-photo="${escapeHtml(message.id)}" data-photo-index="${index}" type="button" aria-label="预览上传图片">${mockCleanPhoto({ ...task, photos: submittedPhotos }, index)}</button>`)
+          .join("");
+        const exampleHTML = examplePhotos
+          .slice(0, 3)
+          .map((photo, index) => `<button class="review-photo" data-preview-feedback-example="${escapeHtml(message.id)}" data-photo-index="${index}" type="button" aria-label="预览示例图">${mockCleanPhoto({ ...task, photos: examplePhotos }, index)}</button>`)
+          .join("");
+        return `
+          <div class="feedback-photo-panel">
+            <div class="feedback-photo-group">
+              <span>上传图片</span>
+              <div class="feedback-photo-strip">${submittedHTML}</div>
+            </div>
+            <div class="feedback-photo-group">
+              <span>示例图</span>
+              <div class="feedback-photo-strip">${exampleHTML}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function feedbackCard(message) {
+        const result = feedbackResultOf(message);
+        const unsat = result === "不满意";
+        return `
+          <div class="feedback-card ${unsat ? "unsat" : ""}" data-feedback-card="${escapeHtml(message.id)}">
+            <div class="feedback-card-head">
+              <strong>${escapeHtml(feedbackTaskName(message))}</strong>
+              <em class="feedback-result ${unsat ? "unsat" : ""}">${escapeHtml(result)}</em>
+            </div>
+            <div class="feedback-card-body">
+              <div class="feedback-row"><span>任务ID</span><strong>${escapeHtml(message.taskId || "-")}</strong></div>
+              <div class="feedback-row"><span>店铺名称</span><strong>${escapeHtml(message.store || "-")}</strong></div>
+              <div class="feedback-row"><span>审核人</span><strong>${escapeHtml(message.operator || "-")}</strong></div>
+              <div class="feedback-row"><span>审核时间</span><strong>${escapeHtml(message.time || "-")}</strong></div>
+              <div class="feedback-row"><span>审核意见</span><strong>${escapeHtml(feedbackOpinion(message) || "无")}</strong></div>
+            </div>
+            ${feedbackPhotosHTML(message, unsat)}
+            <div class="feedback-actions"><button data-ack-feedback="${escapeHtml(message.id)}" type="button">我知道了</button></div>
+          </div>
+        `;
+      }
+
+      function feedbackSummaryHTML(list, title) {
+        const satCount = list.filter((message) => feedbackResultOf(message) === "满意").length;
+        const unsatCount = list.length - satCount;
+        return `
+          <div class="feedback-group" data-feedback-group>
+            <div class="bubble" data-feedback-summary>
+              <strong>${escapeHtml(title)}</strong><br />
+              共 <em class="feedback-total">${list.length}</em> 条审核反馈，满意 <em class="sat-count">${satCount}</em> 条，不满意 <em class="unsat-count">${unsatCount}</em> 条。点击“我知道了”后，该条反馈会从当前消息中关闭。
+            </div>
+            ${list.map(feedbackCard).join("")}
+          </div>
+        `;
+      }
+
+      function refreshFeedbackGroup(group) {
+        if (!group) return;
+        const cards = Array.from(group.querySelectorAll(".feedback-card"));
+        const totalNode = group.querySelector(".feedback-total");
+        const satNode = group.querySelector(".sat-count");
+        const unsatNode = group.querySelector(".unsat-count");
+        const satCount = cards.filter((card) => !card.classList.contains("unsat")).length;
+        const unsatCount = cards.length - satCount;
+        if (totalNode) totalNode.textContent = cards.length;
+        if (satNode) satNode.textContent = satCount;
+        if (unsatNode) unsatNode.textContent = unsatCount;
+        if (!cards.length) {
+          group.innerHTML = '<div class="bubble">审核反馈已全部确认。</div>';
+        }
       }
 
       function isManagerRole() {
@@ -4257,16 +4452,6 @@
           </div>`;
       }
 
-      function feedbackCard(message) {
-        return `
-          <div class="feedback-card" data-feedback-card="${escapeHtml(message.id)}">
-            <strong>${escapeHtml(message.title)}</strong>
-            <span>${escapeHtml(message.detail)}</span>
-            <div class="task-actions"><button class="primary single" data-ack-feedback="${escapeHtml(message.id)}" type="button">我知道了</button></div>
-          </div>
-        `;
-      }
-
       function inspectionItemForm(item) {
         const isNew = !item || item.id === "new";
         return `
@@ -4649,6 +4834,21 @@
         return ["智能巡店", "查看待处理任务", "查看清洁审核任务", "今天已完成的任务"];
       }
 
+      function promptGuideHTML(role = roles[roleIndex]) {
+        const examples = rolePromptExamples(role);
+        return `
+          <div class="prompt-guide">
+            <div class="prompt-guide-head">
+              <strong>你可以这样问</strong>
+              <span>点击即发送</span>
+            </div>
+            <div class="prompt-guide-list">
+              ${examples.map((text) => `<button data-suggest="${escapeHtml(text)}" type="button">${escapeHtml(text)}</button>`).join("")}
+            </div>
+          </div>
+        `;
+      }
+
       function renderSuggestions() {
         const examples = rolePromptExamples();
         document.querySelector(".suggestions").innerHTML = examples.map((text) => `<button data-suggest="${escapeHtml(text)}" type="button">${escapeHtml(text)}</button>`).join("");
@@ -4699,15 +4899,7 @@
               </div>
               <div class="assistant-visual" aria-hidden="true"></div>
             </div>
-            <div class="prompt-guide">
-              <div class="prompt-guide-head">
-                <strong>你可以这样问</strong>
-                <span>点击即发送</span>
-              </div>
-              <div class="prompt-guide-list">
-                ${examples.map((text) => `<button data-suggest="${escapeHtml(text)}" type="button">${escapeHtml(text)}</button>`).join("")}
-              </div>
-            </div>
+            ${promptGuideHTML(role)}
           </div>
         `;
       }
@@ -4770,28 +4962,11 @@
           }
         }
         if (role === "兼职") {
-          var fbList = feedbackMessages.filter(function (fb) { return !fb.closed; }).sort(function (a, b) { return b.time.localeCompare(a.time); });
+          var fbList = feedbackMessages.filter(function (fb) { return !fb.closed && fb.partTimer === "兼职-王可"; }).sort(function (a, b) { return b.time.localeCompare(a.time); });
           if (fbList.length && !feedbackNotified) {
             feedbackNotified = true;
             phone.classList.remove("is-standby");
-            var satCount = fbList.filter(function (fb) { return !fb.title.includes("不满意"); }).length;
-            var unsatCount = fbList.length - satCount;
-            var unsatPeople = 0;
-            if (unsatCount > 0) {
-              var peopleMap = {};
-              fbList.forEach(function(fb) { if (fb.title.includes('不满意') && fb.partTimer) peopleMap[fb.partTimer] = true; });
-              unsatPeople = Object.keys(peopleMap).length;
-            }
-            var unsatPeopleText = unsatPeople ? ('，<em class="unsat-count">' + unsatPeople + '</em> 位兼职有不合格项') : '';
-            var fbHtml = '<div class="bubble"><strong>清洁审核结果</strong><br />共 ' + fbList.length + ' 项清洁，合格 ' + satCount + ' 项，不合格 ' + unsatCount + ' 项' + unsatPeopleText + '</div>';
-            if (unsatCount > 0) {
-              fbHtml += '<div class="bubble unsat-notice">以下为不合格项，请根据审核意见重新清洁后提交。</div>';
-              fbList.forEach(function (fb) {
-                if (!fb.title.includes("不满意")) return;
-                fbHtml += '<div class="feedback-card unsat"><div class="feedback-card-head"><strong>' + escapeHtml(fb.title.replace("审核结果：不满意", "")) + '</strong></div><div class="feedback-card-body">审核意见：' + escapeHtml(fb.detail.replace("运营审核不满意：", "")) + '</div><div class="feedback-card-time">审核人：' + escapeHtml(fb.operator || "") + ' · ' + escapeHtml(fb.time.slice(0, 10)) + '</div></div>';
-              });
-            }
-            addMessage("assistant", fbHtml);
+            addMessage("assistant", feedbackSummaryHTML(fbList, "你有新的审核结果反馈"));
             return;
           }
         }
@@ -5080,6 +5255,12 @@
         const query = text.trim();
         if (!query) return;
         recordHistory(query);
+        if (query === "提示" || query === "帮助" || query === "怎么问" || query === "可以问什么") {
+          phone.classList.remove("is-tool-page");
+          addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
+          addMessage("assistant", promptGuideHTML());
+          return;
+        }
         if (isManagerRole()) {
           activePage = "workbench";
           phone.classList.remove("is-tool-page");
@@ -5136,35 +5317,16 @@
         if (roles[roleIndex] === "兼职") {
           if (query.includes("审核反馈") || query.includes("审核结果")) {
             var timeRange = parseTimeRange(query);
-            if (!timeRange) {
-              var td = new Date();
-              timeRange = { start: new Date(td.getFullYear(), td.getMonth(), td.getDate(), 0, 0, 0, 0), end: td };
-            }
             var fbList = feedbackMessages.filter(function (fb) {
               if (fb.closed) return false;
-              var ft = new Date(fb.time);
+              if (fb.partTimer !== "兼职-王可") return false;
+              if (!timeRange) return true;
+              var ft = new Date((fb.time || "").replace(/-/g, "/"));
               return ft >= timeRange.start && ft <= timeRange.end;
             }).sort(function (a, b) { return b.time.localeCompare(a.time); });
-            var rangeLabel = timeRangeLabel(timeRange);
+            var rangeLabel = timeRange ? timeRangeLabel(timeRange) : "当前未读";
             if (fbList.length) {
-              var satCount = fbList.filter(function (fb) { return !fb.title.includes("不满意"); }).length;
-              var unsatCount = fbList.length - satCount;
-              var unsatPeople = 0;
-              if (unsatCount > 0) {
-                var peopleMap = {};
-                fbList.forEach(function(fb) { if (fb.title.includes('不满意') && fb.partTimer) peopleMap[fb.partTimer] = true; });
-                unsatPeople = Object.keys(peopleMap).length;
-              }
-              var unsatPeopleText = unsatPeople ? ('，<em class="unsat-count">' + unsatPeople + '</em> 位兼职有不合格项') : '';
-              var fbHtml = '<div class="bubble"><strong>' + escapeHtml(rangeLabel) + '审核结果</strong><br />共 ' + fbList.length + ' 项清洁，合格 <em class="sat-count">' + satCount + '</em> 项，不合格 <em class="unsat-count">' + unsatCount + '</em> 项' + unsatPeopleText + '</div>';
-              if (unsatCount > 0) {
-                fbHtml += '<div class="bubble unsat-notice">以下为不合格项，请根据审核意见重新清洁后提交。</div>';
-                fbList.forEach(function (fb) {
-                  if (!fb.title.includes("不满意")) return;
-                  fbHtml += '<div class="feedback-card unsat"><div class="feedback-card-head"><strong>' + escapeHtml(fb.title.replace("审核结果：不满意", "")) + '</strong></div><div class="feedback-card-body">审核意见：' + escapeHtml(fb.detail.replace("运营审核不满意：", "")) + '</div><div class="feedback-card-time">审核人：' + escapeHtml(fb.operator || "") + ' · ' + escapeHtml(fb.time.slice(0, 10)) + '</div></div>';
-                });
-              }
-              addMessage("assistant", fbHtml);
+              addMessage("assistant", feedbackSummaryHTML(fbList, rangeLabel + "审核结果"));
             } else {
               addMessage("assistant", '<div class="bubble">' + escapeHtml(rangeLabel) + '暂无审核反馈</div>');
             }
@@ -5212,12 +5374,15 @@
         }
 
         if (query.includes("超时")) {
-          const timeoutTask = activeTasks.find((task) => task.store.includes("鼎好"));
-          if (!timeoutTask) {
+          const timeoutTasks = activeTasks
+            .filter(isTaskOverdue)
+            .sort((a, b) => (a.level === "致命报警" ? -1 : 1) - (b.level === "致命报警" ? -1 : 1) || new Date(a.createdAt) - new Date(b.createdAt));
+          if (!timeoutTasks.length) {
             addMessage("assistant", `<div class="bubble">当前没有疑似超时的待处理任务。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble">当前疑似超时 1 条：鼎好 DH3-A座闭店报警，已持续超过 30 分钟。</div>${taskCard(timeoutTask)}`);
+          const fatalOverdue = timeoutTasks.filter((task) => task.level === "致命报警").length;
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${timeoutTasks.length} 条超时报警任务</strong><br />其中致命报警 ${fatalOverdue} 条。请优先处理致命报警和影响出杯/履约的问题。</div>${timeoutTasks.map(taskCard).join("")}`);
           return;
         }
 
@@ -5489,11 +5654,15 @@
       }
 
       function getPreviewTask(taskId) {
+        const feedback = feedbackMessages.find((item) => item.id === taskId);
+        if (feedback) return feedbackCleaningTask(feedback);
         return tasks.find((item) => item.id === taskId) || cleaningTasks.find((item) => item.id === taskId);
       }
 
       function getPreviewPhotos(task, source) {
         if (source === "example") return task.examplePhotos || [];
+        if (source === "feedback-example") return task.examplePhotos || [];
+        if (source === "feedback") return task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"];
         return task.auditPhotos || task.photos || [];
       }
 
@@ -5509,7 +5678,11 @@
         const rawIndex = Number(photoIndex);
         const index = rawIndex + 1;
         const photos = getPreviewPhotos(task, source);
-        const previewTask = source === "example" ? { ...task, photos: task.examplePhotos || [] } : task;
+        const previewTask = source === "example" || source === "feedback-example"
+          ? { ...task, photos: task.examplePhotos || [] }
+          : source === "feedback"
+            ? { ...task, photos: task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"] }
+            : task;
         const canDelete = source === "cleaning" && task.status === "处理中";
         photoPreviewState = { taskId, photoIndex: rawIndex, source };
         photoPreviewLayer.innerHTML = `
@@ -6248,6 +6421,18 @@
           return;
         }
 
+        const previewFeedbackPhoto = event.target.closest("[data-preview-feedback-photo]");
+        if (previewFeedbackPhoto) {
+          openPhotoPreview(previewFeedbackPhoto.dataset.previewFeedbackPhoto, previewFeedbackPhoto.dataset.photoIndex, "feedback");
+          return;
+        }
+
+        const previewFeedbackExample = event.target.closest("[data-preview-feedback-example]");
+        if (previewFeedbackExample) {
+          openPhotoPreview(previewFeedbackExample.dataset.previewFeedbackExample, previewFeedbackExample.dataset.photoIndex, "feedback-example");
+          return;
+        }
+
         const deleteCleaningPhoto = event.target.closest("[data-delete-cleaning-photo]");
         if (deleteCleaningPhoto) {
           const task = cleaningTasks.find((item) => item.id === deleteCleaningPhoto.dataset.deleteCleaningPhoto);
@@ -6427,7 +6612,14 @@
           if (!message) return;
           message.closed = true;
           renderBrief();
-          renderWorkbench();
+          const card = ackFeedback.closest(".feedback-card");
+          if (card) {
+            const group = card.closest("[data-feedback-group]");
+            card.remove();
+            refreshFeedbackGroup(group);
+          } else {
+            renderWorkbench();
+          }
           showToast("消息已关闭");
           return;
         }
