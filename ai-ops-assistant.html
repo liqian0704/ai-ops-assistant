@@ -219,11 +219,27 @@
       }
 
       .drawer-profile span {
-        display: block;
         margin-top: 3px;
         color: var(--muted);
         font-size: 12px;
         line-height: 1.3;
+      }
+
+      .drawer-role-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .drawer-logout-link {
+        border: 0;
+        border-radius: 999px;
+        background: #e8f7f4;
+        color: var(--brand);
+        padding: 3px 9px;
+        font-size: 11px;
+        font-weight: 900;
       }
 
       .drawer-close {
@@ -2668,6 +2684,7 @@
 
       .toast {
         position: absolute;
+        z-index: 80;
         left: 50%;
         bottom: 76px;
         transform: translateX(-50%);
@@ -2683,6 +2700,428 @@
       .toast[hidden] {
         display: none;
       }
+
+      .auth-layer,
+      .auth-mask,
+      .auth-sheet {
+        position: absolute;
+        inset: 0;
+      }
+
+      .auth-layer {
+        z-index: 45;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: 14px 22px 26px;
+        background:
+          radial-gradient(circle at 50% -10%, rgba(15, 118, 110, 0.16), transparent 42%),
+          linear-gradient(180deg, #f8fcfb 0%, #eef6f3 100%);
+      }
+
+      .auth-layer[hidden],
+      .auth-mask[hidden],
+      .auth-sheet[hidden] {
+        display: none;
+      }
+
+      .auth-status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 26px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0;
+      }
+
+      .auth-status-icons {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #2d3a38;
+        font-size: 10px;
+        font-weight: 950;
+      }
+
+      .auth-signal {
+        width: 15px;
+        height: 11px;
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 2px;
+      }
+
+      .auth-signal i {
+        display: block;
+        width: 3px;
+        border-radius: 999px;
+        background: #2d3a38;
+      }
+
+      .auth-signal i:nth-child(1) { height: 4px; opacity: 0.55; }
+      .auth-signal i:nth-child(2) { height: 7px; opacity: 0.75; }
+      .auth-signal i:nth-child(3) { height: 10px; }
+
+      .auth-battery {
+        position: relative;
+        width: 22px;
+        height: 11px;
+        border: 1.7px solid #2d3a38;
+        border-radius: 3px;
+      }
+
+      .auth-battery::before {
+        position: absolute;
+        content: "";
+        left: 2px;
+        top: 2px;
+        width: 13px;
+        height: 5px;
+        border-radius: 1px;
+        background: var(--brand);
+      }
+
+      .auth-battery::after {
+        position: absolute;
+        content: "";
+        right: -4px;
+        top: 3px;
+        width: 2px;
+        height: 5px;
+        border-radius: 0 2px 2px 0;
+        background: #2d3a38;
+      }
+
+      .auth-hero {
+        display: grid;
+        align-content: center;
+        gap: 18px;
+        text-align: center;
+      }
+
+      .auth-logo {
+        width: 68px;
+        height: 68px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 21px;
+        background: linear-gradient(145deg, #1599bb 0%, #2563eb 100%);
+        box-shadow: 0 16px 34px rgba(37, 99, 235, 0.18);
+        transform: rotate(-3deg);
+      }
+
+      .auth-logo::before,
+      .auth-logo::after {
+        position: absolute;
+        content: "";
+      }
+
+      .auth-logo::before {
+        width: 46px;
+        height: 46px;
+        left: 11px;
+        top: 11px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 39% 50%, #24312f 0 4px, transparent 5px),
+          radial-gradient(circle at 63% 50%, #24312f 0 4px, transparent 5px),
+          radial-gradient(circle, #e9fff8 0 54%, #b8fbeb 55% 100%);
+      }
+
+      .auth-logo::after {
+        width: 14px;
+        height: 14px;
+        right: 6px;
+        top: 4px;
+        border-radius: 50%;
+        background: #eef7ff;
+        box-shadow: 0 1px 4px rgba(20, 33, 31, 0.08);
+      }
+
+      .auth-hero h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 20px;
+        line-height: 1.25;
+      }
+
+      .auth-hero p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .auth-card {
+        display: grid;
+        gap: 13px;
+      }
+
+      .auth-phone {
+        position: relative;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        display: grid;
+        place-items: center;
+        align-items: baseline;
+        min-height: 32px;
+      }
+
+      .auth-phone strong {
+        display: block;
+        color: var(--ink);
+        font-size: 24px;
+        letter-spacing: 1px;
+      }
+
+      .auth-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .auth-primary svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.2;
+      }
+
+      .auth-phone button,
+      .auth-primary,
+      .auth-secondary,
+      .auth-link {
+        border: 0;
+        border-radius: 999px;
+        min-height: 40px;
+        font-size: 12px;
+        font-weight: 950;
+      }
+
+      .auth-phone button,
+      .auth-secondary,
+      .auth-link {
+        background: #e8f7f4;
+        color: var(--brand);
+      }
+
+      .auth-phone button {
+        position: absolute;
+        left: calc(50% + 74px);
+        top: 50%;
+        transform: translateY(-50%);
+        min-height: 28px;
+        padding: 0 8px;
+        font-size: 10px;
+      }
+
+      .auth-primary {
+        width: 100%;
+        min-height: 48px;
+        background: var(--brand);
+        color: #fff;
+        font-size: 14px;
+      }
+
+      .auth-primary:disabled {
+        background: #b9cbc6;
+        color: #fff;
+      }
+
+      .auth-tip {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+        text-align: left;
+      }
+
+      .auth-tip::before {
+        content: "";
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
+        border: 1px solid #9bb5ae;
+        border-radius: 50%;
+        vertical-align: -2px;
+      }
+
+      .auth-mask {
+        z-index: 50;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        background: rgba(20, 33, 31, 0.42);
+      }
+
+      .privacy-dialog {
+        width: 100%;
+        display: grid;
+        gap: 14px;
+        padding: 24px 20px 20px;
+        border-radius: 22px;
+        background: #fff;
+      }
+
+      .privacy-dialog h3,
+      .auth-sheet-card h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .privacy-dialog h3 {
+        text-align: center;
+      }
+
+      .privacy-dialog p,
+      .auth-sheet-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      #logoutMask .privacy-dialog p {
+        text-align: center;
+      }
+
+      #privacyText {
+        text-align: center;
+      }
+
+      .privacy-dialog a {
+        color: var(--brand);
+        font-weight: 950;
+        text-decoration: none;
+      }
+
+      .privacy-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .auth-sheet {
+        z-index: 51;
+        display: grid;
+        align-items: end;
+        background: rgba(20, 33, 31, 0.36);
+      }
+
+      .auth-sheet-card {
+        display: grid;
+        gap: 22px;
+        padding: 26px 22px 28px;
+        border-radius: 28px 28px 0 0;
+        background: #fff;
+        box-shadow: 0 -16px 36px rgba(20, 33, 31, 0.12);
+      }
+
+      .auth-sheet-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .auth-close {
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 10px;
+        background: #edf5f2;
+        color: var(--ink);
+        font-size: 28px;
+      }
+
+      .auth-input {
+        width: 100%;
+        height: 58px;
+        border: 1.5px solid rgba(15, 118, 110, 0.42);
+        border-radius: 24px;
+        padding: 0 18px;
+        color: var(--ink);
+        font-size: 20px;
+        outline: none;
+      }
+
+      .phone-input-wrap {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 10px;
+        height: 58px;
+        border: 1.5px solid rgba(15, 118, 110, 0.42);
+        border-radius: 24px;
+        padding: 0 18px;
+      }
+
+      .phone-input-wrap span {
+        color: var(--ink);
+        font-size: 18px;
+        font-weight: 850;
+      }
+
+      .phone-input-wrap input {
+        border: 0;
+        outline: none;
+        min-width: 0;
+        color: var(--ink);
+        font-size: 20px;
+      }
+
+      .code-boxes {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .code-boxes span {
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
+        background: #f5f8f7;
+        color: var(--ink);
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      .code-boxes span.active {
+        border: 1.5px solid rgba(15, 118, 110, 0.46);
+        background: #fff;
+      }
+
+      .code-hidden-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .resend-code {
+        border: 0;
+        background: transparent;
+        color: #a0a0aa;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .resend-code.is-ready {
+        color: var(--brand);
+        font-weight: 900;
+      }
+
+      .code-demo-tip {
+        margin-top: 4px !important;
+        color: var(--brand) !important;
+        font-size: 12px !important;
+        font-weight: 900;
+        line-height: 1.35 !important;
+      }
+
       .inspection-summary {
         margin: 6px 0 0;
         overflow-x: auto;
@@ -2785,7 +3224,10 @@
           <div class="drawer-avatar">AI</div>
           <div>
             <strong>运营助手</strong>
-            <span id="drawerRoleText">当前身份：门店运营</span>
+            <div class="drawer-role-line">
+              <span id="drawerRoleText">当前身份：门店运营</span>
+              <button class="drawer-logout-link" data-request-logout type="button">退出</button>
+            </div>
           </div>
           <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭菜单">×</button>
         </div>
@@ -2826,6 +3268,96 @@
 
       <section class="photo-preview-layer" id="photoPreviewLayer" hidden></section>
       <div class="toast" id="toast" hidden></div>
+      <section class="auth-layer" id="authLayer">
+        <div class="auth-status-bar" aria-hidden="true">
+          <span>10:20</span>
+          <div class="auth-status-icons">
+            <span>5G</span>
+            <span class="auth-signal"><i></i><i></i><i></i></span>
+            <span class="auth-battery"></span>
+          </div>
+        </div>
+        <div class="auth-hero">
+          <div class="auth-logo" aria-hidden="true"></div>
+          <div>
+            <h1>运营助手</h1>
+            <p>及时反馈门店问题，保障门店服务体验</p>
+          </div>
+        </div>
+        <div class="auth-card">
+          <div class="auth-phone">
+            <div>
+              <strong id="defaultPhoneText">138****5678</strong>
+            </div>
+            <button data-change-phone type="button">换号</button>
+          </div>
+          <button class="auth-primary" data-one-tap-login type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="7" y="3" width="10" height="18" rx="2"></rect>
+              <path d="M11 17h2"></path>
+            </svg>
+            <span>本机手机号一键登录</span>
+          </button>
+          <div class="auth-tip">登录即代表你已阅读并同意《服务协议》和《隐私协议》</div>
+        </div>
+      </section>
+      <section class="auth-mask" id="privacyMask" hidden>
+        <div class="privacy-dialog">
+          <h3>服务与隐私保护</h3>
+          <p id="privacyText">阅读并同意<a href="javascript:void(0)">《服务协议》</a>和<a href="javascript:void(0)">《隐私协议》</a></p>
+          <div class="privacy-actions">
+            <button class="auth-secondary" data-privacy-decline type="button">不同意</button>
+            <button class="auth-primary" data-privacy-agree type="button">同意</button>
+          </div>
+        </div>
+      </section>
+      <section class="auth-mask" id="logoutMask" hidden>
+        <div class="privacy-dialog">
+          <h3>退出登录</h3>
+          <p>确认要退出当前账号吗？</p>
+          <div class="privacy-actions">
+            <button class="auth-secondary" data-cancel-logout type="button">取消</button>
+            <button class="auth-primary" data-confirm-logout type="button">确认</button>
+          </div>
+        </div>
+      </section>
+      <section class="auth-sheet" id="phoneLoginSheet" hidden>
+        <div class="auth-sheet-card">
+          <div class="auth-sheet-head">
+            <div>
+              <h3>手机号登录</h3>
+              <p>请输入需要登录的手机号</p>
+            </div>
+            <button class="auth-close" data-close-phone-sheet type="button">×</button>
+          </div>
+          <div class="phone-input-wrap">
+            <span>+86</span>
+            <input id="phoneLoginInput" inputmode="numeric" maxlength="11" placeholder="请输入手机号" />
+          </div>
+          <button class="auth-primary" id="phoneNextBtn" data-phone-next type="button" disabled>下一步</button>
+        </div>
+      </section>
+      <section class="auth-sheet" id="codeLoginSheet" hidden>
+        <div class="auth-sheet-card">
+          <div class="auth-sheet-head">
+            <div>
+              <h3>请输入验证码</h3>
+              <p id="codePhoneText">验证码已发送至 138****5678</p>
+              <p class="code-demo-tip" id="codeDemoTip">演示验证码 2468</p>
+            </div>
+            <button class="auth-close" data-close-code-sheet type="button">×</button>
+          </div>
+          <input class="code-hidden-input" id="codeLoginInput" inputmode="numeric" maxlength="4" />
+          <div class="code-boxes" data-focus-code>
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <button class="resend-code" id="resendCodeBtn" data-resend-code type="button" disabled>重发验证码（58s）</button>
+          <button class="auth-primary" id="codeLoginBtn" data-code-login type="button" disabled>登录</button>
+        </div>
+      </section>
     </main>
 
     <script>
@@ -2949,7 +3481,7 @@
           submitter: "兼职-王可",
           submittedAt: "2026-05-28 18:02:18",
           submitType: "清洁图片上传",
-          reviewStatus: "待生成",
+          reviewStatus: "待审核",
           materialCount: "3张图片",
           auditResult: "",
           auditPhotos: ["吧台清洁", "出杯口清洁", "取餐柜清洁"],
@@ -2977,7 +3509,7 @@
           submitter: "兼职-赵琳",
           submittedAt: "2026-05-28 18:09:05",
           submitType: "巡店审核",
-          reviewStatus: "待生成",
+          reviewStatus: "待审核",
           materialCount: "4项检查",
           auditResult: "",
           auditPhotos: ["门头检查", "设备外观", "物料摆放", "营业准备"],
@@ -2992,9 +3524,9 @@
           logs: [],
         },
         {
-          id: "ALM-20260528-005",
+          id: "ALM-20260528-008",
           type: "alarm",
-          name: "机械臂状态异常",
+          name: "定时巡检-机械臂状态异常",
           store: "写字楼 B1 店",
           level: "致命报警",
           status: "待处理",
@@ -3003,7 +3535,10 @@
           interval: "5min/次",
           alarmCount: 3,
           latestAlarmAt: "2026-05-28 17:55:00",
-          trigger: "系统",
+          trigger: "定时巡检",
+          source: "定时巡检",
+          inspectionItem: "机械臂状态",
+          inspectionBatch: "17:30 批次",
           owner: "李晴",
           createdAt: "2026-05-28 17:33:00",
           reason: "机械臂抓取失败直接影响出杯，已连续 3 次触发。",
@@ -3013,9 +3548,9 @@
           logs: [],
         },
         {
-          id: "ALM-20260528-006",
+          id: "ALM-20260528-009",
           type: "alarm",
-          name: "制冰机供水不足",
+          name: "定时巡检-制冰机供水不足",
           store: "望京 SOHO 店",
           level: "预警",
           status: "处理中",
@@ -3024,7 +3559,10 @@
           interval: "15min/次",
           alarmCount: 2,
           latestAlarmAt: "2026-05-28 18:22:00",
-          trigger: "系统",
+          trigger: "定时巡检",
+          source: "定时巡检",
+          inspectionItem: "制冰机状态",
+          inspectionBatch: "18:15 批次",
           owner: "李晴",
           createdAt: "2026-05-28 17:50:00",
           reason: "制冰不足会连锁影响多款饮品供应。",
@@ -3034,9 +3572,9 @@
           logs: [{ time: "2026-05-28 17:55:00", text: "开始处理：确认制冰机供水管路" }],
         },
         {
-          id: "ALM-20260528-007",
+          id: "ALM-20260528-010",
           type: "alarm",
-          name: "咖啡机出水温度偏高",
+          name: "定时巡检-咖啡机出水温度偏高",
           store: "望京 SOHO 店",
           level: "预警",
           status: "待处理",
@@ -3045,7 +3583,10 @@
           interval: "10min/次",
           alarmCount: 1,
           latestAlarmAt: "2026-05-28 18:30:00",
-          trigger: "系统",
+          trigger: "定时巡检",
+          source: "定时巡检",
+          inspectionItem: "咖啡机状态",
+          inspectionBatch: "18:20 批次",
           owner: "李晴",
           createdAt: "2026-05-28 18:15:00",
           reason: "水温异常可能影响出品品质和顾客体验。",
@@ -3214,6 +3755,21 @@
       let selectedOpsStoreId = "";
       let reviewTasksNotified = false;
       let feedbackNotified = true;
+      let isLoggedIn = false;
+      let lastQuestionNode = null;
+      let loginPhone = "13812345678";
+      let privacyAction = "oneTap";
+      let loginBusy = false;
+      let codeExpireAt = 0;
+      let resendLeftSeconds = 58;
+      let resendTimer = null;
+      const validLoginPhones = ["13812345678", "13912345678", "13600000000", "13700000000", "13300000000"];
+      const phoneLoginExceptions = {
+        "13100000000": "当前手机号未开通运营助手权限",
+        "13200000000": "当前账号暂无可用身份，请联系管理员配置",
+        "13400000000": "操作过于频繁，请稍后再试",
+      };
+      const demoVerifyCode = "2468";
 
       const conversation = document.getElementById("conversation");
       const phone = document.querySelector(".phone");
@@ -3229,6 +3785,18 @@
       const drawerRoleText = document.getElementById("drawerRoleText");
       const toast = document.getElementById("toast");
       const photoPreviewLayer = document.getElementById("photoPreviewLayer");
+      const authLayer = document.getElementById("authLayer");
+      const privacyMask = document.getElementById("privacyMask");
+      const logoutMask = document.getElementById("logoutMask");
+      const phoneLoginSheet = document.getElementById("phoneLoginSheet");
+      const codeLoginSheet = document.getElementById("codeLoginSheet");
+      const phoneLoginInput = document.getElementById("phoneLoginInput");
+      const phoneNextBtn = document.getElementById("phoneNextBtn");
+      const codeLoginInput = document.getElementById("codeLoginInput");
+      const codeLoginBtn = document.getElementById("codeLoginBtn");
+      const codePhoneText = document.getElementById("codePhoneText");
+      const privacyText = document.getElementById("privacyText");
+      const resendCodeBtn = document.getElementById("resendCodeBtn");
 
       function isDoneStatus(status) {
         return ["已完成", "已关闭"].includes(status);
@@ -3252,6 +3820,136 @@
 
       function isManagerRole() {
         return ["租户", "平台管理者"].includes(roles[roleIndex]);
+      }
+
+      function isInspectionConfigQuery(query) {
+        return query.includes("巡检配置") || query.includes("配置中心") || query.includes("报警记录") || query.includes("配置项");
+      }
+
+      function isInspectionTaskQuery(query) {
+        return /定时巡检|系统巡检|巡检任务|巡检结果|智能巡检|一键巡检|执行巡检|智能巡店|巡店/.test(query) && !isInspectionConfigQuery(query);
+      }
+
+      function maskPhone(value) {
+        const digits = String(value || "").replace(/\D/g, "");
+        return digits.length === 11 ? `${digits.slice(0, 3)}****${digits.slice(7)}` : "138****5678";
+      }
+
+      function isValidPhone(value) {
+        return /^1\d{10}$/.test(String(value || "").replace(/\D/g, ""));
+      }
+
+      function hasLoginPermission(value) {
+        return validLoginPhones.includes(String(value || "").replace(/\D/g, ""));
+      }
+
+      function getPhoneLoginException(value) {
+        return phoneLoginExceptions[String(value || "").replace(/\D/g, "")] || "";
+      }
+
+      function completeLogin(phoneValue) {
+        loginPhone = String(phoneValue || "").replace(/\D/g, "");
+        resetToAssistantHome();
+        setLoggedIn(true);
+        showToast("登录成功");
+      }
+
+      function setLoginBusy(next, button) {
+        loginBusy = next;
+        if (button) button.disabled = next;
+      }
+
+      function resetResendTimer() {
+        if (resendTimer) clearInterval(resendTimer);
+        resendLeftSeconds = 58;
+        codeExpireAt = Date.now() + 5 * 60 * 1000;
+        resendCodeBtn.disabled = true;
+        resendCodeBtn.classList.remove("is-ready");
+        resendCodeBtn.textContent = `重发验证码（${resendLeftSeconds}s）`;
+        resendTimer = setInterval(() => {
+          resendLeftSeconds -= 1;
+          if (resendLeftSeconds <= 0) {
+            clearInterval(resendTimer);
+            resendTimer = null;
+            resendCodeBtn.disabled = false;
+            resendCodeBtn.classList.add("is-ready");
+            resendCodeBtn.textContent = "重新获取验证码";
+            return;
+          }
+          resendCodeBtn.textContent = `重发验证码（${resendLeftSeconds}s）`;
+        }, 1000);
+      }
+
+      function sendCode(phoneValue) {
+        resetResendTimer();
+        openCodeLoginSheet(phoneValue);
+      }
+
+      function resetToAssistantHome() {
+        activePage = "workbench";
+        selectedOpsStoreId = "";
+        inspectionView = "overview";
+        inspectionEditingId = "";
+        inspectionDetailConfigId = "";
+        inspectionLogConfigId = "";
+        setDrawerOpen(false);
+        renderBrief();
+        renderDrawerRoles();
+        renderDrawerTools();
+        renderWorkbench();
+      }
+
+      function setLoggedIn(next) {
+        isLoggedIn = next;
+        authLayer.hidden = next;
+        if (next) {
+          privacyMask.hidden = true;
+          logoutMask.hidden = true;
+          phoneLoginSheet.hidden = true;
+          codeLoginSheet.hidden = true;
+          if (resendTimer) clearInterval(resendTimer);
+        } else {
+          setDrawerOpen(false);
+        }
+      }
+
+      function openPhoneLoginSheet() {
+        phoneLoginSheet.hidden = false;
+        phoneLoginInput.value = "";
+        phoneNextBtn.disabled = true;
+        requestAnimationFrame(() => phoneLoginInput.focus());
+      }
+
+      function openCodeLoginSheet(phone) {
+        phoneLoginSheet.hidden = true;
+        codeLoginSheet.hidden = false;
+        codePhoneText.textContent = `验证码已发送至 ${maskPhone(phone)}`;
+        codeLoginInput.value = "";
+        codeLoginBtn.disabled = false;
+        renderCodeBoxes();
+        requestAnimationFrame(() => codeLoginInput.focus());
+      }
+
+      function openPrivacy(action) {
+        privacyAction = action;
+        privacyText.innerHTML = '阅读并同意<a href="javascript:void(0)">《服务协议》</a>和<a href="javascript:void(0)">《隐私协议》</a>';
+        privacyMask.hidden = false;
+      }
+
+      function renderCodeBoxes() {
+        const digits = codeLoginInput.value.replace(/\D/g, "").slice(0, 4);
+        codeLoginInput.value = digits;
+        document.querySelectorAll(".code-boxes span").forEach((box, index) => {
+          box.textContent = digits[index] || "";
+          box.classList.toggle("active", index === Math.min(digits.length, 3));
+        });
+        codeLoginBtn.disabled = false;
+      }
+
+      function clearCodeInput() {
+        codeLoginInput.value = "";
+        renderCodeBoxes();
+        requestAnimationFrame(() => codeLoginInput.focus());
       }
 
       function setDrawerOpen(open) {
@@ -3306,7 +4004,7 @@
         document.getElementById("doingLabel").textContent = "处理中";
         document.getElementById("doneLabel").textContent = role === "兼职" ? "已提交" : "已完成";
         document.getElementById("todoCount").textContent = todoCount;
-        document.getElementById("fatalCount").textContent = role === "兼职" ? tasks.filter((task) => task.type === "review" && task.status === "未生成").length : fatalCount;
+        document.getElementById("fatalCount").textContent = role === "兼职" ? cleaningTasks.filter((task) => !isDoneStatus(task.status)).length : fatalCount;
         document.getElementById("doingCount").textContent = doingCount;
         document.getElementById("doneCount").textContent = doneCount;
         document.getElementById("briefTitle").textContent =
@@ -3348,6 +4046,9 @@
         const detailRows =
           `
               ${fieldRow("报警触发人", task.trigger || "系统")}
+              ${task.source ? fieldRow("任务来源", task.source) : ""}
+              ${task.inspectionItem ? fieldRow("巡检项", task.inspectionItem) : ""}
+              ${task.inspectionBatch ? fieldRow("巡检批次", task.inspectionBatch) : ""}
               ${fieldRow("最新报警时间", task.latestAlarmAt)}
               ${fieldRow("报警对象", task.object)}
               ${fieldRow("报警详情", task.detail)}
@@ -3640,7 +4341,7 @@
                           <em class="config-log-level">${escapeHtml(log.level)}</em>
                         </div>
                         <div class="config-log-content">${escapeHtml(log.content)}</div>
-                        <div class="config-log-meta">关联任务：<strong>${escapeHtml(log.taskId || "未生成任务")}</strong></div>
+                        <div class="config-log-meta">关联任务：<strong>${escapeHtml(log.taskId || "未关联任务")}</strong></div>
                       </div>
                     </div>
                   `,
@@ -3954,7 +4655,21 @@
         node.className = `message ${type}`;
         node.innerHTML = html;
         conversation.appendChild(node);
-        conversation.scrollTop = conversation.scrollHeight;
+        if (type === "home") {
+          conversation.scrollTop = 0;
+          return;
+        }
+        if (type === "user") {
+          lastQuestionNode = node;
+          return;
+        }
+        requestAnimationFrame(() => {
+          const anchor = type === "assistant" && lastQuestionNode ? lastQuestionNode : node;
+          const containerRect = conversation.getBoundingClientRect();
+          const anchorRect = anchor.getBoundingClientRect();
+          const nextTop = conversation.scrollTop + anchorRect.top - containerRect.top - 8;
+          conversation.scrollTop = Math.max(0, nextTop);
+        });
       }
 
       function emptyState(title, detail) {
@@ -4021,6 +4736,7 @@
 
       function renderWorkbench() {
         conversation.innerHTML = "";
+        lastQuestionNode = null;
         const isStandalonePage = ["inspection", "ops"].includes(activePage);
         phone.classList.toggle("is-tool-page", isStandalonePage);
         phone.classList.toggle("is-standby", !isStandalonePage);
@@ -4286,8 +5002,7 @@
         }
         renderBrief();
         activePage = "workbench";
-        if (conversation.querySelector(".message.home") || conversation.querySelector(".empty-state")) conversation.innerHTML = "";
-        phone.classList.remove("is-tool-page", "is-standby");
+        phone.classList.remove("is-tool-page");
         addMessage("assistant", managerDashboard());
       }
 
@@ -4361,20 +5076,19 @@
         const query = text.trim();
         if (!query) return;
         recordHistory(query);
-        if (conversation.querySelector(".message.home") || conversation.querySelector(".empty-state")) conversation.innerHTML = "";
         if (isManagerRole()) {
           activePage = "workbench";
-          phone.classList.remove("is-tool-page", "is-standby");
+          phone.classList.remove("is-tool-page");
           addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
           if (query.includes("门店状态") || query.includes("店铺状态")) {
             addMessage("assistant", storeStatusDashboard());
             return;
           }
-          if (query.includes("巡检配置") || query.includes("配置中心") || query.includes("报警记录") || query.includes("配置项")) {
+          if (isInspectionConfigQuery(query)) {
             addMessage("assistant", `<div class="bubble"><strong>配置中心本期暂不开放。</strong><br />当前版本先聚焦报警触达、任务处理和处理结果看板。巡检配置会放到后续版本再评估。</div>`);
             return;
           }
-          if (query.includes("智能巡检") || query.includes("一键巡检") || query.includes("执行巡检") || query.includes("智能巡店") || query.includes("巡店")) {
+          if (isInspectionTaskQuery(query)) {
             addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于一键检查所负责门店的巡检项报警情况。你可以通过下方看板查看整体运营数据。</div>`);
             return;
           }
@@ -4382,7 +5096,7 @@
           showToast("已按当前时间重新生成看板");
           return;
         }
-        phone.classList.remove("is-standby");
+        phone.classList.remove("is-tool-page");
         addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
         const activeTasks = activeTasksForRole();
         const doneTasks = visibleTasksForRole().filter((task) => isDoneStatus(task.status));
@@ -4392,17 +5106,16 @@
           return;
         }
 
-        if (query.includes("智能巡检") || query.includes("一键巡检") || query.includes("执行巡检") || query.includes("智能巡店") || query.includes("巡店")) {
+        if (isInspectionTaskQuery(query)) {
           if (roles[roleIndex] !== "门店运营") {
             addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于一键检查所负责门店的巡检项报警情况。</div>`);
             return;
           }
           addMessage("assistant", smartInspectionHTML());
-          conversation.scrollTop = 0;
           return;
         }
 
-        if (query.includes("巡检配置") || query.includes("配置中心") || query.includes("报警记录") || query.includes("配置项")) {
+        if (isInspectionConfigQuery(query)) {
           addMessage("assistant", `<div class="bubble"><strong>配置中心本期暂不开放。</strong><br />当前版本先聚焦报警触达、任务处理和处理结果看板。巡检配置会放到后续版本再评估。</div>`);
           return;
         }
@@ -4771,6 +5484,12 @@
         return task.auditPhotos || task.photos || [];
       }
 
+      function auditTypeLabel(task) {
+        if (!task || task.type !== "review") return "";
+        if (/巡店|检查/.test(task.name || task.detail || "")) return "巡店审核";
+        return "清洁审核";
+      }
+
       function openPhotoPreview(taskId, photoIndex, source = "task") {
         const task = getPreviewTask(taskId);
         if (!task) return;
@@ -4819,6 +5538,10 @@
         const statusLabel = task.status === "已关闭" ? "已关闭" : "已完成";
         const statusColor = task.status === "已关闭" ? "var(--muted)" : "var(--brand)";
         const statusBg = task.status === "已关闭" ? "#eee" : "#e8f7f4";
+        const isReview = task.type === "review";
+        const noteLabel = isReview ? "审核意见" : "跟进备注";
+        const resultLabel = isReview ? "审核结果" : "处理结果";
+        const resultValue = isReview ? (task.reviewStatus || task.auditResult || "满意") : (task.progress || statusLabel);
         conversation.querySelectorAll('[data-task-card]').forEach(function (card) {
           if (card.getAttribute("data-task-card") !== task.id) return;
           card.classList.add("completed");
@@ -4829,8 +5552,13 @@
             '</div>' +
             '<div class="task-meta">' +
               '<div><span>任务ID</span><strong>' + escapeHtml(task.id) + '</strong></div>' +
+              '<div><span>店铺名称</span><strong>' + escapeHtml(task.store || "-") + '</strong></div>' +
+              (isReview ? '<div><span>审核类型</span><strong>' + escapeHtml(auditTypeLabel(task)) + '</strong></div>' : '') +
+              (isReview ? '<div><span>提交人</span><strong>' + escapeHtml(task.submitter || "-") + '</strong></div>' : '') +
+              (isReview ? '<div><span>提交时间</span><strong>' + escapeHtml(task.submittedAt || "-") + '</strong></div>' : '') +
               '<div><span>完成时间</span><strong>' + escapeHtml(task.handledAt || nowLabel()) + '</strong></div>' +
-              '<div><span>跟进备注</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
+              '<div><span>' + resultLabel + '</span><strong>' + escapeHtml(resultValue) + '</strong></div>' +
+              '<div><span>' + noteLabel + '</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
             '</div>';
         });
       }
@@ -4848,6 +5576,7 @@
       function completionReceipt(task, options = {}) {
         const title = options.title || (task.type === "review" ? "审核已完成" : "任务已完成");
         const result = options.result || task.progress || task.reviewStatus || "已完成";
+        const isReview = task.type === "review";
         return `
           <div class="bubble completion-receipt">
             <strong>${escapeHtml(title)}</strong>
@@ -4855,9 +5584,12 @@
               <div><span>${task.type === "review" ? "审核任务ID" : "任务ID"}</span><strong>${escapeHtml(task.id)}</strong></div>
               <div><span>任务名称</span><strong>${escapeHtml(task.name)}</strong></div>
               <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
+              ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(auditTypeLabel(task))}</strong></div>` : ""}
+              ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
+              ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
               <div><span>完成时间</span><strong>${escapeHtml(task.handledAt || task.completedAt || nowLabel())}</strong></div>
-              <div><span>处理结果</span><strong>${escapeHtml(result)}</strong></div>
-              <div><span>跟进备注</span><strong>${escapeHtml(task.note || options.note || "无")}</strong></div>
+              <div><span>${isReview ? "审核结果" : "处理结果"}</span><strong>${escapeHtml(result)}</strong></div>
+              <div><span>${isReview ? "审核意见" : "跟进备注"}</span><strong>${escapeHtml(task.note || options.note || "无")}</strong></div>
             </div>
           </div>
         `;
@@ -4865,6 +5597,7 @@
 
       function recordCard(task) {
         const latestLog = (task.logs || [])[task.logs.length - 1];
+        const isReview = task.type === "review";
         return `
           <article class="task-card">
             <div class="task-card-head">
@@ -4875,8 +5608,13 @@
             </div>
             <div class="task-meta">
               <div><span>任务ID</span><strong>${task.id}</strong></div>
+              <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
+              ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(auditTypeLabel(task))}</strong></div>` : ""}
+              ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
+              ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
               <div><span>完成时间</span><strong>${task.handledAt || latestLog?.time || "-"}</strong></div>
-              <div><span>处理备注</span><strong>${task.note || "已确认问题处理完成"}</strong></div>
+              <div><span>${isReview ? "审核结果" : "处理结果"}</span><strong>${escapeHtml(isReview ? (task.reviewStatus || task.auditResult || "满意") : (task.progress || "已完成"))}</strong></div>
+              <div><span>${isReview ? "审核意见" : "处理备注"}</span><strong>${escapeHtml(task.note || (isReview ? "无" : "已确认问题处理完成"))}</strong></div>
             </div>
           </article>
         `;
@@ -4890,6 +5628,7 @@
         });
         var myStoreNames = myStores.map(function (s) { return s.name; });
         var activeAlarms = tasks.filter(function (t) { return !isDoneStatus(t.status) && t.type === "alarm" && myStoreNames.indexOf(t.store) !== -1; });
+        var inspectionTasks = activeAlarms.filter(function (t) { return t.source === "定时巡检"; });
         var storeAlarms = {};
         myStores.forEach(function (s) {
           var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
@@ -4914,7 +5653,7 @@
         if (totalFatal) summaryParts.push("致命报警 " + totalFatal + " 条");
         if (totalWarning) summaryParts.push("预警 " + totalWarning + " 条");
         if (!totalFatal && !totalWarning) summaryParts.push("所有门店运行正常");
-        var html = '<div class="bubble"><strong>智能巡检完成</strong><br />' + summaryParts.join("，") + "</div>";
+        var html = '<div class="bubble"><strong>智能巡检完成</strong><br />' + summaryParts.join("，") + "。本轮定时巡检生成 " + inspectionTasks.length + " 条运营任务。</div>";
         html += '<div class="inspection-summary"><table><thead><tr><th>店铺名称</th><th>致命报警</th><th>预警</th><th>负责人</th></tr></thead><tbody>';
         entries.forEach(function (entry) {
           var store = entry[0];
@@ -4923,6 +5662,9 @@
         });
         html += "</tbody></table></div>";
         if (!activeAlarms.length) return html;
+        if (inspectionTasks.length) {
+          html += '<div class="bubble"><strong>本轮定时巡检生成任务</strong><br />以下任务由系统定时巡检触发，已自动分配给对应运营处理。</div>';
+        }
         var storeOrder = {};
         entries.forEach(function (entry, i) { storeOrder[entry[0]] = i; });
         var sortedTasks = activeAlarms.sort(function (a, b) {
@@ -4941,6 +5683,154 @@
       });
 
       document.addEventListener("click", (event) => {
+        const oneTapLogin = event.target.closest("[data-one-tap-login]");
+        if (oneTapLogin) {
+          openPrivacy("oneTap");
+          return;
+        }
+
+        const changePhone = event.target.closest("[data-change-phone]");
+        if (changePhone) {
+          openPrivacy("changePhone");
+          return;
+        }
+
+        const privacyDecline = event.target.closest("[data-privacy-decline]");
+        if (privacyDecline) {
+          privacyMask.hidden = true;
+          return;
+        }
+
+        const privacyAgree = event.target.closest("[data-privacy-agree]");
+        if (privacyAgree) {
+          privacyMask.hidden = true;
+          if (privacyAction === "oneTap") {
+            const defaultPhone = "13812345678";
+            if (!isValidPhone(defaultPhone)) {
+              showToast("本机手机号异常，请换号登录");
+              return;
+            }
+            if (!hasLoginPermission(defaultPhone)) {
+              showToast("当前手机号未开通运营助手权限");
+              return;
+            }
+            completeLogin(defaultPhone);
+          } else {
+            openPhoneLoginSheet();
+          }
+          return;
+        }
+
+        if (event.target.closest("[data-close-phone-sheet]")) {
+          phoneLoginSheet.hidden = true;
+          return;
+        }
+
+        if (event.target.closest("[data-phone-next]")) {
+          if (loginBusy) return;
+          const phoneNext = event.target.closest("[data-phone-next]");
+          const phoneValue = phoneLoginInput.value.replace(/\D/g, "");
+          if (!phoneValue) {
+            showToast("请输入手机号");
+            return;
+          }
+          if (!isValidPhone(phoneValue)) {
+            showToast("请输入正确的手机号");
+            return;
+          }
+          const phoneException = getPhoneLoginException(phoneValue);
+          if (phoneException) {
+            showToast(phoneException);
+            return;
+          }
+          if (!hasLoginPermission(phoneValue)) {
+            showToast("当前手机号未开通运营助手权限");
+            return;
+          }
+          setLoginBusy(true, phoneNext);
+          setTimeout(() => {
+            setLoginBusy(false);
+            phoneNextBtn.disabled = !isValidPhone(phoneLoginInput.value);
+            loginPhone = phoneValue;
+            sendCode(phoneValue);
+          }, 180);
+          return;
+        }
+
+        if (event.target.closest("[data-close-code-sheet]")) {
+          codeLoginSheet.hidden = true;
+          if (resendTimer) clearInterval(resendTimer);
+          return;
+        }
+
+        if (event.target.closest("[data-focus-code]")) {
+          codeLoginInput.focus();
+          return;
+        }
+
+        if (event.target.closest("[data-resend-code]")) {
+          if (resendCodeBtn.disabled) return;
+          if (!hasLoginPermission(loginPhone)) {
+            showToast("当前手机号未开通运营助手权限");
+            return;
+          }
+          if (loginPhone === "13300000000") {
+            showToast("验证码发送失败，请稍后重试");
+            return;
+          }
+          sendCode(loginPhone);
+          return;
+        }
+
+        if (event.target.closest("[data-code-login]")) {
+          if (loginBusy) return;
+          const codeValue = codeLoginInput.value.replace(/\D/g, "");
+          if (!codeValue) {
+            showToast("请输入验证码");
+            return;
+          }
+          if (codeValue.length !== 4) {
+            showToast("请输入4位验证码");
+            return;
+          }
+          if (Date.now() > codeExpireAt) {
+            clearCodeInput();
+            showToast("验证码已过期，请重新获取");
+            return;
+          }
+          if (codeValue !== demoVerifyCode) {
+            clearCodeInput();
+            showToast("验证码错误，请重新输入");
+            return;
+          }
+          setLoginBusy(true, codeLoginBtn);
+          setTimeout(() => {
+            setLoginBusy(false);
+            completeLogin(loginPhone);
+          }, 180);
+          return;
+        }
+
+        const requestLogout = event.target.closest("[data-request-logout]");
+        if (requestLogout) {
+          logoutMask.hidden = false;
+          return;
+        }
+
+        const cancelLogout = event.target.closest("[data-cancel-logout]");
+        if (cancelLogout) {
+          logoutMask.hidden = true;
+          return;
+        }
+
+        const confirmLogout = event.target.closest("[data-confirm-logout]");
+        if (confirmLogout) {
+          logoutMask.hidden = true;
+          setLoggedIn(false);
+          showToast("已退出登录");
+          return;
+        }
+
         const copy = event.target.closest("[data-copy-text]");
         if (copy) {
           copyText(copy.dataset.copyText, copy.dataset.copyLabel || "内容");
@@ -4961,7 +5851,6 @@
 
         const suggest = event.target.closest("[data-suggest]");
         if (suggest) {
-          phone.classList.remove("is-standby");
           if (suggest.dataset.suggest.includes("门店状态") || suggest.dataset.suggest.includes("店铺状态")) {
             answer("查看门店状态看板");
             return;
@@ -4972,14 +5861,12 @@
 
         const managerQuery = event.target.closest("[data-manager-query]");
         if (managerQuery) {
-          phone.classList.remove("is-standby");
           answer(managerQuery.dataset.managerQuery);
           return;
         }
 
         const storeDashboard = event.target.closest("[data-store-dashboard]");
         if (storeDashboard) {
-          phone.classList.remove("is-standby");
           answer("查看门店状态看板");
           return;
         }
@@ -4991,7 +5878,6 @@
             showToast("当前异常暂无对应任务");
             return;
           }
-          phone.classList.remove("is-standby");
           addMessage("assistant", `<div class="bubble">已定位到对应任务。</div>${taskCard(task)}`);
           return;
         }
@@ -5414,7 +6300,7 @@
         if (previewGeneratedReview) {
           const task = tasks.find((item) => item.id === previewGeneratedReview.dataset.previewGeneratedReview);
           if (!task || task.status === "未生成") {
-            showToast("运营审核任务尚未生成");
+            showToast("兼职尚未提交，暂无运营审核任务");
             return;
           }
           addMessage("assistant", `<div class="bubble">对应运营审核任务如下，切换到门店运营角色后可以处理。</div>${reviewTaskCard(task, {
@@ -5460,6 +6346,7 @@
           if (!task) return;
           updateTaskFromDom(task);
           task.status = "已关闭";
+          task.progress = "已关闭";
           task.handledAt = nowLabel();
           recordTask(task, `关闭：${task.note || "已关闭任务"}`);
           renderBrief();
@@ -5488,7 +6375,11 @@
           if (!task) return;
           updateTaskFromDom(task);
           task.status = "已完成";
-          if (task.type === "review") task.reviewStatus = task.auditResult || "满意";
+          if (task.type === "review") {
+            task.reviewStatus = task.auditResult || "满意";
+          } else {
+            task.progress = "已解决";
+          }
           task.handledAt = nowLabel();
           if (task.type === "review") {
             createFeedbackForCleaning(task);
@@ -5521,6 +6412,17 @@
       });
 
       document.addEventListener("input", (event) => {
+        if (event.target === phoneLoginInput) {
+          phoneLoginInput.value = phoneLoginInput.value.replace(/\D/g, "").slice(0, 11);
+          phoneNextBtn.disabled = !isValidPhone(phoneLoginInput.value);
+          return;
+        }
+
+        if (event.target === codeLoginInput) {
+          renderCodeBoxes();
+          return;
+        }
+
         if (event.target.id === "inspectionSearchInput") {
           inspectionSearch = event.target.value;
           refreshInspectionCenter();
