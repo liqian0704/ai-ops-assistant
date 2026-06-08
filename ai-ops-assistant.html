@@ -3522,7 +3522,7 @@
           name: "商品状态长时间下线",
           store: "科技园 A 座店",
           level: "预警",
-          status: "待处理",
+          status: "暂缓中",
           object: "商品状态",
           detail: "生椰拿铁、厚乳生椰奶长时间下线，需要确认是否误下线或物料不足导致不可售。",
           interval: "30min/次",
@@ -3534,8 +3534,8 @@
           reason: "影响商品可售和用户下单。",
           situation: "系统检测到商品长时间下线，建议运营确认商品可售状态和物料约束。",
           progress: "排查中",
-          note: "",
-          logs: [],
+          note: "已确认物料补货在途，预计 19:30 到店，暂缓到货后复核商品上架状态。",
+          logs: [{ time: "2026-05-28 17:18:40", text: "暂缓：等待物料到店后复核商品上架" }],
         },
         {
           id: "ALM-20260528-005",
@@ -3901,7 +3901,7 @@
       }
 
       function activeTasksForRole() {
-        return visibleTasksForRole().filter((task) => !isDoneStatus(task.status));
+        return visibleTasksForRole().filter((task) => !isDoneStatus(task.status) && task.status !== "暂缓中");
       }
 
       function isTaskOverdue(task) {
@@ -5338,6 +5338,26 @@
             return;
           }
           addMessage("assistant", `<div class="bubble">你当前有 ${activeTasks.length} 个任务未提交。完成需要审核的任务后，运营会收到对应审核任务。</div>${activeTasks.map(cleaningTaskCard).join("")}`);
+          return;
+        }
+
+        if (query.includes("暂缓")) {
+          const suspendedTasks = visibleTasksForRole().filter((task) => task.status === "暂缓中");
+          if (!suspendedTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有暂缓中的任务。暂缓任务不会混在待处理列表里，你可以输入"查看待处理任务"查看需要立即处理的事项。</div>`);
+            return;
+          }
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${suspendedTasks.length} 条暂缓中的任务</strong><br />这些任务已从待处理列表中分离，等待条件满足后可点击"继续处理"恢复跟进。</div>${suspendedTasks.map(taskCard).join("")}`);
+          return;
+        }
+
+        if (query.includes("处理中")) {
+          const handlingTasks = visibleTasksForRole().filter((task) => task.status === "处理中");
+          if (!handlingTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有处理中的任务。你可以输入"查看待处理任务"查看还未开始的事项，或输入"暂缓"查看暂缓中的任务。</div>`);
+            return;
+          }
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${handlingTasks.length} 条处理中的任务</strong><br />这些任务已经开始跟进，可以继续补充备注、完成或暂缓。</div>${handlingTasks.map(taskCard).join("")}`);
           return;
         }
 
