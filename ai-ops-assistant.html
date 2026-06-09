@@ -1064,6 +1064,62 @@
         color: var(--blue);
       }
 
+      .task-card.cleaning .task-card-head > div {
+        display: grid;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .task-card.audit-review .task-card-head > div {
+        display: grid;
+        gap: 7px;
+        min-width: 0;
+      }
+
+      .task-card.cleaning .task-card-head > div > strong,
+      .task-card.audit-review .task-card-head > div > strong {
+        margin-top: 0;
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 780;
+      }
+
+      .task-card.cleaning .copy-field,
+      .task-card.audit-review .copy-field {
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .task-card.cleaning .task-card-head .copy-field span:first-child,
+      .task-card.cleaning .task-meta span,
+      .task-card.audit-review .task-card-head .copy-field span:first-child,
+      .task-card.audit-review .task-meta span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .task-card.cleaning .task-value-with-copy strong,
+      .task-card.cleaning .task-meta strong,
+      .task-card.audit-review .task-value-with-copy strong,
+      .task-card.audit-review .task-meta strong {
+        color: #3f4c49;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.45;
+      }
+
+      .task-card.cleaning .task-card-head .copy-field:nth-of-type(1) .task-value-with-copy strong,
+      .task-card.cleaning .task-card-head .copy-field:nth-of-type(2) .task-value-with-copy strong,
+      .task-card.audit-review .task-card-head .copy-field:nth-of-type(1) .task-value-with-copy strong,
+      .task-card.audit-review .task-card-head .copy-field:nth-of-type(2) .task-value-with-copy strong {
+        font-size: 12px;
+      }
+
       .task-situation {
         margin: 0 10px 9px;
         padding: 8px;
@@ -3704,6 +3760,8 @@
           status: "待处理",
           owner: "兼职-王可",
           createdAt: "2026-05-28 17:30:00",
+          taskRequirement: "完成咖啡机洗机流程，清理咖啡槽、隔板和周边残留，确保无咖啡渣、无明显水渍。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
           examplePhotos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
           photos: [],
           error: "",
@@ -3717,6 +3775,8 @@
           status: "待处理",
           owner: "兼职-赵琳",
           createdAt: "2026-05-28 17:35:00",
+          taskRequirement: "清洁液体墙、糖浆机和制冰机出口及槽位，确保出口无残留糖浆，槽位无污渍和异味。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
           examplePhotos: ["出口与槽位无残留", "制冰机槽位清洁后图片"],
           photos: [],
           error: "",
@@ -3730,6 +3790,8 @@
           status: "已完成",
           owner: "兼职-陈悦",
           createdAt: "2026-05-28 17:40:00",
+          taskRequirement: "清洁取餐口、台面和垃圾桶周边区域，确保取餐口无污渍，台面整洁，垃圾桶周边无溢出垃圾。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
           examplePhotos: ["取餐口清洁后图片", "台面与垃圾桶周边清洁后图片"],
           photos: [],
           error: "",
@@ -3765,10 +3827,10 @@
       ];
 
       const feedbackMessages = [
-        { id: "FB-DEMO-001", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "咖啡机清洁（洗机、咖啡槽）审核结果：满意", detail: "运营已审核满意，本次清洁任务已闭环。", time: "2026-06-08 09:30:00", closed: false },
-        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-003", store: "望京 SOHO 店", operator: "周岩", partTimer: "兼职-王可", title: "取餐口、台面与垃圾桶清洁审核结果：不满意", detail: "运营审核不满意：取餐口边缘还有咖啡渍残留，请重新擦拭后补拍水印照片。", time: "2026-06-08 10:15:00", closed: false },
-        { id: "FB-DEMO-003", taskId: "CLEAN-20260528-004", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：满意", detail: "运营已审核满意，图片完整，清洁质量符合标准。", time: "2026-06-07 17:20:00", closed: false },
-        { id: "FB-DEMO-004", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "兼职-赵琳", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：不满意", detail: "运营审核不满意：液体墙出口仍有残留糖浆，请按示例标准重新清洁。", time: "2026-06-08 11:00:00", closed: false },
+        { id: "FB-DEMO-001", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "咖啡机清洁（洗机、咖啡槽）审核结果：满意", detail: "运营已审核满意，本次清洁任务已闭环。", submittedAt: "2026-06-08 09:05:00", time: "2026-06-08 09:30:00", closed: false },
+        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-003", store: "望京 SOHO 店", operator: "周岩", partTimer: "兼职-王可", title: "取餐口、台面与垃圾桶清洁审核结果：不满意", detail: "运营审核不满意：取餐口边缘还有咖啡渍残留，请重新擦拭后补拍水印照片。", submittedAt: "2026-06-08 09:48:00", time: "2026-06-08 10:15:00", closed: false },
+        { id: "FB-DEMO-003", taskId: "CLEAN-20260528-004", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：满意", detail: "运营已审核满意，图片完整，清洁质量符合标准。", submittedAt: "2026-06-07 16:55:00", time: "2026-06-07 17:20:00", closed: false },
+        { id: "FB-DEMO-004", taskId: "CLEAN-20260528-002", store: "鼎好 DH3-A座", operator: "李晴", partTimer: "兼职-赵琳", title: "液体墙、糖浆机、制冰机清洁（出口、槽）审核结果：不满意", detail: "运营审核不满意：液体墙出口仍有残留糖浆，请按示例标准重新清洁。", submittedAt: "2026-06-08 10:42:00", time: "2026-06-08 11:00:00", closed: false },
       ];
 
       const inspectionItems = [
@@ -3971,6 +4033,7 @@
               <div class="feedback-row"><span>任务ID</span><strong>${escapeHtml(message.taskId || "-")}</strong></div>
               <div class="feedback-row"><span>店铺名称</span><strong>${escapeHtml(message.store || "-")}</strong></div>
               <div class="feedback-row"><span>审核人</span><strong>${escapeHtml(message.operator || "-")}</strong></div>
+              <div class="feedback-row"><span>提交时间</span><strong>${escapeHtml(message.submittedAt || feedbackCleaningTask(message)?.completedAt || "-")}</strong></div>
               <div class="feedback-row"><span>审核时间</span><strong>${escapeHtml(message.time || "-")}</strong></div>
               <div class="feedback-row"><span>审核意见</span><strong>${escapeHtml(feedbackOpinion(message) || "无")}</strong></div>
             </div>
@@ -4299,6 +4362,7 @@
         const active = task.status === "处理中";
         const terminal = isDoneStatus(task.status);
         const photos = task.photos || [];
+        const statusLabel = terminal ? "已提交" : active ? "处理中" : "待处理";
         const copyIcon = (value, label) => `
           <button class="copy-icon" data-copy-text="${escapeHtml(value)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -4320,7 +4384,7 @@
                   ${(task.examplePhotos || []).map((photo, index) => `<div class="example-photo-card"><button data-preview-example-photo="${task.id}" data-photo-index="${index}" type="button" aria-label="预览示例图片">${mockCleanPhoto({ ...task, photos: task.examplePhotos }, index)}</button><span>${escapeHtml(photo)}</span></div>`).join("")}
                 </div>
               </div>
-              <div class="review-hint">请上传包含日期时间、星期、位置的水印照片</div>
+              <div class="review-hint">请上传包含日期时间、位置的水印照片</div>
               <div class="upload-actions">
                 <label>从相册上传<input data-cleaning-upload="${task.id}" type="file" accept="image/*" /></label>
                 <label>拍照上传<input data-cleaning-upload="${task.id}" type="file" accept="image/*" capture="environment" /></label>
@@ -4344,23 +4408,28 @@
             </div>`
           : "";
         const actions = terminal
-          ? `<div class="task-actions"><button disabled type="button">已提交</button><button data-preview-generated-review="${task.reviewTaskId}" type="button">查看审核任务</button></div>`
+          ? `<div class="task-actions"><button data-preview-generated-review="${task.reviewTaskId}" type="button">查看审核任务</button></div>`
           : active
             ? `<div class="task-actions"><button class="primary single" data-cleaning-complete="${task.id}" type="button">完成清洁</button></div>`
             : `<div class="task-actions"><button class="primary single" data-cleaning-start="${task.id}" type="button">开始清洁</button></div>`;
         return `
-          <article class="task-card review" data-cleaning-card="${escapeHtml(task.id)}">
-            ${copyRow("任务ID", task.id)}
+          <article class="task-card review cleaning" data-cleaning-card="${escapeHtml(task.id)}">
             <div class="task-card-head">
               <div>
-                ${copyRow("任务名称", task.name)}
+                <strong>${escapeHtml(task.name)}</strong>
+                ${copyRow("任务ID", task.id)}
                 ${copyRow("店铺名称", task.store)}
               </div>
-              <em class="task-level">${terminal ? "已提交" : active ? "处理中" : "待清洁"}</em>
+              <em class="task-level">${statusLabel}</em>
             </div>
             <div class="task-meta">
               <div><span>创建时间</span><strong>${escapeHtml(task.createdAt)}</strong></div>
               <div><span>处理人</span><strong>${escapeHtml(task.owner)}</strong></div>
+              <div><span>任务状态</span><strong>${escapeHtml(statusLabel)}</strong></div>
+              <div><span>任务要求</span><strong>${escapeHtml(task.taskRequirement || "请按门店清洁标准完成对应区域清洁。")}</strong></div>
+              <div><span>上传要求</span><strong>${escapeHtml(task.uploadRequirement || "请上传包含日期时间、位置的水印照片。")}</strong></div>
+              ${terminal ? `<div><span>提交时间</span><strong>${escapeHtml(task.completedAt || "-")}</strong></div>` : ""}
+              ${task.note ? `<div><span>清洁说明</span><strong>${escapeHtml(task.note)}</strong></div>` : ""}
             </div>
             ${process}
             ${actions}
@@ -4371,12 +4440,24 @@
       function reviewTaskCard(task, helpers) {
         const { cls, active, terminal, canHandle, copyRow, fieldRow } = helpers;
         const photos = task.auditPhotos || [];
+        const sourceCleaningTask = findCleaningTaskByReviewId(task.id);
+        const examplePhotos = task.examplePhotos || sourceCleaningTask?.examplePhotos || [];
         const logs = (task.logs || []).length
           ? `<div class="task-log"><strong>处理记录</strong>${task.logs.map((log) => `<span>${log.time} · ${escapeHtml(log.text)}</span>`).join("")}</div>`
           : "";
         const reviewPanel = active
           ? `<div class="review-panel">
               <div class="review-panel-head"><strong>清洁质量审核</strong></div>
+              <div class="review-type-row">
+                <span>示例图片</span>
+                <div class="example-photo-strip">
+                  ${
+                    examplePhotos.length
+                      ? examplePhotos.map((photo, index) => `<div class="example-photo-card"><button data-preview-review-example="${task.id}" data-photo-index="${index}" type="button" aria-label="预览示例图片">${mockCleanPhoto({ ...task, examplePhotos, photos: examplePhotos }, index)}</button><span>${escapeHtml(photo)}</span></div>`).join("")
+                      : `<div class="review-photo">暂无示例图</div>`
+                  }
+                </div>
+              </div>
               <div class="review-type-row">
                 <span>审核图片</span>
                 <div class="review-photo-list">
@@ -4388,7 +4469,7 @@
                 </div>
               </div>
               <div class="review-type-row">
-                <span>审核类型</span>
+                <span>审核结果</span>
                 <div class="audit-result-options">
                   <button class="${task.auditResult === "满意" ? "active" : ""}" data-audit-result="满意" data-task-id="${task.id}" type="button">满意</button>
                   <button class="${task.auditResult === "不满意" ? "active" : ""}" data-audit-result="不满意" data-task-id="${task.id}" type="button">不满意</button>
@@ -4409,11 +4490,11 @@
                 <button class="primary single" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>开始审核</button>
               </div>`;
         return `
-          <article class="task-card ${cls}" data-task-card="${escapeHtml(task.id)}">
-            ${copyRow("任务ID", task.id)}
+          <article class="task-card ${cls} audit-review" data-task-card="${escapeHtml(task.id)}">
             <div class="task-card-head">
               <div>
-                ${copyRow("任务名称", task.name)}
+                <strong>${escapeHtml(task.name)}</strong>
+                ${copyRow("任务ID", task.id)}
                 ${copyRow("店铺名称", task.store)}
               </div>
               <em class="task-level">${escapeHtml(task.reviewStatus || "待审核")}</em>
@@ -5333,7 +5414,7 @@
             addMessage("assistant", '<div class="bubble"><strong>你想查看' + escapeHtml(rangeLabel2) + '的什么内容？</strong></div><div class="quick-pick"><button data-suggest="' + escapeHtml(rangeLabel2) + '清洁任务" type="button">' + escapeHtml(rangeLabel2) + '清洁任务</button><button data-suggest="' + escapeHtml(rangeLabel2) + '审核结果" type="button">' + escapeHtml(rangeLabel2) + '审核结果</button></div>');
             return;
           }
-          addMessage("assistant", `<div class="bubble">你当前有 ${activeTasks.length} 个任务未提交。完成需要审核的任务后，运营会收到对应审核任务。</div>${activeTasks.map(cleaningTaskCard).join("")}`);
+          addMessage("assistant", `<div class="bubble">你当前有 ${activeTasks.length} 个任务未提交。请尽快完成今日巡店任务，全部完成后运营对您的完成质量进行审核。</div>${activeTasks.map(cleaningTaskCard).join("")}`);
           return;
         }
 
@@ -5595,6 +5676,7 @@
         reviewTask.submittedAt = cleaningTask.completedAt || time;
         reviewTask.submitter = cleaningTask.owner;
         reviewTask.auditPhotos = cleaningTask.photos;
+        reviewTask.examplePhotos = cleaningTask.examplePhotos || [];
         reviewTask.note = "";
         reviewTask.auditResult = "";
         reviewTask.situation = `${cleaningTask.owner} 已完成「${cleaningTask.name}」并提交 ${cleaningTask.photos.length} 张清洁图片，等待运营审核清洁质量。`;
@@ -5619,6 +5701,7 @@
           partTimer: cleaningTask.owner || "",
           title: `${cleaningTask.name}审核结果：${result}`,
           detail: result === "满意" ? "运营已审核满意，本次清洁任务已闭环。" : `运营审核不满意：${task.note || "请按示例标准重新检查清洁质量。"}`,
+          submittedAt: task.submittedAt || cleaningTask.completedAt || "",
           time: nowLabel(),
           closed: false,
         });
@@ -5643,7 +5726,14 @@
       function replaceCleaningCardWithReceipt(task) {
         var selector = '[data-cleaning-card="' + CSS.escape(task.id) + '"]';
         conversation.querySelectorAll(selector).forEach(function (card) {
-          card.classList.add("completed");
+          var uploadedPhotosHtml = (task.photos || []).length
+            ? '<div class="review-panel"><div class="review-type-row"><span>已上传图片</span><div class="review-photo-list">' +
+              (task.photos || []).map(function (photo, index) {
+                return '<button class="review-photo" data-preview-cleaning-photo="' + escapeHtml(task.id) + '" data-photo-index="' + index + '" type="button" aria-label="预览已上传图片">' + mockCleanPhoto(task, index) + '</button>';
+              }).join("") +
+              '</div></div></div>'
+            : '';
+          card.classList.add("completed", "cleaning");
           card.innerHTML =
             '<div class="task-card-head">' +
               '<div><strong>' + escapeHtml(task.name) + '</strong></div>' +
@@ -5652,10 +5742,13 @@
             '<div class="task-meta">' +
               '<div><span>任务ID</span><strong>' + escapeHtml(task.id) + '</strong></div>' +
               '<div><span>店铺名称</span><strong>' + escapeHtml(task.store) + '</strong></div>' +
+              '<div><span>创建时间</span><strong>' + escapeHtml(task.createdAt || "-") + '</strong></div>' +
+              '<div><span>处理人</span><strong>' + escapeHtml(task.owner || "-") + '</strong></div>' +
+              '<div><span>任务状态</span><strong>已提交</strong></div>' +
               '<div><span>提交时间</span><strong>' + escapeHtml(task.completedAt || nowLabel()) + '</strong></div>' +
               '<div><span>清洁说明</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
             '</div>' +
-            '<div class="task-actions"><button disabled type="button">已提交</button></div>';
+            uploadedPhotosHtml;
         });
       }
 
@@ -5677,6 +5770,7 @@
 
       function getPreviewPhotos(task, source) {
         if (source === "example") return task.examplePhotos || [];
+        if (source === "review-example") return task.examplePhotos || [];
         if (source === "feedback-example") return task.examplePhotos || [];
         if (source === "feedback") return task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"];
         return task.auditPhotos || task.photos || [];
@@ -5694,7 +5788,7 @@
         const rawIndex = Number(photoIndex);
         const index = rawIndex + 1;
         const photos = getPreviewPhotos(task, source);
-        const previewTask = source === "example" || source === "feedback-example"
+        const previewTask = source === "example" || source === "feedback-example" || source === "review-example"
           ? { ...task, photos: task.examplePhotos || [] }
           : source === "feedback"
             ? { ...task, photos: task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"] }
@@ -6438,6 +6532,12 @@
           return;
         }
 
+        const previewReviewExample = event.target.closest("[data-preview-review-example]");
+        if (previewReviewExample) {
+          openPhotoPreview(previewReviewExample.dataset.previewReviewExample, previewReviewExample.dataset.photoIndex, "review-example");
+          return;
+        }
+
         const previewFeedbackPhoto = event.target.closest("[data-preview-feedback-photo]");
         if (previewFeedbackPhoto) {
           openPhotoPreview(previewFeedbackPhoto.dataset.previewFeedbackPhoto, previewFeedbackPhoto.dataset.photoIndex, "feedback");
@@ -6510,10 +6610,18 @@
           if (!task) return;
           const note = document.querySelector(`[data-cleaning-note="${task.id}"]`);
           task.note = note ? note.value.slice(0, 100) : task.note;
-          if (!(task.photos || []).length) {
-            task.error = "请先上传包含日期时间、星期、位置的水印照片";
+          const expectedPhotoCount = (task.examplePhotos || []).length;
+          const uploadedPhotoCount = (task.photos || []).length;
+          if (!uploadedPhotoCount) {
+            task.error = `请先上传包含日期时间、位置的水印照片，需上传 ${expectedPhotoCount} 张`;
             refreshCleaningCardsInConversation(task);
             showToast("请先上传清洁照片");
+            return;
+          }
+          if (uploadedPhotoCount !== expectedPhotoCount) {
+            task.error = `上传图片数量需和示例图片一致，应上传 ${expectedPhotoCount} 张，当前已上传 ${uploadedPhotoCount} 张`;
+            refreshCleaningCardsInConversation(task);
+            showToast(`请上传 ${expectedPhotoCount} 张清洁照片`);
             return;
           }
           task.error = "";
