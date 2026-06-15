@@ -15,8 +15,10 @@
         --blue: #2563eb;
         --danger: #dc2626;
         --danger-soft: #fff1f1;
-        --warn: #b45309;
-        --warn-soft: #fff7e8;
+        --severe: #ea580c;
+        --severe-soft: #fff3e8;
+        --warn: #d99a1e;
+        --warn-soft: #fffaf0;
         --ok: #0f766e;
         --shadow: 0 18px 42px rgba(20, 33, 31, 0.12);
       }
@@ -438,8 +440,19 @@
         justify-self: start;
       }
 
+      .message.assistant.result {
+        width: 100%;
+        max-width: none;
+        justify-self: stretch;
+      }
+
       .message.user {
         justify-self: end;
+      }
+
+      .message.assistant.result > .bubble {
+        width: fit-content;
+        max-width: 92%;
       }
 
       .bubble {
@@ -704,6 +717,9 @@
       }
       .alarm-metric .metric-num.fatal {
         color: var(--danger);
+      }
+      .alarm-metric .metric-num.severe {
+        color: var(--severe);
       }
       .alarm-metric .metric-num.warn {
         color: var(--warn);
@@ -987,6 +1003,7 @@
       }
 
       .task-card {
+        position: relative;
         width: 100%;
         overflow: hidden;
         border: 1px solid #e4eeea;
@@ -994,14 +1011,128 @@
         background: #fff;
       }
 
+      .operator-push-section {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .operator-push-copy {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.55;
+        font-weight: 800;
+      }
+
+      .operator-push-copy b {
+        color: var(--ink);
+        font-weight: 950;
+      }
+
+      .operator-level-stat {
+        font-weight: 950;
+        white-space: nowrap;
+      }
+
+      .operator-level-stat.fatal {
+        color: var(--danger);
+      }
+
+      .operator-level-stat.severe {
+        color: var(--severe);
+      }
+
+      .operator-level-stat.warn {
+        color: var(--warn);
+      }
+
+      .operator-priority-note {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 7px;
+        padding: 4px 7px;
+        border-radius: 999px;
+        background: #e8f7f4;
+        color: var(--brand);
+        font-size: 11px;
+        line-height: 1.2;
+        font-weight: 900;
+      }
+
+      .operator-push-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .operator-push-title strong {
+        min-width: 0;
+      }
+
+      .operator-push-title span {
+        flex: 0 0 auto;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .operator-push-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 2px 2px;
+      }
+
+      .operator-push-head strong {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 950;
+      }
+
+      .operator-push-head span {
+        flex: 0 0 auto;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+      }
+
       .task-card.danger {
-        border-color: #ffd4d4;
-        background: var(--danger-soft);
+        border-color: #f3dfdc;
       }
 
       .task-card.warn {
-        border-color: #ffe0aa;
-        background: var(--warn-soft);
+        border-color: #f3ead2;
+      }
+
+      .task-card.severe {
+        border-color: #f7d7bd;
+      }
+
+      .task-card.danger::before,
+      .task-card.severe::before,
+      .task-card.warn::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--warn);
+      }
+
+      .task-card.danger::before {
+        background: var(--danger);
+      }
+
+      .task-card.severe::before {
+        background: var(--severe);
+      }
+
+      .task-card.is-terminal::before {
+        display: none;
       }
 
       .task-card.review {
@@ -1020,8 +1151,8 @@
       .task-card > .copy-field {
         padding: 10px 10px 0;
         display: grid;
-        grid-template-columns: 82px minmax(0, 1fr);
-        gap: 8px;
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 5px;
         color: var(--muted);
         font-size: 12px;
         line-height: 1.4;
@@ -1042,6 +1173,88 @@
         font-weight: 950;
       }
 
+      .task-subline {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        max-width: 100%;
+        margin-top: 5px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: #e8f3ef;
+        color: #263d38;
+        font-size: 13px;
+        line-height: 1.2;
+        font-weight: 900;
+        overflow-wrap: anywhere;
+      }
+
+      .task-relation {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        max-width: 100%;
+        margin-top: 4px;
+        padding: 2px 5px;
+        border: 1px solid #e4eeea;
+        border-radius: 6px;
+        background: #fbfdfc;
+        color: #6c7b77;
+        font-size: 10px;
+        line-height: 1.2;
+        font-weight: 850;
+      }
+
+      .task-group-divider {
+        display: grid;
+        grid-template-columns: minmax(18px, 1fr) auto minmax(18px, 1fr);
+        align-items: center;
+        gap: 8px;
+        margin: 14px 0 10px;
+        color: #5b6b66;
+        font-size: 12px;
+        font-weight: 900;
+        line-height: 1.35;
+      }
+
+      .task-group-divider::before,
+      .task-group-divider::after {
+        content: "";
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #cfe0dc);
+      }
+
+      .task-group-divider::after {
+        background: linear-gradient(90deg, #cfe0dc, transparent);
+      }
+
+      .task-group-divider span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        max-width: 100%;
+        padding: 7px 10px;
+        border: 1px solid #dce8e4;
+        border-radius: 999px;
+        background: #f6faf8;
+        box-shadow: 0 1px 0 rgba(15, 118, 110, 0.06);
+      }
+
+      .task-group-title {
+        margin: 10px 0 8px;
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.35;
+        font-weight: 950;
+      }
+
+      .task-group-title strong,
+      .task-group-divider strong {
+        color: var(--brand);
+        font-size: 14px;
+        font-weight: 950;
+      }
+
       .task-level {
         flex: 0 0 auto;
         padding: 5px 7px;
@@ -1056,9 +1269,42 @@
         color: var(--danger);
       }
 
+      .task-card.severe .task-level {
+        color: var(--severe);
+      }
+
+      .task-head-tags {
+        flex: 0 0 auto;
+        display: grid;
+        justify-items: end;
+        gap: 5px;
+      }
+
+      .task-status {
+        padding: 4px 8px;
+        border: 1px solid #dce8e4;
+        border-radius: 999px;
+        background: #f5f8f7;
+        color: #3f4f4b;
+        font-size: 11px;
+        font-weight: 950;
+        line-height: 1;
+      }
+
+      .task-status.done {
+        border-color: #c9eadf;
+        background: #e8f7f4;
+        color: var(--brand);
+      }
+
+      .task-status.closed {
+        border-color: #e2e8e6;
+        background: #eef3f1;
+        color: var(--muted);
+      }
+
       .task-card.completed {
         opacity: 0.72;
-        border-left: 3px solid var(--brand);
       }
       .task-card.review .task-level {
         color: var(--blue);
@@ -1087,8 +1333,8 @@
       .task-card.cleaning .copy-field,
       .task-card.audit-review .copy-field {
         display: grid;
-        grid-template-columns: 82px minmax(0, 1fr);
-        gap: 8px;
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 5px;
         color: var(--muted);
         font-size: 12px;
         line-height: 1.45;
@@ -1118,6 +1364,10 @@
       .task-card.audit-review .task-card-head .copy-field:nth-of-type(1) .task-value-with-copy strong,
       .task-card.audit-review .task-card-head .copy-field:nth-of-type(2) .task-value-with-copy strong {
         font-size: 12px;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .task-situation {
@@ -1146,8 +1396,8 @@
 
       .task-meta div {
         display: grid;
-        grid-template-columns: 82px minmax(0, 1fr);
-        gap: 8px;
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 5px;
         color: var(--muted);
         font-size: 12px;
         line-height: 1.4;
@@ -1156,7 +1406,9 @@
       .task-meta strong {
         min-width: 0;
         color: var(--ink);
-        font-weight: 780;
+        font-size: 12px;
+        line-height: 1.4;
+        font-weight: 600;
       }
 
       .completion-receipt {
@@ -1176,7 +1428,7 @@
       }
 
       .completion-receipt .task-meta div {
-        grid-template-columns: 76px minmax(0, 1fr);
+        grid-template-columns: 70px minmax(0, 1fr);
       }
 
       .task-meta .copy-field {
@@ -1186,13 +1438,17 @@
       .task-value-with-copy {
         display: flex;
         align-items: flex-start;
-        gap: 5px;
+        gap: 4px;
         min-width: 0;
       }
 
       .task-value-with-copy strong {
         flex: 0 1 auto;
-        overflow-wrap: anywhere;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 700;
       }
 
       .copy-icon {
@@ -1388,6 +1644,20 @@
         gap: 7px;
       }
 
+      .review-upload-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .review-upload-head em {
+        color: var(--muted);
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 850;
+      }
+
       .review-photo-wrap {
         position: relative;
         min-width: 0;
@@ -1447,6 +1717,15 @@
         font-weight: 850;
       }
 
+      .review-photo.empty {
+        min-height: 78px;
+        grid-column: 1 / -1;
+        border-style: solid;
+        border-color: #e1ebe7;
+        background: #f8fbfa;
+        color: #8a9995;
+      }
+
       button.review-photo {
         width: 100%;
         padding: 0;
@@ -1464,9 +1743,10 @@
         border-radius: 999px;
         background: rgba(20, 33, 31, 0.74);
         color: #fff;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 1;
-        z-index: 1;
+        z-index: 3;
+        box-shadow: 0 1px 5px rgba(20, 33, 31, 0.2);
       }
 
       .upload-actions {
@@ -1501,6 +1781,13 @@
         background:
           linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 22%),
           linear-gradient(135deg, #d8e2df 0 24%, #879894 24% 28%, #f5f8f6 28% 56%, #bccbc7 56% 61%, #eef4f1 61%);
+      }
+
+      .mock-clean-photo > img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
       }
 
       .mock-clean-photo.is-large {
@@ -1586,6 +1873,7 @@
         line-height: 1.2;
         font-weight: 800;
         text-align: left;
+        white-space: normal;
       }
 
       .mock-clean-photo.is-large .mock-clean-machine {
@@ -1651,6 +1939,16 @@
         line-height: 1;
       }
 
+      .photo-preview-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .photo-preview-nav button:disabled {
+        opacity: 0.36;
+      }
+
       .photo-preview-body {
         min-height: 420px;
         display: grid;
@@ -1682,9 +1980,14 @@
         font-weight: 900;
       }
 
-      .photo-preview-actions .danger {
-        background: #fee2e2;
-        color: var(--danger);
+      .photo-preview-actions .delete-preview {
+        width: 32px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        background: #f1f3f2;
+        color: #6c7b77;
+        font-size: 15px;
       }
 
       .feedback-card {
@@ -2536,6 +2839,21 @@
       .ops-store-list {
         display: grid;
         gap: 7px;
+        max-height: 330px;
+        overflow-y: auto;
+        padding-right: 2px;
+      }
+
+      .ops-store-search {
+        width: 100%;
+        height: 38px;
+        border: 1px solid #dce8e4;
+        border-radius: 10px;
+        padding: 0 11px;
+        background: #f8fbfa;
+        color: var(--ink);
+        font-size: 13px;
+        outline: none;
       }
 
       .ops-store-option {
@@ -2703,12 +3021,27 @@
         border: 1px solid #dce8e4;
         border-radius: 8px;
         background: #fff;
-        padding: 8px;
+        padding: 8px 8px 24px;
         color: var(--ink);
         font-size: 13px;
         line-height: 1.45;
         resize: none;
         outline: none;
+      }
+
+      .review-textarea-wrap {
+        position: relative;
+      }
+
+      .textarea-counter {
+        position: absolute;
+        right: 10px;
+        bottom: 7px;
+        color: #9aa8a4;
+        font-size: 11px;
+        font-style: normal;
+        line-height: 1;
+        pointer-events: none;
       }
 
       .review-hint {
@@ -3216,6 +3549,10 @@
         font-size: 20px;
       }
 
+      .code-input-wrap {
+        position: relative;
+      }
+
       .code-boxes {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3240,8 +3577,65 @@
 
       .code-hidden-input {
         position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         opacity: 0;
-        pointer-events: none;
+        border: 0;
+        background: transparent;
+        color: transparent;
+        caret-color: transparent;
+        z-index: 2;
+      }
+
+      .mock-keyboard {
+        display: none;
+        margin: 2px -22px -28px;
+        border-top: 1px solid #dce3e1;
+        background: #eef2f5;
+      }
+
+      .mock-keyboard.is-open {
+        display: block;
+      }
+
+      .mock-sms-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        height: 48px;
+        border: 0;
+        border-bottom: 1px solid #dce3e1;
+        background: #fff;
+        color: var(--ink);
+        font-size: 18px;
+        width: 100%;
+      }
+
+      .mock-sms-bar strong {
+        font-weight: 500;
+      }
+
+      .mock-key-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 8px;
+      }
+
+      .mock-key-grid button {
+        min-height: 48px;
+        border: 0;
+        border-radius: 6px;
+        background: #fff;
+        color: #111b1a;
+        font-size: 24px;
+      }
+
+      .mock-key-grid button.muted {
+        background: #cbd2da;
+        font-size: 16px;
       }
 
       .resend-code {
@@ -3299,6 +3693,10 @@
       }
       .inspection-summary .warn-count {
         color: var(--warn);
+        font-weight: 900;
+      }
+      .inspection-summary .severe-count {
+        color: var(--severe);
         font-weight: 900;
       }
       .unsat-notes {
@@ -3490,15 +3888,34 @@
             </div>
             <button class="auth-close" data-close-code-sheet type="button">×</button>
           </div>
-          <input class="code-hidden-input" id="codeLoginInput" inputmode="numeric" maxlength="4" />
-          <div class="code-boxes" data-focus-code>
-            <span class="active"></span>
-            <span></span>
-            <span></span>
-            <span></span>
+          <div class="code-input-wrap" data-focus-code>
+            <input class="code-hidden-input" id="codeLoginInput" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="4" />
+            <div class="code-boxes">
+              <span class="active"></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
           <button class="resend-code" id="resendCodeBtn" data-resend-code type="button" disabled>重发验证码（58s）</button>
           <button class="auth-primary" id="codeLoginBtn" data-code-login type="button" disabled>登录</button>
+          <div class="mock-keyboard" id="mockKeyboard" aria-hidden="true">
+            <button class="mock-sms-bar" data-fill-sms-code type="button">来自“信息”：<strong>2468</strong></button>
+            <div class="mock-key-grid">
+              <button data-key-digit="1" type="button">1</button>
+              <button data-key-digit="2" type="button">2</button>
+              <button data-key-digit="3" type="button">3</button>
+              <button data-key-digit="4" type="button">4</button>
+              <button data-key-digit="5" type="button">5</button>
+              <button data-key-digit="6" type="button">6</button>
+              <button data-key-digit="7" type="button">7</button>
+              <button data-key-digit="8" type="button">8</button>
+              <button data-key-digit="9" type="button">9</button>
+              <button class="muted" type="button" disabled></button>
+              <button data-key-digit="0" type="button">0</button>
+              <button class="muted" data-key-backspace type="button">退格</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -3546,7 +3963,7 @@
           reason: "可能影响商品稳定供应。",
           situation: "系统检测到机器内物料临期，兼职或门店侧尚未提交有效处理结果，建议运营继续跟进现场确认。",
           progress: "排查中",
-          note: "已查看物料效期，等待现场确认机器余量。",
+          note: "",
           logs: [{ time: "2026-05-28 17:02:11", text: "开始处理：确认机器内物料临期情况" }],
         },
         {
@@ -3554,7 +3971,7 @@
           type: "alarm",
           name: "订单长时间未制作",
           store: "科技园 A 座店",
-          level: "预警",
+          level: "严重报警",
           status: "待处理",
           object: "订单 A1029",
           detail: "订单支付后长时间未制作，需要确认设备、商品和订单履约状态。",
@@ -3577,7 +3994,7 @@
           type: "alarm",
           name: "商品状态长时间下线",
           store: "科技园 A 座店",
-          level: "预警",
+          level: "严重报警",
           status: "暂缓中",
           object: "商品状态",
           detail: "生椰拿铁、厚乳生椰奶长时间下线，需要确认是否误下线或物料不足导致不可售。",
@@ -3590,7 +4007,7 @@
           reason: "影响商品可售和用户下单。",
           situation: "系统检测到商品长时间下线，建议运营确认商品可售状态和物料约束。",
           progress: "排查中",
-          note: "已确认物料补货在途，预计 19:30 到店，暂缓到货后复核商品上架状态。",
+          note: "",
           logs: [{ time: "2026-05-28 17:18:40", text: "暂缓：等待物料到店后复核商品上架" }],
         },
         {
@@ -3615,6 +4032,52 @@
           logs: [],
         },
         {
+          id: "ALM-20260528-006",
+          type: "alarm",
+          name: "实时巡检-咖啡机离线",
+          store: "科技园 A 座店",
+          level: "致命报警",
+          status: "待处理",
+          object: "咖啡机",
+          detail: "实时巡检检测到咖啡机连续 3 分钟未上报状态，当前可能无法制作饮品。",
+          interval: "实时/次",
+          alarmCount: 2,
+          latestAlarmAt: "2026-05-28 18:36:12",
+          trigger: "实时巡检",
+          source: "实时巡检",
+          inspectionItem: "咖啡机状态",
+          owner: "李晴",
+          createdAt: "2026-05-28 18:33:12",
+          reason: "设备离线会直接影响订单履约和商品可售。",
+          situation: "实时巡检发现咖啡机状态异常，建议优先确认设备在线状态、网络连接和远程重启结果。",
+          progress: "排查中",
+          note: "",
+          logs: [],
+        },
+        {
+          id: "ALM-20260528-007",
+          type: "alarm",
+          name: "实时巡检-门锁状态异常",
+          store: "鼎好 DH3-A座",
+          level: "预警",
+          status: "处理中",
+          object: "门锁",
+          detail: "实时巡检检测到右侧门锁状态连续异常，需要确认门店安全和营业状态。",
+          interval: "实时/次",
+          alarmCount: 1,
+          latestAlarmAt: "2026-05-28 18:40:28",
+          trigger: "实时巡检",
+          source: "实时巡检",
+          inspectionItem: "店铺状态",
+          owner: "李晴",
+          createdAt: "2026-05-28 18:37:28",
+          reason: "门锁异常可能影响门店安全和营业状态判断。",
+          situation: "实时巡检发现门锁状态异常，建议运营确认现场门锁状态，并核对营业配置。",
+          progress: "排查中",
+          note: "",
+          logs: [{ time: "2026-05-28 18:39:02", text: "开始处理：确认门锁状态" }],
+        },
+        {
           id: "REV-20260528-001",
           type: "review",
           name: "咖啡机清洁（洗机、咖啡槽）",
@@ -3622,21 +4085,21 @@
           level: "审核任务",
           status: "待处理",
           object: "今日必完成任务",
-          detail: "兼职已提交吧台、出杯口、取餐柜清洁图片，请运营确认图片是否完整、清洁结果是否达标。",
+          detail: "兼职已提交咖啡机洗机界面、咖啡槽与隔板清洗后图片，请运营确认图片是否完整、清洁结果是否达标。",
           owner: "李晴",
           createdAt: "2026-05-28 18:05:36",
           submitter: "兼职-王可",
           submittedAt: "2026-05-28 18:02:18",
           submitType: "清洁图片上传",
           reviewStatus: "待审核",
-          materialCount: "3张图片",
+          materialCount: "2张图片",
           auditResult: "",
-          auditPhotos: ["吧台清洁", "出杯口清洁", "取餐柜清洁"],
+          auditPhotos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
           reviewFlow: [
-            { type: "清洁", actor: "兼职-王可", time: "2026-05-28 18:02:18", status: "已提交", content: "已上传吧台、出杯口、取餐柜清洁图片。" },
+            { type: "清洁", actor: "兼职-王可", time: "2026-05-28 18:02:18", status: "已提交", content: "已上传咖啡机洗机界面、咖啡槽与隔板清洗后图片。" },
             { type: "审核", actor: "李晴", time: "待处理", status: "待审核", content: "等待运营确认清洁质量是否达标。" },
           ],
-          situation: "兼职已完成今日清洁固定任务并提交 3 张图片，系统已为运营生成审核任务，需要确认清洁标准是否达标。",
+          situation: "兼职已完成今日清洁固定任务并提交 2 张图片，系统已为运营生成审核任务，需要确认清洁标准是否达标。",
           reason: "今日固定任务需要运营复核后闭环。",
           progress: "排查中",
           note: "",
@@ -3650,22 +4113,22 @@
           level: "审核任务",
           status: "待处理",
           object: "今日必完成任务",
-          detail: "兼职已提交巡店检查结果，包含门头、设备外观、物料摆放和营业准备情况，请运营审核是否通过。",
+          detail: "兼职已提交液体墙、糖浆机和制冰机出口及槽位清洁图片，请运营确认图片是否完整、清洁结果是否达标。",
           owner: "李晴",
           createdAt: "2026-05-28 18:11:42",
           submitter: "兼职-赵琳",
           submittedAt: "2026-05-28 18:09:05",
-          submitType: "巡店审核",
+          submitType: "清洁图片上传",
           reviewStatus: "待审核",
-          materialCount: "4项检查",
+          materialCount: "2张图片",
           auditResult: "",
-          auditPhotos: ["门头检查", "设备外观", "物料摆放", "营业准备"],
+          auditPhotos: ["出口与槽位无残留", "制冰机槽位清洁后图片"],
           reviewFlow: [
-            { type: "巡店", actor: "兼职-赵琳", time: "2026-05-28 18:09:05", status: "已提交", content: "已提交门头、设备外观、物料摆放和营业准备检查结果。" },
-            { type: "审核", actor: "李晴", time: "待处理", status: "待审核", content: "等待运营确认巡店检查结果是否真实有效。" },
+            { type: "清洁", actor: "兼职-赵琳", time: "2026-05-28 18:09:05", status: "已提交", content: "已上传出口与槽位无残留、制冰机槽位清洁后图片。" },
+            { type: "审核", actor: "李晴", time: "待处理", status: "待审核", content: "等待运营确认清洁质量是否达标。" },
           ],
-          situation: "兼职已完成今日巡店检查，系统识别为待运营复核事项，需要运营确认检查项是否真实有效。",
-          reason: "巡店结果需要运营审核确认。",
+          situation: "兼职已完成今日清洁固定任务并提交 2 张图片，系统已为运营生成审核任务，需要确认清洁标准是否达标。",
+          reason: "今日固定任务需要运营复核后闭环。",
           progress: "排查中",
           note: "",
           logs: [],
@@ -3700,7 +4163,7 @@
           type: "alarm",
           name: "定时巡检-制冰机供水不足",
           store: "望京 SOHO 店",
-          level: "预警",
+          level: "严重报警",
           status: "处理中",
           object: "制冰机",
           detail: "制冰机水量低于正常水平，当前制冰速度下降，可能影响高峰期用冰。",
@@ -3715,7 +4178,7 @@
           reason: "制冰不足会连锁影响多款饮品供应。",
           situation: "供水不足可能是管路堵塞或水压过低导致，建议先远程确认设备进水状态，必要时安排补水或检修。",
           progress: "排查中",
-          note: "已联系门店确认水路情况。",
+          note: "",
           logs: [{ time: "2026-05-28 17:55:00", text: "开始处理：确认制冰机供水管路" }],
         },
         {
@@ -3745,10 +4208,10 @@
         { id: "ALM-DONE-002", type: "alarm", name: "闭店通知", store: "鼎好 DH3-A座", level: "致命报警", status: "已完成", object: "店铺状态", detail: "门店闭店超过 30 分钟，经确认为设备维护关店。", interval: "30min/次", alarmCount: 1, latestAlarmAt: "2026-05-30 18:00:00", trigger: "系统", owner: "李晴", createdAt: "2026-05-30 17:20:00", reason: "影响营业。", situation: "确认设备维护后关闭。", progress: "已解决", note: "已确认为计划内维护。", handledAt: "2026-05-30 17:50:00", logs: [{ time: "2026-05-30 17:50:00", text: "已完成：确认为计划维护" }] },
         { id: "ALM-DONE-003", type: "alarm", name: "订单长时间未制作", store: "科技园 A 座店", level: "预警", status: "已完成", object: "订单 B2078", detail: "订单支付后长时间未制作，确认为设备暂停。", interval: "8min/次", alarmCount: 2, latestAlarmAt: "2026-06-02 14:20:00", trigger: "系统", owner: "李晴", createdAt: "2026-06-02 13:50:00", reason: "用户等待时间较长。", situation: "重启设备后恢复制作。", progress: "已解决", note: "已远程重启设备，恢复正常。", handledAt: "2026-06-02 14:10:00", logs: [{ time: "2026-06-02 14:10:00", text: "已完成：重启设备恢复" }] },
         { id: "ALM-DONE-004", type: "alarm", name: "订单长时间未制作", store: "科技园 A 座店", level: "预警", status: "已完成", object: "订单 A3041", detail: "订单支付后未制作，确认为物料不足暂停。", interval: "8min/次", alarmCount: 1, latestAlarmAt: "2026-05-28 11:30:00", trigger: "系统", owner: "李晴", createdAt: "2026-05-28 10:55:00", reason: "物料不足导致暂停。", situation: "补充物料后恢复。", progress: "已解决", note: "兼职已换料，恢复制作。", handledAt: "2026-05-28 11:50:00", logs: [{ time: "2026-05-28 11:50:00", text: "已完成：换料恢复" }] },
-        { id: "ALM-DONE-005", type: "alarm", name: "商品长时间下线", store: "科技园 A 座店", level: "预警", status: "已完成", object: "商品状态", detail: "生椰拿铁长时间下线，确认为物料短缺。", interval: "30min/次", alarmCount: 1, latestAlarmAt: "2026-06-02 09:15:00", trigger: "系统", owner: "李晴", createdAt: "2026-06-02 08:40:00", reason: "影响商品可售。", situation: "物料到位后重新上架。", progress: "无需解决", note: "已在补货后自动恢复。", handledAt: "2026-06-02 10:10:00", logs: [{ time: "2026-06-02 10:10:00", text: "已完成：补货后自动恢复" }] },
+        { id: "ALM-DONE-005", type: "alarm", name: "商品长时间下线", store: "科技园 A 座店", level: "严重报警", status: "已完成", object: "商品状态", detail: "生椰拿铁长时间下线，确认为物料短缺。", interval: "30min/次", alarmCount: 1, latestAlarmAt: "2026-06-02 09:15:00", trigger: "系统", owner: "李晴", createdAt: "2026-06-02 08:40:00", reason: "影响商品可售。", situation: "物料到位后重新上架。", progress: "无需解决", note: "已在补货后自动恢复。", handledAt: "2026-06-02 10:10:00", logs: [{ time: "2026-06-02 10:10:00", text: "已完成：补货后自动恢复" }] },
         { id: "ALM-DONE-006", type: "alarm", name: "咖啡机出水温度偏高", store: "望京 SOHO 店", level: "预警", status: "已完成", object: "咖啡机", detail: "萃取水温持续高于标准，确认为温控偏移。", interval: "10min/次", alarmCount: 1, latestAlarmAt: "2026-05-29 16:00:00", trigger: "系统", owner: "李晴", createdAt: "2026-05-29 15:30:00", reason: "影响出品品质。", situation: "远程校准温控后恢复。", progress: "已解决", note: "已远程校准温控参数。", handledAt: "2026-05-29 16:10:00", logs: [{ time: "2026-05-29 16:10:00", text: "已完成：温控校准" }] },
         { id: "ALM-DONE-007", type: "alarm", name: "机器内物料临期报警", store: "大学城南门店", level: "预警", status: "已完成", object: "机器内物料", detail: "糖浆机内物料临期，已更换。", interval: "30min/次", alarmCount: 2, latestAlarmAt: "2026-06-01 10:00:00", trigger: "系统", owner: "周岩", createdAt: "2026-06-01 09:20:00", reason: "影响商品供应。", situation: "现场更换物料后恢复。", progress: "已解决", note: "店长已更换焦糖糖浆。", handledAt: "2026-06-01 10:30:00", logs: [{ time: "2026-06-01 10:30:00", text: "已完成：换料完成" }] },
-        { id: "ALM-DONE-008", type: "alarm", name: "制冰机不在线", store: "写字楼 B1 店", level: "重要", status: "已完成", object: "制冰机", detail: "制冰机离线 180 分钟，经确认网络模块故障。", interval: "30min/次", alarmCount: 1, latestAlarmAt: "2026-05-27 14:00:00", trigger: "系统", owner: "李晴", createdAt: "2026-05-27 11:00:00", reason: "制冰能力受影响。", situation: "维修后恢复在线。", progress: "已解决", note: "已更换网络模块，恢复在线。", handledAt: "2026-05-27 14:30:00", logs: [{ time: "2026-05-27 14:30:00", text: "已完成：更换网络模块" }] },
+        { id: "ALM-DONE-008", type: "alarm", name: "制冰机不在线", store: "写字楼 B1 店", level: "严重报警", status: "已完成", object: "制冰机", detail: "制冰机离线 180 分钟，经确认网络模块故障。", interval: "30min/次", alarmCount: 1, latestAlarmAt: "2026-05-27 14:00:00", trigger: "系统", owner: "李晴", createdAt: "2026-05-27 11:00:00", reason: "制冰能力受影响。", situation: "维修后恢复在线。", progress: "已解决", note: "已更换网络模块，恢复在线。", handledAt: "2026-05-27 14:30:00", logs: [{ time: "2026-05-27 14:30:00", text: "已完成：更换网络模块" }] },
       ];
 
       const cleaningTasks = [
@@ -3814,13 +4277,13 @@
         },
         {
           id: "ALM-20260530-001", type: "alarm", name: "物料耗尽换料", store: "大学城南门店",
-          level: "重要", status: "已完成", object: "果糖机3 焦糖糖浆", detail: "焦糖糖浆余量不足，已安排补料。",
+          level: "严重报警", status: "已完成", object: "果糖机3 焦糖糖浆", detail: "焦糖糖浆余量不足，已安排补料。",
           handledAt: "2026-05-30 14:20:00", progress: "已解决", note: "店长已更换焦糖糖浆，机器余量恢复正常。",
           trigger: "系统", interval: "30min/次", alarmCount: 3, owner: "李晴", logs: [{ time: "2026-05-30 14:20:00", text: "已完成：换料完成，余量恢复" }],
         },
         {
           id: "ALM-20260520-001", type: "alarm", name: "制冰机不在线", store: "大学城南门店",
-          level: "重要", status: "已完成", object: "制冰机", detail: "制冰机已 420 分钟没有上报状态，需现场检修。",
+          level: "严重报警", status: "已完成", object: "制冰机", detail: "制冰机已 420 分钟没有上报状态，需现场检修。",
           handledAt: "2026-05-20 10:15:00", progress: "已解决", note: "维修师傅已现场修复制冰机网络模块，恢复正常。",
           trigger: "系统", interval: "30min/次", alarmCount: 5, owner: "李晴", logs: [{ time: "2026-05-20 10:15:00", text: "已完成：制冰机恢复在线" }],
         },
@@ -3871,6 +4334,10 @@
         { name: "望京 SOHO 店", id: "S006", storeType: "太空舱", business: "营业中", equipment: "在线", material: "充足", product: "正常", order: "正常", cleaning: "已完成", pending: 0, alarms: 0, operator: "周岩", partTimer: "陈悦", tenant: "源点咖啡", todayOrders: 72, summary: "清洁提交质量稳定，近期无不满意审核。" },
       ];
 
+      const assistantStoreOwners = {
+        "李晴": ["大学城南门店", "望京 SOHO 店"],
+      };
+
       const roles = ["门店运营", "租户", "平台管理者", "兼职"];
       const managerPeople = [
         { name: "李晴", role: "运营", total: 18, done: 14, doing: 2, pending: 2, overdue: 1, closed: 13, avgMinutes: 18, alarmTotal: 12, alarmDone: 9, reviewTotal: 6, reviewDone: 5 },
@@ -3881,6 +4348,7 @@
       ];
       const managerAlarmLevels = [
         { level: "致命报警", total: 7, done: 5, doing: 1, pending: 1, tone: "danger" },
+        { level: "严重报警", total: 6, done: 4, doing: 1, pending: 1, tone: "warn" },
         { level: "预警", total: 13, done: 9, doing: 3, pending: 1, tone: "warn" },
         { level: "通知", total: 5, done: 5, doing: 0, pending: 0, tone: "" },
       ];
@@ -3902,6 +4370,7 @@
       let activePage = "workbench";
       let inspectionEditingId = "";
       let selectedOpsStoreId = "";
+      let opsStoreSearch = "";
       let reviewTasksNotified = false;
       let feedbackNotified = true;
       let isLoggedIn = false;
@@ -3946,6 +4415,7 @@
       const codePhoneText = document.getElementById("codePhoneText");
       const privacyText = document.getElementById("privacyText");
       const resendCodeBtn = document.getElementById("resendCodeBtn");
+      const mockKeyboard = document.getElementById("mockKeyboard");
 
       function isDoneStatus(status) {
         return ["已完成", "已关闭"].includes(status);
@@ -3963,12 +4433,96 @@
         return visibleTasksForRole().filter((task) => !isDoneStatus(task.status) && task.status !== "暂缓中");
       }
 
+      function alarmTasksForRole() {
+        return visibleTasksForRole().filter((task) => task.type === "alarm");
+      }
+
+      function activeAlarmTasksForRole() {
+        return alarmTasksForRole().filter((task) => !isDoneStatus(task.status) && task.status !== "暂缓中");
+      }
+
+      function taskRelation(task) {
+        const currentOperator = "李晴";
+        const store = storeStatusList.find((item) => item.name === task.store);
+        if (store?.operator === currentOperator) return "primary";
+        if ((assistantStoreOwners[currentOperator] || []).includes(task.store)) return "assist";
+        return "none";
+      }
+
+      function tasksForOperatorScope(list) {
+        return list.filter((task) => taskRelation(task) !== "none");
+      }
+
+      function groupedTaskListHTML(list, labels) {
+        const scoped = tasksForOperatorScope(list);
+        const primary = scoped.filter((task) => taskRelation(task) === "primary");
+        const assist = scoped.filter((task) => taskRelation(task) === "assist");
+        var html = "";
+        if (primary.length) {
+          html += `<div class="task-group-title">${escapeHtml(labels.primary)}：<strong>${primary.length} 条</strong></div>${primary.map(taskCard).join("")}`;
+        }
+        if (assist.length) {
+          html += `<div class="task-group-divider"><span>${escapeHtml(labels.assist)}：<strong>${assist.length} 条</strong></span></div>${assist.map((task) => taskCard(task, { relation: "assist" })).join("")}`;
+        }
+        return html;
+      }
+
+      function sortAlarmTasks(list) {
+        const levelWeight = { "致命报警": 0, "严重报警": 1, "预警": 2 };
+        return [...list].sort((a, b) => {
+          const levelDiff = (levelWeight[a.level] ?? 9) - (levelWeight[b.level] ?? 9);
+          if (levelDiff) return levelDiff;
+          return String(b.createdAt || "").localeCompare(String(a.createdAt || ""));
+        });
+      }
+
+      function sortReviewTasks(list) {
+        return [...list].sort((a, b) => String(a.submittedAt || a.createdAt || "").localeCompare(String(b.submittedAt || b.createdAt || "")));
+      }
+
+      function operatorHomePushHTML() {
+        const active = activeTasksForRole().filter((task) => task.status === "待处理");
+        const alarmTasks = sortAlarmTasks(active.filter((task) => task.type === "alarm"));
+        const reviewTasks = sortReviewTasks(active.filter((task) => task.type === "review"));
+        const visibleAlarms = tasksForOperatorScope(alarmTasks);
+        const visibleReviews = tasksForOperatorScope(reviewTasks);
+        if (!visibleAlarms.length && !visibleReviews.length) {
+          return `<div class="bubble"><strong>当前暂无主动推送任务</strong><br />你可以通过上方快捷入口发起查询，或在底部输入具体诉求。</div>`;
+        }
+        const countByRelation = (list, relation) => list.filter((task) => taskRelation(task) === relation).length;
+        const countLevel = (list, level) => list.filter((task) => task.level === level).length;
+        const primaryAlarms = visibleAlarms.filter((task) => taskRelation(task) === "primary");
+        const assistAlarms = visibleAlarms.filter((task) => taskRelation(task) === "assist");
+        const primaryReviews = countByRelation(visibleReviews, "primary");
+        const assistReviews = countByRelation(visibleReviews, "assist");
+        const levelText = (list) => `<span class="operator-level-stat fatal">致命 ${countLevel(list, "致命报警")}</span> / <span class="operator-level-stat severe">严重 ${countLevel(list, "严重报警")}</span> / <span class="operator-level-stat warn">预警 ${countLevel(list, "预警")}</span>`;
+        const updatedAt = nowLabel().slice(11, 16);
+        let html = `<div class="bubble">
+          <div class="operator-push-title"><strong>当前实时待处理任务</strong><span>实时更新至 ${updatedAt}</span></div>
+          <div class="operator-priority-note">处理顺序已按优先级排序</div>
+          <div class="operator-push-copy">
+            当前共有 <b>${visibleAlarms.length + visibleReviews.length} 条</b> 待处理任务：报警任务 <b>${visibleAlarms.length} 条</b>，其中我主责 <b>${primaryAlarms.length} 条</b>（${levelText(primaryAlarms)}），可协助处理 <b>${assistAlarms.length} 条</b>（${levelText(assistAlarms)}）；审核任务 <b>${visibleReviews.length} 条</b>，其中我主责 <b>${primaryReviews} 条</b>，可协助审核 <b>${assistReviews} 条</b>。
+          </div>
+        </div>`;
+        if (visibleAlarms.length) {
+          html += `<section class="operator-push-section">
+            ${groupedTaskListHTML(alarmTasks, { primary: "我主责的报警任务", assist: "以下为我可协助处理的报警任务" })}
+          </section>`;
+        }
+        if (visibleReviews.length) {
+          html += `<section class="operator-push-section">
+            ${groupedTaskListHTML(reviewTasks, { primary: "我主责的审核任务", assist: "以下为我可协助审核的任务" })}
+          </section>`;
+        }
+        return html;
+      }
+
       function isTaskOverdue(task) {
         if (!task || isDoneStatus(task.status) || task.type !== "alarm") return false;
         if (task.overdue) return true;
         const created = new Date(task.createdAt);
         if (Number.isNaN(created.getTime())) return false;
-        const limit = task.level === "致命报警" ? 30 * 60 * 1000 : 120 * 60 * 1000;
+        const limit = task.level === "致命报警" ? 30 * 60 * 1000 : task.level === "严重报警" ? 60 * 60 * 1000 : 120 * 60 * 1000;
         return Date.now() - created.getTime() > limit;
       }
 
@@ -4085,8 +4639,28 @@
         return /定时巡检|系统巡检|后台巡检|巡检任务|巡检生成/.test(query) && !isInspectionConfigQuery(query);
       }
 
+      function isRealtimeInspectionQuery(query) {
+        return /实时巡检|实时报警|实时检测/.test(query) && !isInspectionConfigQuery(query);
+      }
+
       function isSmartInspectionQuery(query) {
         return /智能巡检|一键巡检|执行巡检|智能巡店/.test(query) && !isInspectionConfigQuery(query);
+      }
+
+      function alarmTaskType(task) {
+        const text = `${task.name || ""} ${task.object || ""} ${task.detail || ""} ${task.inspectionItem || ""}`;
+        if (/物料|库存|糖浆|余量|临期|过期/.test(text)) return "物料库存";
+        if (/店铺状态|闭店|营业|开闭店/.test(text)) return "店铺状态";
+        if (/商品|上架|下架|售罄|可售/.test(text)) return "商品状态";
+        if (/订单|履约|制作|取餐|出杯/.test(text)) return "订单履约";
+        if (/门锁|电源|运维门|顶部电源|基础设施/.test(text)) return "基础设施";
+        return "硬件组件";
+      }
+
+      function alarmLevelRank(level) {
+        if (level === "致命报警") return 0;
+        if (level === "严重报警") return 1;
+        return 2;
       }
 
       function maskPhone(value) {
@@ -4147,6 +4721,7 @@
       function resetToAssistantHome() {
         activePage = "workbench";
         selectedOpsStoreId = "";
+        opsStoreSearch = "";
         inspectionView = "overview";
         inspectionEditingId = "";
         inspectionDetailConfigId = "";
@@ -4166,6 +4741,7 @@
           logoutMask.hidden = true;
           phoneLoginSheet.hidden = true;
           codeLoginSheet.hidden = true;
+          if (mockKeyboard) mockKeyboard.classList.remove("is-open");
           if (resendTimer) clearInterval(resendTimer);
         } else {
           setDrawerOpen(false);
@@ -4182,6 +4758,7 @@
       function openCodeLoginSheet(phone) {
         phoneLoginSheet.hidden = true;
         codeLoginSheet.hidden = false;
+        if (mockKeyboard) mockKeyboard.classList.remove("is-open");
         codePhoneText.textContent = `验证码已发送至 ${maskPhone(phone)}`;
         codeLoginInput.value = "";
         codeLoginBtn.disabled = true;
@@ -4226,10 +4803,11 @@
       }
 
       function renderDrawerTools() {
-        const isOperator = roles[roleIndex] === "门店运营";
-        if (drawerToolSection) drawerToolSection.hidden = !isOperator;
-        const tools = isOperator
-          ? [`<button class="drawer-tool" type="button" data-open-ops-center><span><strong>操作中心</strong><span>门店运维、商品、订单、物料等操作入口</span></span><em>›</em></button>`]
+        const canUseOpsCenter = ["门店运营", "兼职"].includes(roles[roleIndex]);
+        if (drawerToolSection) drawerToolSection.hidden = !canUseOpsCenter;
+        const toolDesc = roles[roleIndex] === "兼职" ? "门店现场、设备检查、物料查看等操作入口" : "门店运维、商品、订单、物料等操作入口";
+        const tools = canUseOpsCenter
+          ? [`<button class="drawer-tool" type="button" data-open-ops-center><span><strong>操作中心</strong><span>${toolDesc}</span></span><em>›</em></button>`]
           : [];
         if (drawerTools) drawerTools.innerHTML = tools.join("");
       }
@@ -4280,12 +4858,15 @@
             : `当前覆盖 1 位运营，${todoCount} 个待处理，${doingCount} 个处理中，${doneCount} 个已完成。`;
       }
 
-      function taskCard(task) {
-        const cls = task.type === "review" ? "review" : task.level === "致命报警" ? "danger" : "warn";
+      function taskCard(task, options = {}) {
+        const cls = task.type === "review" ? "review" : task.level === "致命报警" ? "danger" : task.level === "严重报警" ? "severe" : "warn";
         const canHandle = roles[roleIndex] === "门店运营";
         const active = task.status === "处理中";
         const suspended = task.status === "暂缓中";
         const terminal = ["已完成", "已关闭"].includes(task.status);
+        const alarmLevelLabel = task.type === "alarm" ? `${task.level}×${task.alarmCount || 1}` : task.level;
+        const statusClass = task.status === "已完成" ? "done" : task.status === "已关闭" ? "closed" : "open";
+        const taskTypeLabel = task.type === "alarm" ? `${alarmTaskType(task)} · ${task.object || "-"}` : "";
         const copyIcon = (value, label) => `
           <button class="copy-icon" data-copy-text="${escapeHtml(value)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -4305,10 +4886,8 @@
         const detailRows =
           `
               ${fieldRow("报警触发人", task.trigger || "系统")}
-              ${task.source ? fieldRow("任务来源", task.source) : ""}
               ${task.inspectionItem ? fieldRow("巡检项", task.inspectionItem) : ""}
               ${fieldRow("最新报警时间", task.latestAlarmAt)}
-              ${fieldRow("报警对象", task.object)}
               ${fieldRow("报警详情", task.detail)}
             `;
         const logs = (task.logs || []).length
@@ -4317,7 +4896,10 @@
         const process = active
           ? `<div class="task-process">
               <label>跟进备注
-                <textarea data-note="${task.id}" maxlength="100" placeholder="请输入跟进备注，100字以内">${escapeHtml(task.note || "")}</textarea>
+                <div class="review-textarea-wrap">
+                  <textarea data-note="${task.id}" maxlength="100" placeholder="请输入跟进备注，100字以内">${escapeHtml(task.note || "")}</textarea>
+                  <em class="textarea-counter" data-note-counter="${task.id}">${(task.note || "").length}/100</em>
+                </div>
               </label>
             </div>`
           : "";
@@ -4337,12 +4919,17 @@
                   <button class="primary single" data-start="${task.id}" type="button" ${canHandle ? "" : "disabled"}>${task.type === "review" ? "开始审核" : "开始处理"}</button>
                 </div>`;
         return `
-          <article class="task-card ${cls}" data-task-card="${escapeHtml(task.id)}">
+          <article class="task-card ${cls} ${terminal ? "is-terminal" : ""}" data-task-card="${escapeHtml(task.id)}">
             <div class="task-card-head">
               <div>
                 <strong>${escapeHtml(task.name)}</strong>
+                ${taskTypeLabel ? `<span class="task-subline">${escapeHtml(taskTypeLabel)}</span>` : ""}
+                ${options.relation === "assist" ? `<span class="task-relation">${task.type === "review" ? "可协助审核" : "可协助处理"}</span>` : ""}
               </div>
-              <em class="task-level">${escapeHtml(task.level)}</em>
+              <div class="task-head-tags">
+                <em class="task-level">${escapeHtml(alarmLevelLabel)}</em>
+                <em class="task-status ${statusClass}">${escapeHtml(task.status)}</em>
+              </div>
             </div>
             <div class="task-meta">
               ${copyRow("任务ID", task.id)}
@@ -4362,6 +4949,7 @@
         const active = task.status === "处理中";
         const terminal = isDoneStatus(task.status);
         const photos = task.photos || [];
+        const expectedPhotoCount = (task.examplePhotos || []).length;
         const statusLabel = terminal ? "已提交" : active ? "处理中" : "待处理";
         const copyIcon = (value, label) => `
           <button class="copy-icon" data-copy-text="${escapeHtml(value)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
@@ -4390,12 +4978,15 @@
                 <label>拍照上传<input data-cleaning-upload="${task.id}" type="file" accept="image/*" capture="environment" /></label>
               </div>
               <div class="review-type-row">
-                <span>清洁图片</span>
+                <div class="review-upload-head">
+                  <span>已上传图片</span>
+                  <em>${photos.length}/${expectedPhotoCount || photos.length} 张</em>
+                </div>
                 <div class="review-photo-list">
                   ${
                     photos.length
                       ? photos.map((photo, index) => `<div class="review-photo-wrap"><button class="review-photo" data-preview-cleaning-photo="${task.id}" data-photo-index="${index}" type="button" aria-label="预览清洁图片">${mockCleanPhoto(task, index)}</button><button class="delete-photo" data-delete-cleaning-photo="${task.id}" data-photo-index="${index}" type="button" aria-label="删除清洁图片">×</button></div>`).join("")
-                      : `<div class="review-photo">待上传</div>`
+                      : `<div class="review-photo empty">暂无已上传图片</div>`
                   }
                 </div>
               </div>
@@ -4477,7 +5068,10 @@
               </div>
               <label class="review-opinion">
                 <span>审核意见</span>
-                <textarea data-note="${task.id}" maxlength="100" placeholder="请输入清洁质量审核意见，通知后兼职可看到。">${escapeHtml(task.note || "")}</textarea>
+                <div class="review-textarea-wrap">
+                  <textarea data-note="${task.id}" maxlength="100" placeholder="请输入清洁质量审核意见，通知后兼职可看到。">${escapeHtml(task.note || "")}</textarea>
+                  <em class="textarea-counter" data-note-counter="${task.id}">${(task.note || "").length}/100</em>
+                </div>
               </label>
               <div class="review-hint">点击完成审核后会提交审核结果，并通过消息通知兼职人员。</div>
             </div>`
@@ -4514,18 +5108,23 @@
 
       function mockCleanPhoto(task, index, large = false) {
         const shotTime = task.submittedAt || task.completedAt || "2026-05-28 18:02:18";
-        const label = large ? `${task.store}  ${shotTime}` : shotTime.slice(11, 16);
+        const location = task.store || "门店现场";
         const photo = task.auditPhotos?.[index] || task.photos?.[index] || "清洁照片";
         const title = typeof photo === "string" ? photo : photo.name || "清洁照片";
+        const watermark = large ? `${title} · ${shotTime} · ${location}` : `${shotTime.slice(5, 16)} · ${location}`;
         if (photo && typeof photo === "object" && photo.url) {
-          return `<img class="mock-clean-photo ${large ? "is-large" : ""}" src="${photo.url}" alt="${escapeHtml(title)}" />`;
+          return `
+            <div class="mock-clean-photo ${large ? "is-large" : ""}" role="img" aria-label="上传水印照片">
+              <img src="${photo.url}" alt="${escapeHtml(title)}" />
+              <b class="mock-clean-watermark">${escapeHtml(watermark)}</b>
+            </div>`;
         }
         return `
           <div class="mock-clean-photo ${large ? "is-large" : ""}" role="img" aria-label="审核图片">
             <i class="mock-clean-machine"></i>
             <i class="mock-clean-counter"></i>
             <i class="mock-clean-shine"></i>
-            <b class="mock-clean-watermark">${escapeHtml(large ? `${title} · ${label}` : label)}</b>
+            <b class="mock-clean-watermark">${escapeHtml(watermark)}</b>
           </div>`;
       }
 
@@ -4821,9 +5420,17 @@
       }
 
       function opsCenterPage() {
-        const operatorStoresForOps = storeStatusList.filter((item) => item.operator === "李晴");
+        const isPartTime = roles[roleIndex] === "兼职";
+        const operatorStoresForOps = isPartTime
+          ? storeStatusList.filter((item) => item.partTimer === "王可")
+          : storeStatusList.filter((item) => item.operator === "李晴");
         const store = operatorStoresForOps.find((item) => item.id === selectedOpsStoreId) || null;
         const ops = ["门店运维", "硬件控制", "商品控制", "订单列表", "物料库存", "预警报警", "数据看板", "操作记录", "问题反馈"];
+        const searchText = opsStoreSearch.trim().toLowerCase();
+        const visibleOpsStores = operatorStoresForOps.filter((item) => {
+          const text = `${item.name} ${item.id} ${item.storeType} ${item.business}`.toLowerCase();
+          return !searchText || text.includes(searchText);
+        });
         if (!store) {
           return `
             <div class="ops-center">
@@ -4834,10 +5441,12 @@
               <section class="ops-picker">
                 <div class="ops-picker-head">
                   <strong>选择门店</strong>
-                  <span>${operatorStoresForOps.length} 家负责门店</span>
+                  <span>${operatorStoresForOps.length} 家${isPartTime ? "兼职负责" : "运营负责"}门店</span>
                 </div>
+                <input class="ops-store-search" id="opsStoreSearchInput" value="${escapeHtml(opsStoreSearch)}" placeholder="搜索店铺名称、ID、类型" />
                 <div class="ops-store-list">
-                  ${operatorStoresForOps
+                  ${visibleOpsStores.length
+                    ? visibleOpsStores
                     .map(
                       (item) => `
                         <button class="ops-store-option" data-select-ops-store="${escapeHtml(item.id)}" type="button">
@@ -4846,7 +5455,8 @@
                         </button>
                       `,
                     )
-                    .join("")}
+                    .join("")
+                    : `<section class="ops-empty"><strong>没有找到门店</strong><span>请换个店铺名称或店铺ID试试。</span></section>`}
                 </div>
               </section>
               <section class="ops-empty"><strong>请选择门店后再操作</strong><span>为避免误操作，未选择门店前不会展示业务操作入口。</span></section>
@@ -4908,7 +5518,7 @@
         if (role === "兼职") {
           return ["我今天的任务", "查看审核反馈", "查看门店状态看板"];
         }
-        return ["智能巡店", "查看待处理任务", "查看清洁审核任务", "今天已完成的任务"];
+        return ["智能巡店", "查看待处理报警任务", "查看清洁审核任务", "今天已完成的任务"];
       }
 
       function promptGuideHTML(role = roles[roleIndex]) {
@@ -4935,6 +5545,9 @@
         const node = document.createElement("div");
         node.className = `message ${type}`;
         node.innerHTML = html;
+        if (type === "assistant" && node.querySelector(".task-card, .manager-dashboard, .store-dashboard, .inspection-summary, .prompt-guide, .feedback-card")) {
+          node.classList.add("result");
+        }
         conversation.appendChild(node);
         if (type === "home") {
           conversation.scrollTop = 0;
@@ -5029,14 +5642,11 @@
 
       function assistantIntro() {
         const role = roles[roleIndex];
+        if (!["租户", "平台管理者"].includes(role)) addMessage("assistant", promptGuideHTML(role));
         if (role === "门店运营") {
-          const pendingReviews = tasks.filter(function (t) { return t.type === "review" && t.status === "待处理"; });
-          if (pendingReviews.length && !reviewTasksNotified) {
-            reviewTasksNotified = true;
-            phone.classList.remove("is-standby");
-            addMessage("assistant", '<div class="bubble"><strong>兼职已提交全部清洁任务，为你生成 ' + pendingReviews.length + ' 条审核任务</strong><br />请审核清洁质量，确认是否通过。</div>' + pendingReviews.map(taskCard).join(""));
-            return;
-          }
+          phone.classList.remove("is-standby");
+          addMessage("assistant", operatorHomePushHTML());
+          return;
         }
         if (role === "兼职") {
           var fbList = feedbackMessages.filter(function (fb) { return !fb.closed && fb.partTimer === "兼职-王可"; }).sort(function (a, b) { return b.time.localeCompare(a.time); });
@@ -5056,12 +5666,12 @@
           if (isDoneStatus(task.status)) return false;
           var created = new Date(task.createdAt);
           if (isNaN(created.getTime())) return false;
-          var limit = task.level === "致命报警" ? 30 * 60 * 1000 : 120 * 60 * 1000;
+          var limit = task.level === "致命报警" ? 30 * 60 * 1000 : task.level === "严重报警" ? 60 * 60 * 1000 : 120 * 60 * 1000;
           return (now.getTime() - created.getTime()) > limit;
         };
         var storeAlarmStats = {};
         storeStatusList.forEach(function (s) {
-          storeAlarmStats[s.name] = { fatal: 0, warn: 0, pending: 0, overdue: 0, totalMin: 0, doneCount: 0, alarmTypes: {}, operator: s.operator };
+          storeAlarmStats[s.name] = { fatal: 0, severe: 0, warn: 0, pending: 0, overdue: 0, totalMin: 0, doneCount: 0, alarmTypes: {}, operator: s.operator };
         });
         tasks.forEach(function (t) {
           if (t.type !== "alarm") return;
@@ -5079,6 +5689,7 @@
             return;
           }
           if (t.level === "致命报警") s.fatal++;
+          else if (t.level === "严重报警") s.severe++;
           else s.warn++;
           if (t.status === "待处理") s.pending++;
           if (isOverdue(t)) s.overdue++;
@@ -5116,7 +5727,7 @@
         }
 
         var alarmEntries = Object.entries(storeAlarmStats)
-          .sort(function (a, b) { return (b[1].fatal + b[1].warn) - (a[1].fatal + a[1].warn); });
+          .sort(function (a, b) { return (b[1].fatal + b[1].severe + b[1].warn) - (a[1].fatal + a[1].severe + a[1].warn); });
 
         var partTimerStats = {};
         managerPeople.filter(function (p) { return p.role === "兼职"; }).forEach(function (p) {
@@ -5182,7 +5793,7 @@
             var avgMin = s.doneCount ? Math.round(s.totalMin / s.doneCount) + 'min' : '-';
             var alarmNames = Object.entries(s.alarmTypes).sort(function (a, b) { return b[1] - a[1]; });
             var highFreq = alarmNames.length && alarmNames[0][1] >= 2 ? escapeHtml(alarmNames[0][0]) + ' x' + alarmNames[0][1] : '-';
-            var hasRisk = s.fatal > 0 || s.overdue > 0;
+            var hasRisk = s.fatal > 0 || s.severe > 0 || s.overdue > 0;
             html += '<div class="alarm-card' + (hasRisk ? ' has-risk' : '') + '">' +
               '<div class="alarm-card-head">' +
                 '<strong>' + escapeHtml(name) + '</strong>' +
@@ -5190,6 +5801,7 @@
               '</div>' +
               '<div class="alarm-card-metrics">' +
                 '<div class="alarm-metric"><span class="metric-num' + (s.fatal > 0 ? ' fatal' : '') + '">' + s.fatal + '</span><span class="metric-label">致命</span></div>' +
+                '<div class="alarm-metric"><span class="metric-num' + (s.severe > 0 ? ' severe' : '') + '">' + s.severe + '</span><span class="metric-label">严重</span></div>' +
                 '<div class="alarm-metric"><span class="metric-num' + (s.warn > 0 ? ' warn' : '') + '">' + s.warn + '</span><span class="metric-label">预警</span></div>' +
                 '<div class="alarm-metric"><span class="metric-num' + (s.overdue > 0 ? ' fatal' : '') + '">' + s.overdue + '</span><span class="metric-label">超时</span></div>' +
                 '<div class="alarm-metric"><span class="metric-num' + (s.pending > 0 ? ' fatal' : '') + '">' + s.pending + '</span><span class="metric-label">待处理</span></div>' +
@@ -5354,6 +5966,10 @@
             addMessage("assistant", timedInspectionHTML());
             return;
           }
+          if (isRealtimeInspectionQuery(query)) {
+            addMessage("assistant", realtimeInspectionHTML());
+            return;
+          }
           if (isSmartInspectionQuery(query)) {
             addMessage("assistant", `<div class="bubble"><strong>抱歉，你当前的「${roles[roleIndex]}」身份无法使用智能巡检。</strong><br />智能巡检仅开放给门店运营角色，用于运营主动检查所负责门店的巡检项报警情况。你可以通过下方看板查看整体运营数据。</div>`);
             return;
@@ -5365,6 +5981,7 @@
         phone.classList.remove("is-tool-page");
         addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
         const activeTasks = activeTasksForRole();
+        const activeAlarmTasks = activeAlarmTasksForRole();
         const doneTasks = visibleTasksForRole().filter((task) => isDoneStatus(task.status));
 
         if (query.includes("门店状态") || query.includes("店铺状态")) {
@@ -5374,6 +5991,11 @@
 
         if (isTimedInspectionQuery(query)) {
           addMessage("assistant", timedInspectionHTML());
+          return;
+        }
+
+        if (isRealtimeInspectionQuery(query)) {
+          addMessage("assistant", realtimeInspectionHTML());
           return;
         }
 
@@ -5419,22 +6041,24 @@
         }
 
         if (query.includes("暂缓")) {
-          const suspendedTasks = visibleTasksForRole().filter((task) => task.status === "暂缓中");
-          if (!suspendedTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有暂缓中的任务。暂缓任务不会混在待处理列表里，你可以输入"查看待处理任务"查看需要立即处理的事项。</div>`);
+          const suspendedTasks = alarmTasksForRole().filter((task) => task.status === "暂缓中");
+          const visibleSuspendedTasks = tasksForOperatorScope(suspendedTasks);
+          if (!visibleSuspendedTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有暂缓中的报警任务。暂缓任务不会混在待处理报警列表里，你可以输入"查看待处理报警任务"查看需要立即处理的报警。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble"><strong>当前有 ${suspendedTasks.length} 条暂缓中的任务</strong><br />这些任务已从待处理列表中分离，等待条件满足后可点击"继续处理"恢复跟进。</div>${suspendedTasks.map(taskCard).join("")}`);
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${visibleSuspendedTasks.length} 条暂缓中的报警任务</strong><br />这些任务已从待处理报警列表中分离，等待条件满足后可点击"继续处理"恢复跟进。</div>${groupedTaskListHTML(suspendedTasks, { primary: "我主责的暂缓报警任务", assist: "以下为我可协助处理的暂缓报警任务" })}`);
           return;
         }
 
         if (query.includes("处理中")) {
-          const handlingTasks = visibleTasksForRole().filter((task) => task.status === "处理中");
-          if (!handlingTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有处理中的任务。你可以输入"查看待处理任务"查看还未开始的事项，或输入"暂缓"查看暂缓中的任务。</div>`);
+          const handlingTasks = alarmTasksForRole().filter((task) => task.status === "处理中");
+          const visibleHandlingTasks = tasksForOperatorScope(handlingTasks);
+          if (!visibleHandlingTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有处理中的报警任务。你可以输入"查看待处理报警任务"查看还未开始的报警，或输入"暂缓"查看暂缓中的报警任务。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble"><strong>当前有 ${handlingTasks.length} 条处理中的任务</strong><br />这些任务已经开始跟进，可以继续补充备注、完成或暂缓。</div>${handlingTasks.map(taskCard).join("")}`);
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${visibleHandlingTasks.length} 条处理中的报警任务</strong><br />这些报警已经开始跟进，可以继续补充备注、完成或暂缓。</div>${groupedTaskListHTML(handlingTasks, { primary: "我主责的处理中报警任务", assist: "以下为我可协助处理的处理中报警任务" })}`);
           return;
         }
 
@@ -5471,38 +6095,41 @@
         }
 
         if (query.includes("超时")) {
-          const timeoutTasks = activeTasks
+          const timeoutTasks = activeAlarmTasks
             .filter(isTaskOverdue)
-            .sort((a, b) => (a.level === "致命报警" ? -1 : 1) - (b.level === "致命报警" ? -1 : 1) || new Date(a.createdAt) - new Date(b.createdAt));
-          if (!timeoutTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有疑似超时的待处理任务。</div>`);
+            .sort((a, b) => alarmLevelRank(a.level) - alarmLevelRank(b.level) || new Date(a.createdAt) - new Date(b.createdAt));
+          const visibleTimeoutTasks = tasksForOperatorScope(timeoutTasks);
+          if (!visibleTimeoutTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有疑似超时的待处理报警任务。</div>`);
             return;
           }
-          const fatalOverdue = timeoutTasks.filter((task) => task.level === "致命报警").length;
-          addMessage("assistant", `<div class="bubble"><strong>当前有 ${timeoutTasks.length} 条超时报警任务</strong><br />其中致命报警 ${fatalOverdue} 条。请优先处理致命报警和影响出杯/履约的问题。</div>${timeoutTasks.map(taskCard).join("")}`);
+          const fatalOverdue = visibleTimeoutTasks.filter((task) => task.level === "致命报警").length;
+          addMessage("assistant", `<div class="bubble"><strong>当前有 ${visibleTimeoutTasks.length} 条超时报警任务</strong><br />其中致命报警 ${fatalOverdue} 条。请优先处理致命报警和影响出杯/履约的问题。</div>${groupedTaskListHTML(timeoutTasks, { primary: "我主责的超时报警任务", assist: "以下为我可协助处理的超时报警任务" })}`);
           return;
         }
 
         if (query.includes("清洁审核")) {
           const reviewTasks = activeTasks.filter((task) => task.type === "review");
-          if (!reviewTasks.length) {
+          const visibleReviewTasks = tasksForOperatorScope(reviewTasks);
+          if (!visibleReviewTasks.length) {
             addMessage("assistant", `<div class="bubble">当前没有待审核的清洁任务。兼职提交清洁任务后会自动生成审核任务。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble">当前有 ${reviewTasks.length} 条清洁审核任务待处理。</div>${reviewTasks.map(taskCard).join("")}`);
+          addMessage("assistant", `<div class="bubble">当前有 ${visibleReviewTasks.length} 条清洁审核任务待处理，主责任务优先展示，可协助任务在分隔线下方。</div>${groupedTaskListHTML(reviewTasks, { primary: "我主责的审核任务", assist: "以下为我可协助审核的任务" })}`);
           return;
         }
 
         if (query.includes("报警") || query.includes("任务")) {
-          if (!activeTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有待处理运营任务。你可以输入"今天已完成""本周处理记录"查看历史闭环。</div>`);
+          const visibleAlarmTasks = tasksForOperatorScope(activeAlarmTasks);
+          if (!visibleAlarmTasks.length) {
+            addMessage("assistant", `<div class="bubble">当前没有待处理报警任务。清洁审核请单独输入"查看清洁审核任务"，也可以输入"今天已完成""本周处理记录"查看历史闭环。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble">当前有 ${activeTasks.length} 条运营任务，其中 ${activeTasks.filter((task) => task.type === "alarm" && task.level === "致命报警").length} 条致命报警、${activeTasks.filter((task) => task.type === "review").length} 条兼职提交审核。我按处理优先级列给你。</div>${activeTasks.map(taskCard).join("")}`);
+          addMessage("assistant", `<div class="bubble">当前有 ${visibleAlarmTasks.length} 条待处理报警任务，其中 ${visibleAlarmTasks.filter((task) => task.level === "致命报警").length} 条致命报警、${visibleAlarmTasks.filter((task) => task.level === "严重报警").length} 条严重报警。主责任务优先展示，可协助任务在分隔线下方。</div>${groupedTaskListHTML(activeAlarmTasks, { primary: "我主责的报警任务", assist: "以下为我可协助处理的报警任务" })}`);
           return;
         }
 
-        addMessage("assistant", `<div class="bubble">我可以帮你查看未处理报警、已完成记录、门店状态和超时任务。试试输入"今天已完成""本周处理记录"查看不同时间段的处理闭环。</div>`);
+        addMessage("assistant", `<div class="bubble">我可以帮你查看待处理报警任务、清洁审核任务、已完成记录、门店状态和超时报警。试试输入"查看待处理报警任务""查看清洁审核任务"。</div>`);
       }
 
       function escapeHtml(value) {
@@ -5769,9 +6396,11 @@
       }
 
       function getPreviewPhotos(task, source) {
-        if (source === "example") return task.examplePhotos || [];
-        if (source === "review-example") return task.examplePhotos || [];
-        if (source === "feedback-example") return task.examplePhotos || [];
+        const sourceCleaningTask = task?.type === "review" ? findCleaningTaskByReviewId(task.id) : null;
+        const examplePhotos = task?.examplePhotos && task.examplePhotos.length ? task.examplePhotos : sourceCleaningTask?.examplePhotos || [];
+        if (source === "example") return examplePhotos;
+        if (source === "review-example") return examplePhotos;
+        if (source === "feedback-example") return examplePhotos;
         if (source === "feedback") return task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"];
         return task.auditPhotos || task.photos || [];
       }
@@ -5785,11 +6414,12 @@
       function openPhotoPreview(taskId, photoIndex, source = "task") {
         const task = getPreviewTask(taskId);
         if (!task) return;
-        const rawIndex = Number(photoIndex);
-        const index = rawIndex + 1;
         const photos = getPreviewPhotos(task, source);
+        if (!photos.length) return;
+        const rawIndex = Math.max(0, Math.min(Number(photoIndex) || 0, photos.length - 1));
+        const index = rawIndex + 1;
         const previewTask = source === "example" || source === "feedback-example" || source === "review-example"
-          ? { ...task, photos: task.examplePhotos || [] }
+          ? { ...task, photos }
           : source === "feedback"
             ? { ...task, photos: task.photos && task.photos.length ? task.photos : ["上传图片 1", "上传图片 2"] }
             : task;
@@ -5799,12 +6429,16 @@
           <div class="photo-preview-card" role="dialog" aria-modal="true" aria-label="审核图片预览">
             <div class="photo-preview-head">
               <strong>图片 ${index}/${photos.length}</strong>
-              <button data-close-photo-preview type="button" aria-label="关闭预览">×</button>
+              <div class="photo-preview-nav">
+                <button data-preview-prev type="button" ${rawIndex <= 0 ? "disabled" : ""} aria-label="上一张">‹</button>
+                <button data-preview-next type="button" ${rawIndex >= photos.length - 1 ? "disabled" : ""} aria-label="下一张">›</button>
+                <button data-close-photo-preview type="button" aria-label="关闭预览">×</button>
+              </div>
             </div>
             <div class="photo-preview-body">
               ${mockCleanPhoto(previewTask, rawIndex, true)}
             </div>
-            ${canDelete ? `<div class="photo-preview-actions"><button class="danger" data-delete-preview-photo type="button">删除此图</button></div>` : ""}
+            ${canDelete ? `<div class="photo-preview-actions"><button class="delete-preview" data-delete-preview-photo type="button" aria-label="删除此图">🗑</button></div>` : ""}
           </div>
         `;
         photoPreviewLayer.hidden = false;
@@ -5838,9 +6472,15 @@
         const noteLabel = isReview ? "审核意见" : "跟进备注";
         const resultLabel = isReview ? "审核结果" : "处理结果";
         const resultValue = isReview ? (task.reviewStatus || task.auditResult || "满意") : (task.progress || statusLabel);
+        const alarmReceiptRows = !isReview
+          ? '<div><span>报警详情</span><strong>' + escapeHtml(task.detail || "-") + '</strong></div>' +
+            '<div><span>开始时间</span><strong>' + escapeHtml(taskStartTime(task)) + '</strong></div>'
+          : '';
         conversation.querySelectorAll('[data-task-card]').forEach(function (card) {
           if (card.getAttribute("data-task-card") !== task.id) return;
           card.classList.add("completed");
+          card.classList.add("is-terminal");
+          card.classList.remove("danger", "warn");
           card.innerHTML =
             '<div class="task-card-head">' +
               '<div><strong>' + escapeHtml(task.name) + '</strong></div>' +
@@ -5849,11 +6489,12 @@
             '<div class="task-meta">' +
               '<div><span>任务ID</span><strong>' + escapeHtml(task.id) + '</strong></div>' +
               '<div><span>店铺名称</span><strong>' + escapeHtml(task.store || "-") + '</strong></div>' +
+              alarmReceiptRows +
               (isReview ? '<div><span>审核类型</span><strong>' + escapeHtml(auditTypeLabel(task)) + '</strong></div>' : '') +
               (isReview ? '<div><span>提交人</span><strong>' + escapeHtml(task.submitter || "-") + '</strong></div>' : '') +
               (isReview ? '<div><span>提交时间</span><strong>' + escapeHtml(task.submittedAt || "-") + '</strong></div>' : '') +
               '<div><span>完成时间</span><strong>' + escapeHtml(task.handledAt || nowLabel()) + '</strong></div>' +
-              '<div><span>' + resultLabel + '</span><strong>' + escapeHtml(resultValue) + '</strong></div>' +
+              (isReview ? '<div><span>' + resultLabel + '</span><strong>' + escapeHtml(resultValue) + '</strong></div>' : '') +
               '<div><span>' + noteLabel + '</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
             '</div>';
         });
@@ -5869,10 +6510,19 @@
         });
       }
 
+      function taskStartTime(task) {
+        const startLog = (task.logs || []).find((log) => /开始处理|开始审核/.test(log.text || ""));
+        return startLog?.time || task.startedAt || task.createdAt || "-";
+      }
+
       function completionReceipt(task, options = {}) {
         const title = options.title || (task.type === "review" ? "审核已完成" : "任务已完成");
         const result = options.result || task.progress || task.reviewStatus || "已完成";
         const isReview = task.type === "review";
+        const alarmRows = !isReview
+          ? `<div><span>报警详情</span><strong>${escapeHtml(task.detail || "-")}</strong></div>
+              <div><span>开始时间</span><strong>${escapeHtml(taskStartTime(task))}</strong></div>`
+          : "";
         return `
           <div class="bubble completion-receipt">
             <strong>${escapeHtml(title)}</strong>
@@ -5880,11 +6530,12 @@
               <div><span>${task.type === "review" ? "审核任务ID" : "任务ID"}</span><strong>${escapeHtml(task.id)}</strong></div>
               <div><span>任务名称</span><strong>${escapeHtml(task.name)}</strong></div>
               <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
+              ${alarmRows}
               ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(auditTypeLabel(task))}</strong></div>` : ""}
               ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
               ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
               <div><span>完成时间</span><strong>${escapeHtml(task.handledAt || task.completedAt || nowLabel())}</strong></div>
-              <div><span>${isReview ? "审核结果" : "处理结果"}</span><strong>${escapeHtml(result)}</strong></div>
+              ${isReview ? `<div><span>审核结果</span><strong>${escapeHtml(result)}</strong></div>` : ""}
               <div><span>${isReview ? "审核意见" : "跟进备注"}</span><strong>${escapeHtml(task.note || options.note || "无")}</strong></div>
             </div>
           </div>
@@ -5894,6 +6545,10 @@
       function recordCard(task) {
         const latestLog = (task.logs || [])[task.logs.length - 1];
         const isReview = task.type === "review";
+        const alarmRows = !isReview
+          ? `<div><span>报警详情</span><strong>${escapeHtml(task.detail || "-")}</strong></div>
+              <div><span>开始时间</span><strong>${escapeHtml(taskStartTime(task))}</strong></div>`
+          : "";
         return `
           <article class="task-card">
             <div class="task-card-head">
@@ -5905,11 +6560,12 @@
             <div class="task-meta">
               <div><span>任务ID</span><strong>${task.id}</strong></div>
               <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
+              ${alarmRows}
               ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(auditTypeLabel(task))}</strong></div>` : ""}
               ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
               ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
               <div><span>完成时间</span><strong>${task.handledAt || latestLog?.time || "-"}</strong></div>
-              <div><span>${isReview ? "审核结果" : "处理结果"}</span><strong>${escapeHtml(isReview ? (task.reviewStatus || task.auditResult || "满意") : (task.progress || "已完成"))}</strong></div>
+              ${isReview ? `<div><span>审核结果</span><strong>${escapeHtml(task.reviewStatus || task.auditResult || "满意")}</strong></div>` : ""}
               <div><span>${isReview ? "审核意见" : "处理备注"}</span><strong>${escapeHtml(task.note || (isReview ? "无" : "已确认问题处理完成"))}</strong></div>
             </div>
           </article>
@@ -5918,42 +6574,45 @@
 
       function smartInspectionHTML() {
         var currentOperator = managerPeople[0].name;
-        var myStores = operatorStores.filter(function (s) {
-          var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
-          return !st || st.operator === currentOperator;
+        var myStores = storeStatusList.filter(function (s) {
+          return s.operator === currentOperator || (assistantStoreOwners[currentOperator] || []).includes(s.name);
         });
         var myStoreNames = myStores.map(function (s) { return s.name; });
-        var activeAlarms = tasks.filter(function (t) { return !isDoneStatus(t.status) && t.type === "alarm" && t.source !== "定时巡检" && myStoreNames.indexOf(t.store) !== -1; });
+        var activeAlarms = tasks.filter(function (t) { return !isDoneStatus(t.status) && t.type === "alarm" && !["定时巡检", "实时巡检"].includes(t.source) && myStoreNames.indexOf(t.store) !== -1; });
         var storeAlarms = {};
         myStores.forEach(function (s) {
           var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
-          storeAlarms[s.name] = { fatal: 0, warning: 0, operator: st ? st.operator : currentOperator };
+          storeAlarms[s.name] = { fatal: 0, severe: 0, warning: 0, operator: st ? st.operator : currentOperator };
         });
         activeAlarms.forEach(function (t) {
           if (!storeAlarms[t.store]) {
-            storeAlarms[t.store] = { fatal: 0, warning: 0, operator: t.owner || currentOperator };
+            storeAlarms[t.store] = { fatal: 0, severe: 0, warning: 0, operator: t.owner || currentOperator };
           }
           if (t.level === "致命报警") {
             storeAlarms[t.store].fatal++;
+          } else if (t.level === "严重报警") {
+            storeAlarms[t.store].severe++;
           } else {
             storeAlarms[t.store].warning++;
           }
         });
         var entries = Object.entries(storeAlarms).sort(function (a, b) {
-          return b[1].fatal - a[1].fatal || b[1].warning - a[1].warning;
+          return b[1].fatal - a[1].fatal || b[1].severe - a[1].severe || b[1].warning - a[1].warning;
         });
         var totalFatal = entries.reduce(function (s, kv) { return s + kv[1].fatal; }, 0);
+        var totalSevere = entries.reduce(function (s, kv) { return s + kv[1].severe; }, 0);
         var totalWarning = entries.reduce(function (s, kv) { return s + kv[1].warning; }, 0);
         var summaryParts = ["覆盖 " + myStores.length + " 家门店"];
         if (totalFatal) summaryParts.push("致命报警 " + totalFatal + " 条");
+        if (totalSevere) summaryParts.push("严重报警 " + totalSevere + " 条");
         if (totalWarning) summaryParts.push("预警 " + totalWarning + " 条");
-        if (!totalFatal && !totalWarning) summaryParts.push("所有门店运行正常");
+        if (!totalFatal && !totalSevere && !totalWarning) summaryParts.push("所有门店运行正常");
         var html = '<div class="bubble"><strong>智能巡检完成</strong><br />' + summaryParts.join("，") + "。本次结果来自运营主动触发的巡检，不包含后台定时巡检任务。</div>";
-        html += '<div class="inspection-summary"><table><thead><tr><th>店铺名称</th><th>致命报警</th><th>预警</th><th>负责人</th></tr></thead><tbody>';
+        html += '<div class="inspection-summary"><table><thead><tr><th>店铺名称</th><th>致命报警</th><th>严重报警</th><th>预警</th><th>负责人</th></tr></thead><tbody>';
         entries.forEach(function (entry) {
           var store = entry[0];
           var c = entry[1];
-          html += "<tr><td>" + escapeHtml(store) + "</td><td class=\"fatal-count\">" + c.fatal + "</td><td class=\"warn-count\">" + c.warning + "</td><td>" + escapeHtml(c.operator) + "</td></tr>";
+          html += "<tr><td>" + escapeHtml(store) + "</td><td class=\"fatal-count\">" + c.fatal + "</td><td class=\"severe-count\">" + c.severe + "</td><td class=\"warn-count\">" + c.warning + "</td><td>" + escapeHtml(c.operator) + "</td></tr>";
         });
         html += "</tbody></table></div>";
         if (!activeAlarms.length) return html;
@@ -5962,9 +6621,12 @@
         var sortedTasks = activeAlarms.sort(function (a, b) {
           var si = storeOrder[a.store] - storeOrder[b.store];
           if (si !== 0) return si;
-          return a.level === "致命报警" ? -1 : 1;
+          return alarmLevelRank(a.level) - alarmLevelRank(b.level);
         });
-        html += sortedTasks.map(taskCard).join("");
+        var inspectionTasks = sortedTasks.map(function (task) {
+          return { ...task, trigger: "智能巡检", source: "" };
+        });
+        html += groupedTaskListHTML(inspectionTasks, { primary: "我主责的智能巡检报警任务", assist: "以下为我可协助处理的智能巡检报警任务" });
         return html;
       }
 
@@ -5979,12 +6641,34 @@
           return !isDoneStatus(t.status) && t.type === "alarm" && t.source === "定时巡检" && myStoreNames.indexOf(t.store) !== -1;
         });
         var fatalCount = inspectionTasks.filter(function (t) { return t.level === "致命报警"; }).length;
-        var warningCount = inspectionTasks.filter(function (t) { return t.level !== "致命报警"; }).length;
-        var html = '<div class="bubble"><strong>定时巡检任务</strong><br />后台定时巡检已按配置自动执行，并生成 ' + inspectionTasks.length + ' 条运营任务：致命报警 ' + fatalCount + ' 条，预警 ' + warningCount + ' 条。</div>';
+        var severeCount = inspectionTasks.filter(function (t) { return t.level === "严重报警"; }).length;
+        var warningCount = inspectionTasks.filter(function (t) { return t.level === "预警"; }).length;
+        var html = '<div class="bubble"><strong>定时巡检任务</strong><br />后台定时巡检已按配置自动执行，并生成 ' + inspectionTasks.length + ' 条运营任务：致命报警 ' + fatalCount + ' 条，严重报警 ' + severeCount + ' 条，预警 ' + warningCount + ' 条。</div>';
         if (!inspectionTasks.length) {
           return html + '<div class="bubble">当前没有由后台定时巡检生成的待处理任务。</div>';
         }
         html += inspectionTasks.map(taskCard).join("");
+        return html;
+      }
+
+      function realtimeInspectionHTML() {
+        var currentOperator = managerPeople[0].name;
+        var myStores = operatorStores.filter(function (s) {
+          var st = storeStatusList.find(function (ss) { return ss.name === s.name; });
+          return !st || st.operator === currentOperator;
+        });
+        var myStoreNames = myStores.map(function (s) { return s.name; });
+        var realtimeTasks = tasks.filter(function (t) {
+          return !isDoneStatus(t.status) && t.type === "alarm" && t.source === "实时巡检" && myStoreNames.indexOf(t.store) !== -1;
+        });
+        var fatalCount = realtimeTasks.filter(function (t) { return t.level === "致命报警"; }).length;
+        var severeCount = realtimeTasks.filter(function (t) { return t.level === "严重报警"; }).length;
+        var warningCount = realtimeTasks.filter(function (t) { return t.level === "预警"; }).length;
+        var html = '<div class="bubble"><strong>实时巡检报警任务</strong><br />实时巡检已触发 ' + realtimeTasks.length + ' 条运营任务：致命报警 ' + fatalCount + ' 条，严重报警 ' + severeCount + ' 条，预警 ' + warningCount + ' 条。</div>';
+        if (!realtimeTasks.length) {
+          return html + '<div class="bubble">当前没有由实时巡检触发的待处理任务。</div>';
+        }
+        html += realtimeTasks.map(taskCard).join("");
         return html;
       }
 
@@ -6071,12 +6755,35 @@
 
         if (event.target.closest("[data-close-code-sheet]")) {
           codeLoginSheet.hidden = true;
+          if (mockKeyboard) mockKeyboard.classList.remove("is-open");
           if (resendTimer) clearInterval(resendTimer);
           return;
         }
 
         if (event.target.closest("[data-focus-code]")) {
+          if (mockKeyboard) mockKeyboard.classList.add("is-open");
           codeLoginInput.focus();
+          return;
+        }
+
+        if (event.target.closest("[data-fill-sms-code]")) {
+          codeLoginInput.value = demoVerifyCode;
+          renderCodeBoxes();
+          if (mockKeyboard) mockKeyboard.classList.add("is-open");
+          codeLoginInput.focus();
+          return;
+        }
+
+        const keyDigit = event.target.closest("[data-key-digit]");
+        if (keyDigit) {
+          codeLoginInput.value = (codeLoginInput.value.replace(/\D/g, "") + keyDigit.dataset.keyDigit).slice(0, 4);
+          renderCodeBoxes();
+          return;
+        }
+
+        if (event.target.closest("[data-key-backspace]")) {
+          codeLoginInput.value = codeLoginInput.value.replace(/\D/g, "").slice(0, -1);
+          renderCodeBoxes();
           return;
         }
 
@@ -6197,12 +6904,13 @@
 
         const openOpsCenter = event.target.closest("[data-open-ops-center]");
         if (openOpsCenter) {
-          if (roles[roleIndex] !== "门店运营") {
-            showToast("操作中心当前仅门店运营可用");
+          if (!["门店运营", "兼职"].includes(roles[roleIndex])) {
+            showToast("操作中心当前仅门店运营和兼职可用");
             return;
           }
           activePage = "ops";
           selectedOpsStoreId = "";
+          opsStoreSearch = "";
           setDrawerOpen(false);
           renderWorkbench();
           return;
@@ -6218,6 +6926,7 @@
         const resetOpsStore = event.target.closest("[data-reset-ops-store]");
         if (resetOpsStore) {
           selectedOpsStoreId = "";
+          opsStoreSearch = "";
           renderWorkbench();
           return;
         }
@@ -6552,6 +7261,8 @@
 
         const deleteCleaningPhoto = event.target.closest("[data-delete-cleaning-photo]");
         if (deleteCleaningPhoto) {
+          event.preventDefault();
+          event.stopPropagation();
           const task = cleaningTasks.find((item) => item.id === deleteCleaningPhoto.dataset.deleteCleaningPhoto);
           if (!task) return;
           task.photos.splice(Number(deleteCleaningPhoto.dataset.photoIndex), 1);
@@ -6562,6 +7273,8 @@
 
         const deletePreviewPhoto = event.target.closest("[data-delete-preview-photo]");
         if (deletePreviewPhoto && photoPreviewState?.source === "cleaning") {
+          event.preventDefault();
+          event.stopPropagation();
           const task = cleaningTasks.find((item) => item.id === photoPreviewState.taskId);
           if (!task) return;
           task.photos.splice(photoPreviewState.photoIndex, 1);
@@ -6577,6 +7290,18 @@
           return;
         }
 
+        const previewPrev = event.target.closest("[data-preview-prev]");
+        if (previewPrev && photoPreviewState) {
+          openPhotoPreview(photoPreviewState.taskId, photoPreviewState.photoIndex - 1, photoPreviewState.source);
+          return;
+        }
+
+        const previewNext = event.target.closest("[data-preview-next]");
+        if (previewNext && photoPreviewState) {
+          openPhotoPreview(photoPreviewState.taskId, photoPreviewState.photoIndex + 1, photoPreviewState.source);
+          return;
+        }
+
         const start = event.target.closest("[data-start]");
         if (start) {
           const task = tasks.find((item) => item.id === start.dataset.start);
@@ -6586,7 +7311,7 @@
           if (task.type === "review") task.reviewStatus = "审核中";
           if (task.type !== "review") recordTask(task, "开始处理：运营已接收任务");
           renderBrief();
-          showToast(task.type === "review" ? "已开始审核" : "已开始处理，任务状态更新为处理中");
+          showToast(task.type === "review" ? "已开始审核" : "已开始处理");
           if (!refreshTaskCardsInConversation(task)) {
             renderHandlingReply(task, task.type === "review" ? `已进入审核态。你可以填写审核备注，审核完成后点击"完成审核"。` : `已进入处理态。你可以填写跟进备注，处理完成后点击"完成"。`);
           }
@@ -6713,6 +7438,12 @@
           const task = tasks.find((item) => item.id === complete.dataset.complete);
           if (!task) return;
           updateTaskFromDom(task);
+          if (task.type === "review" && task.auditResult === "不满意" && !String(task.note || "").trim()) {
+            const noteInput = document.querySelector(`[data-note="${task.id}"]`);
+            if (noteInput) noteInput.focus();
+            showToast("审核不满意时，请填写审核意见");
+            return;
+          }
           task.status = "已完成";
           if (task.type === "review") {
             task.reviewStatus = task.auditResult || "满意";
@@ -6769,6 +7500,18 @@
           return;
         }
 
+        if (event.target.id === "opsStoreSearchInput") {
+          opsStoreSearch = event.target.value;
+          renderWorkbench();
+          requestAnimationFrame(() => {
+            const input = document.getElementById("opsStoreSearchInput");
+            if (!input) return;
+            input.focus();
+            input.setSelectionRange(input.value.length, input.value.length);
+          });
+          return;
+        }
+
         if (event.target.id === "inspectionSearchInput") {
           inspectionSearch = event.target.value;
           refreshInspectionCenter();
@@ -6801,6 +7544,9 @@
           const task = tasks.find((item) => item.id === note.dataset.note);
           if (!task) return;
           task.note = note.value.slice(0, 100);
+          note.value = task.note;
+          const counter = document.querySelector(`[data-note-counter="${CSS.escape(note.dataset.note)}"]`);
+          if (counter) counter.textContent = `${task.note.length}/100`;
           return;
         }
         const cleaningNote = event.target.closest("[data-cleaning-note]");
@@ -6817,6 +7563,15 @@
           const task = cleaningTasks.find((item) => item.id === upload.dataset.cleaningUpload);
           const file = upload.files?.[0];
           if (!task || !file) return;
+          const expectedPhotoCount = (task.examplePhotos || []).length;
+          const uploadedPhotoCount = (task.photos || []).length;
+          if (expectedPhotoCount && uploadedPhotoCount >= expectedPhotoCount) {
+            task.error = `上传图片数量需和示例图片一致，最多上传 ${expectedPhotoCount} 张。如需更换，请先删除已上传图片`;
+            refreshCleaningCardsInConversation(task);
+            showToast(`最多上传 ${expectedPhotoCount} 张`);
+            upload.value = "";
+            return;
+          }
           task.photos = [
             ...(task.photos || []),
             {
