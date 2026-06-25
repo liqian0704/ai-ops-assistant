@@ -441,9 +441,10 @@
       }
 
       .message {
-        max-width: 92%;
+        width: 100%;
+        max-width: none;
         display: grid;
-        gap: 8px;
+        gap: 5px;
       }
 
       .message.home {
@@ -453,7 +454,7 @@
       }
 
       .message.assistant {
-        justify-self: start;
+        justify-items: start;
       }
 
       .message.assistant.result {
@@ -463,7 +464,22 @@
       }
 
       .message.user {
-        justify-self: end;
+        justify-items: end;
+      }
+
+      .message > .bubble {
+        width: fit-content;
+        max-width: 92%;
+      }
+
+      .message-time {
+        width: 100%;
+        justify-self: stretch;
+        color: #8a9692;
+        font-size: 11px;
+        line-height: 1;
+        font-weight: 650;
+        text-align: center;
       }
 
       .message.assistant.result > .bubble {
@@ -1080,6 +1096,38 @@
         font-weight: 950;
       }
 
+      .attention-summary {
+        display: grid;
+        gap: 6px;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+        font-weight: 800;
+      }
+
+      .attention-summary-main {
+        color: #465652;
+      }
+
+      .attention-summary-row {
+        display: grid;
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 8px;
+        align-items: start;
+      }
+
+      .attention-summary-label {
+        color: var(--ink);
+        font-weight: 950;
+        white-space: nowrap;
+      }
+
+      .attention-summary b {
+        color: var(--ink);
+        font-weight: 950;
+      }
+
       .operator-level-stat {
         font-weight: 950;
         white-space: nowrap;
@@ -1186,6 +1234,13 @@
         align-items: center;
         justify-content: space-between;
         gap: 8px;
+      }
+
+      .timeout-bubble-labels {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        flex: 0 0 auto;
       }
 
       .timeout-bubble-head strong {
@@ -1889,10 +1944,10 @@
 
       .review-upload-head span,
       .review-type-row.uploaded-photo-row > span {
-        color: var(--ink);
-        font-size: 13px;
+        color: var(--muted);
+        font-size: 12px;
         line-height: 1.35;
-        font-weight: 950;
+        font-weight: 850;
       }
 
       .review-upload-head em {
@@ -2302,12 +2357,13 @@
 
       .feedback-row {
         display: grid;
-        grid-template-columns: 70px 1fr;
+        grid-template-columns: minmax(84px, max-content) 1fr;
         gap: 6px;
       }
 
       .feedback-row span {
         color: var(--muted);
+        white-space: nowrap;
       }
 
       .feedback-row strong {
@@ -2427,21 +2483,6 @@
         width: 72px;
         min-width: 72px;
         height: 62px;
-      }
-
-      .feedback-actions {
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      .feedback-actions button {
-        border: 0;
-        border-radius: 8px;
-        padding: 8px 12px;
-        color: #fff;
-        background: var(--brand);
-        font-size: 12px;
-        font-weight: 900;
       }
 
       .sat-count {
@@ -3142,6 +3183,40 @@
         padding-bottom: 14px;
       }
 
+      .ops-page-head {
+        position: relative;
+      }
+
+      .ops-page-head .bubble {
+        width: 100%;
+        padding-right: 62px;
+      }
+
+      .ops-page-head .bubble span {
+        display: block;
+        margin-top: 4px;
+        color: #4f5f5b;
+        font-size: 12px;
+        font-weight: 750;
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+
+      .ops-page-head button {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        min-height: 32px;
+        border: 0;
+        border-radius: 8px;
+        background: #e8f7f4;
+        color: var(--brand);
+        padding: 0 10px;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
       .ops-store-card,
       .ops-picker,
       .ops-empty,
@@ -3178,9 +3253,59 @@
       .ops-store-list {
         display: grid;
         gap: 7px;
-        max-height: 330px;
-        overflow-y: auto;
-        padding-right: 2px;
+      }
+
+      .ops-relation-filter {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .ops-relation-filter button {
+        height: 34px;
+        border: 1px solid #dce8e4;
+        border-radius: 9px;
+        background: #fff;
+        color: #4f5f5b;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .ops-relation-filter button.active {
+        border-color: rgba(15, 118, 110, 0.28);
+        background: #e8f7f4;
+        color: var(--brand);
+      }
+
+      .ops-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 2px;
+      }
+
+      .ops-pagination button {
+        min-width: 76px;
+        height: 32px;
+        border: 1px solid #dce8e4;
+        border-radius: 9px;
+        background: #fff;
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .ops-pagination button:disabled {
+        cursor: default;
+        color: #a8b4b0;
+        background: #f5f8f7;
+      }
+
+      .ops-pagination span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
       }
 
       .ops-store-search {
@@ -3657,8 +3782,8 @@
         position: absolute;
         z-index: 80;
         left: 50%;
-        bottom: 76px;
-        transform: translateX(-50%);
+        top: 50%;
+        transform: translate(-50%, -50%);
         max-width: 82%;
         padding: 9px 12px;
         border-radius: 999px;
@@ -3666,6 +3791,31 @@
         color: #fff;
         font-size: 12px;
         font-weight: 800;
+      }
+
+      .thinking-bubble {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 11px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid #e4eeea;
+        color: #5c6965;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .thinking-dot {
+        width: 18px;
+        height: 18px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #e8f7f4;
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 950;
       }
 
       .toast[hidden] {
@@ -4304,7 +4454,7 @@
       <section class="new-task-alert" id="newTaskAlert" hidden>
         <div>
           <strong>有 4 条待关注事项</strong>
-          <span>1 条致命报警、1 条审核任务、2 条清洁进度提醒</span>
+          <span>报警任务 1 条、审核任务 1 条、清洁进度提醒 2 条</span>
         </div>
         <button data-view-new-tasks type="button">查看</button>
       </section>
@@ -4583,6 +4733,7 @@
         },
         {
           id: "REV-20260528-001",
+          cleaningTaskId: "CLEAN-PENDING-20260528-001",
           type: "review",
           name: "咖啡机清洁（洗机、咖啡槽）",
           store: "大学城南门店",
@@ -4611,6 +4762,7 @@
         },
         {
           id: "REV-20260528-002",
+          cleaningTaskId: "CLEAN-20260528-002",
           type: "review",
           name: "液体墙、糖浆机、制冰机清洁（出口、槽）",
           store: "鼎好 DH3-A座",
@@ -4722,6 +4874,22 @@
 
       const cleaningTasks = [
         {
+          id: "CLEAN-PENDING-20260528-001",
+          reviewTaskId: "REV-20260528-001",
+          name: "咖啡机清洁（洗机、咖啡槽）",
+          store: "大学城南门店",
+          status: "已提交",
+          owner: "兼职-王可",
+          createdAt: "2026-05-28 00:10:00",
+          taskRequirement: "完成咖啡机洗机流程，清理咖啡槽、隔板和周边残留，确保无咖啡渣、无明显水渍。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
+          examplePhotos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
+          photos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
+          completedAt: "2026-05-28 18:02:18",
+          error: "",
+          note: "已完成洗机流程，咖啡槽和隔板已清理干净。",
+        },
+        {
           id: "CLEAN-20260528-001",
           reviewTaskId: "REV-20260528-001",
           name: "咖啡机清洁（洗机、咖啡槽）",
@@ -4784,6 +4952,22 @@
           auditOpinion: "糖浆机出口仍有残留，请重新清洁并补拍水印照片。",
           error: "",
           note: "",
+        },
+        {
+          id: "CLEAN-20260616-001",
+          reviewTaskId: "REV-DONE-20260616-001",
+          name: "咖啡机清洁（洗机、咖啡槽）",
+          store: "大学城南门店",
+          status: "已完成",
+          owner: "兼职-王可",
+          createdAt: "2026-06-16 00:10:00",
+          taskRequirement: "完成咖啡机洗机流程，清理咖啡槽、隔板和周边残留，确保无咖啡渣、无明显水渍。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
+          examplePhotos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
+          photos: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"],
+          completedAt: "2026-06-16 09:05:00",
+          error: "",
+          note: "已完成洗机流程，咖啡槽和隔板已清理干净。",
         },
         {
           id: "CLEAN-20260528-002",
@@ -4880,17 +5064,33 @@
           reviewTaskId: "REV-20260528-005",
           name: "取餐口、台面与垃圾桶清洁",
           store: "大学城南门店",
-          status: "已驳回",
+          status: "已完成",
           owner: "兼职-王可",
           createdAt: "2026-06-08 08:30:00",
           taskRequirement: "清洁取餐口、台面和垃圾桶周边区域，确保取餐口无污渍，台面整洁，垃圾桶周边无溢出垃圾。",
           uploadRequirement: "请上传包含日期时间、位置的水印照片。",
           examplePhotos: ["取餐口清洁后图片", "台面与垃圾桶周边清洁后图片"],
-          photos: [],
-          completedAt: "",
-          auditOpinion: "垃圾桶周边仍有纸屑，请重新清洁并补拍水印照片。",
+          photos: ["第三次提交取餐口清洁后图片", "第三次提交垃圾桶周边图片"],
+          completedAt: "2026-06-08 12:06:00",
+          auditOpinion: "",
           error: "",
-          note: "",
+          note: "已按审核意见重新清洁取餐口和垃圾桶周边。",
+        },
+        {
+          id: "CLEAN-20260528-004",
+          reviewTaskId: "REV-20260528-004",
+          name: "液体墙、糖浆机、制冰机清洁（出口、槽）",
+          store: "大学城南门店",
+          status: "已完成",
+          owner: "兼职-王可",
+          createdAt: "2026-06-07 00:12:00",
+          taskRequirement: "清洁液体墙、糖浆机和制冰机出口及槽位，确保出口无残留糖浆，槽位无污渍和异味。",
+          uploadRequirement: "请上传包含日期时间、位置的水印照片。",
+          examplePhotos: ["出口与槽位无残留", "制冰机槽位清洁后图片"],
+          photos: ["出口与槽位无残留", "制冰机槽位清洁后图片"],
+          completedAt: "2026-06-07 16:55:00",
+          error: "",
+          note: "已完成液体墙、糖浆机和制冰机出口及槽位清洁。",
         },
       ];
 
@@ -4924,6 +5124,7 @@
       const demoDoneReviewTasks = [
         {
           id: "REV-DONE-20260616-001",
+          cleaningTaskId: "CLEAN-20260616-001",
           type: "review",
           name: "咖啡机清洁（洗机、咖啡槽）",
           store: "大学城南门店",
@@ -4950,6 +5151,7 @@
         },
         {
           id: "REV-DONE-20260608-002",
+          cleaningTaskId: "CLEAN-20260528-005",
           type: "review",
           name: "取餐口、台面与垃圾桶清洁",
           store: "大学城南门店",
@@ -4977,6 +5179,7 @@
         },
         {
           id: "REV-DONE-20260607-001",
+          cleaningTaskId: "CLEAN-20260528-004",
           type: "review",
           name: "液体墙、糖浆机、制冰机清洁（出口、槽）",
           store: "大学城南门店",
@@ -5006,17 +5209,20 @@
       const feedbackMessages = [
         { id: "FB-DEMO-021-010", taskId: "CLEAN-20260621-010", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "取餐口与台面清洁", result: "通过", opinion: "图片完整，取餐口和台面清洁质量符合标准。", submittedAt: "2026-06-21 09:16:00", time: "2026-06-21 09:42:00", closed: false, photosSnapshot: ["06-21 取餐口清洁后水印照片", "06-21 台面与垃圾桶周边水印照片"] },
         { id: "FB-DEMO-021-011", taskId: "CLEAN-20260621-011", store: "大学城南门店", operator: "周岩", partTimer: "兼职-王可", title: "液体墙与糖浆机出口清洁", result: "驳回", opinion: "糖浆机出口仍有残留，请重新清洁并补拍水印照片。", submittedAt: "2026-06-21 10:05:00", time: "2026-06-21 10:24:00", closed: false, rejectCount: 1, photosSnapshot: ["06-21 液体墙出口清洁后水印照片", "06-21 糖浆机出口清洁后水印照片"] },
+        { id: "FB-DEMO-20260616-001", taskId: "CLEAN-20260616-001", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "咖啡机清洁（洗机、咖啡槽）", result: "通过", opinion: "图片完整，咖啡槽和隔板清洁结果符合标准。", submittedAt: "2026-06-16 09:05:00", time: "2026-06-16 09:30:00", closed: false, photosSnapshot: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"] },
         { id: "FB-DEMO-001", taskId: "CLEAN-20260528-001", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "咖啡机清洁（洗机、咖啡槽）", result: "通过", opinion: "本次清洁任务已闭环。", submittedAt: "2026-06-08 09:05:00", time: "2026-06-08 09:30:00", closed: false, photosSnapshot: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"] },
-        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-005", store: "大学城南门店", operator: "周岩", partTimer: "兼职-王可", title: "取餐口、台面与垃圾桶清洁", result: "驳回", opinion: "垃圾桶周边仍有纸屑，请重新清洁并补拍水印照片。", submittedAt: "2026-06-08 11:02:00", time: "2026-06-08 11:28:00", closed: false, rejectCount: 2, photosSnapshot: ["重新提交取餐口清洁后图片", "重新提交垃圾桶周边图片"] },
+        { id: "FB-DEMO-002", taskId: "CLEAN-20260528-005", store: "大学城南门店", operator: "周岩", partTimer: "兼职-王可", title: "取餐口、台面与垃圾桶清洁", result: "通过", opinion: "第三次提交图片完整，取餐口和垃圾桶周边已清洁到位。", submittedAt: "2026-06-08 12:06:00", time: "2026-06-08 12:24:00", closed: false, rejectCount: 2, photosSnapshot: ["第三次提交取餐口清洁后图片", "第三次提交垃圾桶周边图片"] },
         { id: "FB-DEMO-003", taskId: "CLEAN-20260528-004", store: "大学城南门店", operator: "李晴", partTimer: "兼职-王可", title: "液体墙、糖浆机、制冰机清洁（出口、槽）", result: "通过", opinion: "图片完整，清洁质量符合标准。", submittedAt: "2026-06-07 16:55:00", time: "2026-06-07 17:20:00", closed: false, photosSnapshot: ["出口与槽位无残留", "制冰机槽位清洁后图片"] },
       ];
 
       const cleaningAuditRecords = [
         { id: "AUD-DEMO-021-010", taskId: "CLEAN-20260621-010", taskName: "取餐口与台面清洁", store: "大学城南门店", partTimer: "兼职-王可", operator: "李晴", submitRound: 1, submittedAt: "2026-06-21 09:16:00", auditedAt: "2026-06-21 09:42:00", result: "通过", opinion: "图片完整，取餐口和台面清洁质量符合标准。", photosSnapshot: ["06-21 取餐口清洁后水印照片", "06-21 台面与垃圾桶周边水印照片"] },
         { id: "AUD-DEMO-021-011", taskId: "CLEAN-20260621-011", taskName: "液体墙与糖浆机出口清洁", store: "大学城南门店", partTimer: "兼职-王可", operator: "周岩", submitRound: 1, submittedAt: "2026-06-21 10:05:00", auditedAt: "2026-06-21 10:24:00", result: "驳回", opinion: "糖浆机出口仍有残留，请重新清洁并补拍水印照片。", photosSnapshot: ["06-21 液体墙出口清洁后水印照片", "06-21 糖浆机出口清洁后水印照片"] },
+        { id: "AUD-DEMO-20260616-001", taskId: "CLEAN-20260616-001", taskName: "咖啡机清洁（洗机、咖啡槽）", store: "大学城南门店", partTimer: "兼职-王可", operator: "李晴", submitRound: 1, submittedAt: "2026-06-16 09:05:00", auditedAt: "2026-06-16 09:30:00", result: "通过", opinion: "图片完整，咖啡槽和隔板清洁结果符合标准。", cleaningNote: "已完成洗机流程，咖啡槽和隔板已清理干净。", photosSnapshot: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"] },
         { id: "AUD-DEMO-001", taskId: "CLEAN-20260528-001", taskName: "咖啡机清洁（洗机、咖啡槽）", store: "大学城南门店", partTimer: "兼职-王可", operator: "李晴", submitRound: 1, submittedAt: "2026-06-08 09:05:00", auditedAt: "2026-06-08 09:30:00", result: "通过", opinion: "本次清洁任务已闭环。", photosSnapshot: ["咖啡机洗机时界面", "咖啡槽与隔板清洗后图片"] },
         { id: "AUD-DEMO-002", taskId: "CLEAN-20260528-005", taskName: "取餐口、台面与垃圾桶清洁", store: "大学城南门店", partTimer: "兼职-王可", operator: "周岩", submitRound: 1, submittedAt: "2026-06-08 09:48:00", auditedAt: "2026-06-08 10:15:00", result: "驳回", opinion: "取餐口边缘还有咖啡渍残留，请重新擦拭后补拍水印照片。", photosSnapshot: ["取餐口清洁后图片", "台面与垃圾桶周边清洁后图片"] },
         { id: "AUD-DEMO-005", taskId: "CLEAN-20260528-005", taskName: "取餐口、台面与垃圾桶清洁", store: "大学城南门店", partTimer: "兼职-王可", operator: "周岩", submitRound: 2, submittedAt: "2026-06-08 11:02:00", auditedAt: "2026-06-08 11:28:00", result: "驳回", opinion: "垃圾桶周边仍有纸屑，请重新清洁并补拍水印照片。", photosSnapshot: ["重新提交取餐口清洁后图片", "重新提交垃圾桶周边图片"] },
+        { id: "AUD-DEMO-006", taskId: "CLEAN-20260528-005", taskName: "取餐口、台面与垃圾桶清洁", store: "大学城南门店", partTimer: "兼职-王可", operator: "周岩", submitRound: 3, submittedAt: "2026-06-08 12:06:00", auditedAt: "2026-06-08 12:24:00", result: "通过", opinion: "第三次提交图片完整，取餐口和垃圾桶周边已清洁到位。", photosSnapshot: ["第三次提交取餐口清洁后图片", "第三次提交垃圾桶周边图片"] },
         { id: "AUD-DEMO-003", taskId: "CLEAN-20260528-004", taskName: "液体墙、糖浆机、制冰机清洁（出口、槽）", store: "大学城南门店", partTimer: "兼职-王可", operator: "李晴", submitRound: 1, submittedAt: "2026-06-07 16:55:00", auditedAt: "2026-06-07 17:20:00", result: "通过", opinion: "图片完整，清洁质量符合标准。", photosSnapshot: ["出口与槽位无残留", "制冰机槽位清洁后图片"] },
         { id: "AUD-DEMO-004", taskId: "CLEAN-20260528-002", taskName: "液体墙、糖浆机、制冰机清洁（出口、槽）", store: "鼎好 DH3-A座", partTimer: "兼职-赵琳", operator: "李晴", submitRound: 1, submittedAt: "2026-06-08 10:42:00", auditedAt: "2026-06-08 11:00:00", result: "驳回", opinion: "液体墙出口仍有残留糖浆，请按示例标准重新清洁并重新上传水印照片。", photosSnapshot: ["出口与槽位无残留", "制冰机槽位清洁后图片"] },
       ];
@@ -5105,6 +5311,7 @@
         },
         {
           id: "REV-NEW-20260621-001",
+          cleaningTaskId: "CLEAN-20260528-005",
           type: "review",
           name: "取餐口、台面与垃圾桶清洁",
           store: "大学城南门店",
@@ -5130,6 +5337,33 @@
           isNewTask: true,
           isReReview: true,
         },
+        {
+          id: "REV-NEW-20260621-002",
+          cleaningTaskId: "CLEAN-20260621-009",
+          type: "review",
+          name: "咖啡机洗机与咖啡槽清洁",
+          store: "科技园 A 座店",
+          level: "审核任务",
+          status: "待处理",
+          object: "今日必完成任务",
+          detail: "兼职已提交咖啡机洗机与咖啡槽清洁图片，等待运营首次审核。",
+          owner: "李晴",
+          createdAt: "2026-06-21 14:06:00",
+          submitter: "兼职-王可",
+          submittedAt: "2026-06-21 14:03:00",
+          submitType: "清洁图片上传",
+          reviewStatus: "待审核",
+          auditResult: "",
+          materialCount: "2张图片",
+          auditPhotos: ["06-21 咖啡机洗机界面水印照片", "06-21 咖啡槽与隔板清洁后水印照片"],
+          examplePhotos: ["咖啡机洗机界面", "咖啡槽与隔板清洁后图片"],
+          cleaningNote: "已完成洗机和咖啡槽清洁，咖啡槽无明显残留。",
+          situation: "兼职首次提交清洁结果后生成待审核任务。",
+          reason: "今日固定任务需要运营复核后闭环。",
+          note: "",
+          logs: [],
+          isNewTask: true,
+        },
       ];
       let roleIndex = 0;
       const currentOperatorName = "李晴";
@@ -5150,10 +5384,16 @@
       let inspectionEditingId = "";
       let selectedOpsStoreId = "";
       let opsStoreSearch = "";
+      let opsStorePage = 1;
+      let opsStoreRelationFilter = "primary";
+      let partTimeTaskRelationScope = "";
       let reviewTasksNotified = false;
       let feedbackNotified = false;
       let isLoggedIn = false;
       let lastQuestionNode = null;
+      let activeQueryMessageTime = null;
+      let thinkingMessageNode = null;
+      let suppressNextUserMessage = false;
       let loginPhone = "13812345678";
       let privacyAction = "oneTap";
       let loginBusy = false;
@@ -5162,6 +5402,7 @@
       let codeExpireAt = 0;
       let resendLeftSeconds = 58;
       let resendTimer = null;
+      const currentPartTimerName = "兼职-王可";
       const validLoginPhones = ["13812345678", "13912345678", "13600000000", "13700000000", "13300000000"];
       const phoneLoginExceptions = {
         "13100000000": "当前手机号未开通运营助手权限",
@@ -5230,7 +5471,19 @@
       }
 
       function activeTasksForRole() {
-        return visibleTasksForRole().filter((task) => !isDoneStatus(task.status) && task.status !== "暂缓中");
+        return visibleTasksForRole().filter((task) => !isOperatorHandledTask(task) && task.status !== "暂缓中");
+      }
+
+      function isCurrentPartTimeTask(task) {
+        return task.owner === currentPartTimerName || task.originalOwner === currentPartTimerName;
+      }
+
+      function partTimeTodoTasks() {
+        return cleaningTasks.filter((task) => isCurrentPartTimeTask(task) && ["待处理", "处理中", "已驳回"].includes(task.status));
+      }
+
+      function isPartTimeProcessedTask(task) {
+        return task.owner === currentPartTimerName && ["已提交", "已完成", "已驳回"].includes(task.status);
       }
 
       function alarmTasksForRole() {
@@ -5247,6 +5500,18 @@
         if (store?.operator === currentOperator) return "primary";
         if ((assistantStoreOwners[currentOperator] || []).includes(task.store)) return "assist";
         return "none";
+      }
+
+      function taskRelationLabel(task) {
+        return taskRelation(task) === "assist" ? "可协助" : "我主责";
+      }
+
+      function taskOwnerName(task) {
+        if (task.type === "cleaning" || task.type === "cleaning-takeover" || task.reviewTaskId) {
+          return task.originalOwner || task.ownerAtAssign || task.assignedOwner || task.owner || "-";
+        }
+        const store = storeStatusList.find((item) => item.name === task.store);
+        return task.ownerAtAssign || task.assignedOwner || store?.operator || task.owner || "-";
       }
 
       function tasksForOperatorScope(list) {
@@ -5286,7 +5551,7 @@
           <div class="standby-hero">
             <div class="standby-copy">
               <strong>${isPartTime ? "我是你的任务助手" : "我是你的运营助手"}</strong>
-              <span>${isPartTime ? "你可以查看今日清洁任务、审核反馈和门店状态。" : "及时反馈门店问题，保障门店服务体验。"}</span>
+              <span>${isPartTime ? "我可以帮你查看今日清洁任务、今日处理和门店状态。" : "我可以帮你发起智能巡店，查看报警任务、清洁审核和清洁进度提醒。"}</span>
             </div>
             <div class="assistant-visual" aria-hidden="true"></div>
           </div>
@@ -5299,8 +5564,12 @@
         const reviewTasks = sortReviewTasks(active.filter((task) => task.type === "review"));
         const visibleAlarms = tasksForOperatorScope(alarmTasks);
         const visibleReviews = tasksForOperatorScope(reviewTasks);
-        if (!visibleAlarms.length && !visibleReviews.length) {
-          return `${assistantHomeHeroHTML("门店运营")}<div class="bubble"><strong>当前暂无主动推送任务</strong><br />你可以通过底部快捷入口发起查询，或在底部输入具体诉求。</div>`;
+        const timeoutReminders = cleaningTimeoutReminders();
+        const timeoutTaskCount = timeoutReminders.reduce((sum, item) => sum + item.tasks.length, 0);
+        const timeoutPrimaryCount = timeoutReminders.filter((item) => item.relation === "primary").length;
+        const timeoutAssistCount = timeoutReminders.length - timeoutPrimaryCount;
+        if (!visibleAlarms.length && !visibleReviews.length && !timeoutReminders.length) {
+          return `${assistantHomeHeroHTML("门店运营")}<div class="bubble"><strong>当前暂无主动推送事项</strong><br />你可以通过底部快捷入口发起查询，或在底部输入具体诉求。</div>`;
         }
         const countByRelation = (list, relation) => list.filter((task) => taskRelation(task) === relation).length;
         const countLevel = (list, level) => list.filter((task) => task.level === level).length;
@@ -5309,12 +5578,28 @@
         const primaryReviews = countByRelation(visibleReviews, "primary");
         const assistReviews = countByRelation(visibleReviews, "assist");
         const levelText = (list) => `<span class="operator-level-stat fatal">致命 ${countLevel(list, "致命报警")}</span> / <span class="operator-level-stat severe">严重 ${countLevel(list, "严重报警")}</span> / <span class="operator-level-stat warn">预警 ${countLevel(list, "预警")}</span>`;
-        const updatedAt = nowLabel().slice(11, 16);
+        const totalAttentionCount = visibleAlarms.length + visibleReviews.length + timeoutReminders.length;
         let html = `${assistantHomeHeroHTML("门店运营")}<div class="bubble">
-          <div class="operator-push-title"><strong>当前实时待处理任务</strong><span>实时更新至 ${updatedAt}</span></div>
+          <div class="operator-push-title"><strong>当前实时待关注事项</strong></div>
           <div class="operator-priority-note">处理顺序已按优先级排序</div>
-          <div class="operator-push-copy">
-            当前共有 <b>${visibleAlarms.length + visibleReviews.length} 条</b> 待处理任务：报警任务 <b>${visibleAlarms.length} 条</b>，其中我主责 <b>${primaryAlarms.length} 条</b>（${levelText(primaryAlarms)}），可协助处理 <b>${assistAlarms.length} 条</b>（${levelText(assistAlarms)}）；审核任务 <b>${visibleReviews.length} 条</b>，其中我主责 <b>${primaryReviews} 条</b>，可协助审核 <b>${assistReviews} 条</b>。
+          <div class="attention-summary">
+            <div class="attention-summary-main">当前共有 <b>${totalAttentionCount} 条</b> 待关注事项</div>
+            <div class="attention-summary-row">
+              <span class="attention-summary-label">报警任务</span>
+              <span>我主责 <b>${primaryAlarms.length} 条</b>（${levelText(primaryAlarms)}）</span>
+            </div>
+            <div class="attention-summary-row">
+              <span class="attention-summary-label"></span>
+              <span>可协助 <b>${assistAlarms.length} 条</b>（${levelText(assistAlarms)}）</span>
+            </div>
+            <div class="attention-summary-row">
+              <span class="attention-summary-label">审核任务</span>
+              <span>我主责 <b>${primaryReviews} 条</b>，可协助审核 <b>${assistReviews} 条</b></span>
+            </div>
+            <div class="attention-summary-row">
+              <span class="attention-summary-label">清洁提醒</span>
+              <span>我主责 <b>${timeoutPrimaryCount} 条</b>，可协助跟进 <b>${timeoutAssistCount} 条</b></span>
+            </div>
           </div>
         </div>`;
         if (visibleAlarms.length) {
@@ -5327,58 +5612,91 @@
             ${groupedTaskListHTML(reviewTasks, { primary: "我主责的审核任务", assist: "以下为我可协助审核的任务" })}
           </section>`;
         }
+        if (timeoutReminders.length) {
+          html += `<section class="operator-push-section">
+            ${groupedCleaningTimeoutHTML(timeoutReminders)}
+          </section>`;
+        }
         return html;
       }
 
       function partTimeHomePushHTML() {
-        const active = cleaningTasks.filter((task) => !isDoneStatus(task.status));
+        const active = partTimeTodoTasks();
         const rejectedCount = active.filter((task) => task.status === "已驳回").length;
         if (!active.length) {
-          return `${assistantHomeHeroHTML("兼职")}<div class="bubble"><div class="operator-push-title"><strong>当前待处理巡店任务</strong><span>实时更新至 ${nowLabel().slice(11, 16)}</span></div><div class="operator-push-copy">今日巡店任务已全部提交，运营审核后会通过审核反馈通知你。</div></div>`;
+          return `${assistantHomeHeroHTML("兼职")}<div class="bubble"><div class="operator-push-title"><strong>当前待处理巡店任务</strong></div><div class="operator-push-copy">今日巡店任务已全部提交，处理结果可在「今日处理」中查看。</div></div>`;
         }
         return `${assistantHomeHeroHTML("兼职")}<div class="bubble">
-          <div class="operator-push-title"><strong>当前待处理巡店任务</strong><span>实时更新至 ${nowLabel().slice(11, 16)}</span></div>
+          <div class="operator-push-title"><strong>当前待处理巡店任务</strong></div>
           <div class="operator-priority-note">请尽快完成今日巡店任务</div>
           <div class="operator-push-copy">你当前有 <b>${active.length} 个</b>任务待处理${rejectedCount ? `，其中 <b>${rejectedCount} 个</b>待重新清洁` : ""}。全部完成后，运营会对你的完成质量进行审核。</div>
         </div>${active.map(cleaningTaskCard).join("")}`;
       }
 
       function operatorPartTimeTaskHTML() {
-        return `<div class="bubble"><strong>你想按什么方式查看兼职任务？</strong><br />兼职任务不会默认推送给运营，需要临时协助时可主动查询。</div>
+        return `<div class="bubble"><strong>你想按什么方式查看今日兼职任务？</strong><br />我会返回今日兼职清洁任务的全部状态，方便你查看处理进度。</div>
           <div class="quick-pick">
-            <button data-suggest="按门店查看兼职任务" type="button">按门店查看</button>
-            <button data-suggest="按兼职查看兼职任务" type="button">按兼职查看</button>
+            <button data-suggest="我主责-按门店查看兼职任务" type="button">我主责-按门店查看</button>
+            <button data-suggest="我主责-按兼职人员查看兼职任务" type="button">我主责-按兼职人员查看</button>
+            <button data-suggest="我可协助-按门店查看兼职任务" type="button">我可协助-按门店查看</button>
+            <button data-suggest="我可协助-按兼职人员查看兼职任务" type="button">我可协助-按兼职人员查看</button>
           </div>`;
       }
 
-      function operatorPartTimeTaskOptionsHTML(type) {
-        const available = cleaningTasks.filter((task) => !isDoneStatus(task.status));
+      function operatorPartTimeTaskOptionsHTML(type, relationScope = "") {
+        const scopeLabel = relationScope === "assist" ? "我可协助跟进" : relationScope === "primary" ? "我主责" : "当前范围";
+        const available = cleaningTasks.filter((task) => taskRelation(task) !== "none" && (!relationScope || taskRelation(task) === relationScope));
         if (!available.length) {
-          return `<div class="bubble"><strong>当前暂无可接手的兼职任务。</strong><br />兼职任务不会默认推送给运营，需要临时协助时可从这里主动查询。</div>`;
+          return `<div class="bubble"><strong>${scopeLabel}今日暂无兼职清洁任务。</strong><br />生成任务后会在这里按门店或兼职人员展示。</div>`;
         }
         const values = [...new Set(available.map((task) => type === "store" ? task.store : task.originalOwner || task.owner).filter(Boolean))];
-        const title = type === "store" ? "请选择门店" : "请选择兼职";
-        const allLabel = type === "store" ? "全部门店" : "全部兼职";
-        return `<div class="bubble"><strong>${title}</strong><br />选择后我会返回对应范围内可接手的兼职任务。</div>
+        const title = type === "store" ? `${scopeLabel}-请选择门店` : `${scopeLabel}-请选择兼职人员`;
+        const allLabel = type === "store" ? "全部门店" : "全部兼职人员";
+        const suggestPrefix = relationScope === "assist" ? "我可协助" : relationScope === "primary" ? "我主责" : "";
+        return `<div class="bubble"><strong>${title}</strong><br />选择后我会返回${scopeLabel}今日兼职清洁任务的全部状态。</div>
           <div class="quick-pick">
-            <button data-suggest="${allLabel}兼职任务" type="button">${allLabel}</button>
-            ${values.map((value) => `<button data-suggest="${escapeHtml(value)}兼职任务" type="button">${escapeHtml(value)}</button>`).join("")}
+            <button data-suggest="${suggestPrefix}${allLabel}兼职任务" type="button">${allLabel}</button>
+            ${values.map((value) => `<button data-suggest="${suggestPrefix}${escapeHtml(value)}兼职任务" type="button">${escapeHtml(value)}</button>`).join("")}
           </div>`;
       }
 
       function operatorPartTimeTaskListHTML(filter = {}) {
-        let available = cleaningTasks.filter((task) => !isDoneStatus(task.status));
+        let available = cleaningTasks.filter((task) => taskRelation(task) !== "none");
+        if (filter.relation) available = available.filter((task) => taskRelation(task) === filter.relation);
         if (filter.store) available = available.filter((task) => task.store === filter.store);
         if (filter.owner) available = available.filter((task) => (task.originalOwner || task.owner) === filter.owner);
         if (!available.length) {
-          return `<div class="bubble"><strong>当前范围内暂无可接手的兼职任务。</strong><br />你可以返回选择全部门店或全部兼职查看。</div>`;
+          return `<div class="bubble"><strong>当前范围内今日暂无兼职清洁任务。</strong><br />你可以返回选择全部门店或全部兼职查看。</div>`;
         }
+        const pendingCount = available.filter((task) => task.status === "待处理").length;
+        const handlingCount = available.filter((task) => task.status === "处理中").length;
+        const submittedCount = available.filter((task) => task.status === "已提交").length;
         const rejectedCount = available.filter((task) => task.status === "已驳回").length;
-        const scopeText = filter.store ? `${filter.store} · ` : filter.owner ? `${filter.owner} · ` : "";
+        const doneCount = available.filter((task) => isDoneStatus(task.status)).length;
+        const primary = available.filter((task) => taskRelation(task) === "primary");
+        const assist = available.filter((task) => taskRelation(task) === "assist");
+        const relationText = filter.relation === "assist" ? "我可协助跟进 · " : filter.relation === "primary" ? "我主责 · " : "";
+        const scopeText = filter.store ? `${relationText}${filter.store} · ` : filter.owner ? `${relationText}${filter.owner} · ` : relationText;
+        const relationParts = [
+          primary.length ? `我主责 ${primary.length} 个` : "",
+          assist.length ? `可协助跟进 ${assist.length} 个` : "",
+        ].filter(Boolean);
+        const relationSummary = relationParts.join("，") || (filter.relation === "assist" ? "可协助跟进 0 个" : "我主责 0 个");
+        const statusSummary = [
+          pendingCount ? `待处理 ${pendingCount} 个` : "",
+          handlingCount ? `处理中 ${handlingCount} 个` : "",
+          submittedCount ? `已提交 ${submittedCount} 个` : "",
+          rejectedCount ? `待重新清洁 ${rejectedCount} 个` : "",
+          doneCount ? `已完成 ${doneCount} 个` : "",
+        ].filter(Boolean).join("，");
+        const groupedHTML = [
+          primary.length ? `<div class="task-group-title">我主责的兼职清洁任务：<strong>${primary.length} 个</strong></div>${primary.map(cleaningTaskCard).join("")}` : "",
+          assist.length ? `<div class="task-group-divider"><span>以下为我可协助跟进的兼职清洁任务：<strong>${assist.length} 个</strong></span></div>${assist.map(cleaningTaskCard).join("")}` : "",
+        ].join("");
         return `<div class="bubble">
-          <strong>${escapeHtml(scopeText)}当前可接手兼职任务 ${available.length} 个</strong><br />
-          ${rejectedCount ? `其中 ${rejectedCount} 个待重新清洁。` : "这些任务原本分配给兼职人员，运营可按需接手处理。"}点击“开始清洁”后，处理人会变为当前运营，并保留原处理人。
-        </div>${available.map(cleaningTaskCard).join("")}`;
+          <strong>${escapeHtml(scopeText)}今日兼职清洁任务 ${available.length} 个</strong><br />
+          ${relationSummary}；${statusSummary}。未完成任务可由运营按需接手处理。
+        </div>${groupedHTML}`;
       }
 
       function isCleaningTaskTimeout(task) {
@@ -5387,6 +5705,7 @@
 
       function cleaningTimeoutInfo(task) {
         const now = new Date((nowLabel() || "").replace(/-/g, "/"));
+        const formatDateTime = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
         const start = typeof task.lastWashOffsetHours === "number"
           ? new Date(now.getTime() - task.lastWashOffsetHours * 60 * 60 * 1000)
           : task.lastWashAt
@@ -5394,24 +5713,41 @@
             : task.createdAt
               ? new Date(task.createdAt.replace(/-/g, "/"))
               : null;
-        const lastWashAt = start ? `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, "0")}-${String(start.getDate()).padStart(2, "0")} ${String(start.getHours()).padStart(2, "0")}:${String(start.getMinutes()).padStart(2, "0")}:00` : "";
+        const lastWashAt = start ? formatDateTime(start) : "";
         const washIntervalHours = task.washIntervalHours || 24;
         const remindBeforeHours = task.remindBeforeHours || 4;
         const latestWashAt = start ? new Date(start.getTime() + washIntervalHours * 60 * 60 * 1000) : null;
         const remindAt = latestWashAt ? new Date(latestWashAt.getTime() - remindBeforeHours * 60 * 60 * 1000) : null;
         const minutesUntilReminder = remindAt ? Math.round((remindAt.getTime() - now.getTime()) / 60000) : 0;
         const minutesUntilLatestWash = latestWashAt ? Math.round((latestWashAt.getTime() - now.getTime()) / 60000) : 0;
+        const secondsUntilLatestWash = latestWashAt ? Math.round((latestWashAt.getTime() - now.getTime()) / 1000) : 0;
         return {
           lastWashAt,
-          latestWashAt: latestWashAt ? `${String(latestWashAt.getHours()).padStart(2, "0")}:${String(latestWashAt.getMinutes()).padStart(2, "0")}` : "--:--",
-          remindAt: remindAt ? `${String(remindAt.getHours()).padStart(2, "0")}:${String(remindAt.getMinutes()).padStart(2, "0")}` : "--:--",
+          latestWashAt: latestWashAt ? formatDateTime(latestWashAt) : "---- -- -- --:--:--",
+          remindAt: remindAt ? formatDateTime(remindAt) : "---- -- -- --:--:--",
           minutesUntilReminder,
           minutesUntilLatestWash,
+          secondsUntilLatestWash,
           reminderElapsedMinutes: Math.max(0, -minutesUntilReminder),
           overdueMinutes: Math.max(0, -minutesUntilLatestWash),
+          overdueSeconds: Math.max(0, -secondsUntilLatestWash),
           washIntervalHours,
           remindBeforeHours,
         };
+      }
+
+      function formatDurationSeconds(seconds) {
+        const total = Math.max(0, Math.round(Number(seconds) || 0));
+        const days = Math.floor(total / 86400);
+        const hours = Math.floor((total % 86400) / 3600);
+        const mins = Math.floor((total % 3600) / 60);
+        const secs = total % 60;
+        const parts = [];
+        if (days) parts.push(`${days} 天`);
+        if (hours) parts.push(`${hours} 小时`);
+        if (mins) parts.push(`${mins} 分钟`);
+        if (secs || !parts.length) parts.push(`${secs} 秒`);
+        return parts.join("");
       }
 
       function cleaningTimeoutTasks() {
@@ -5467,13 +5803,17 @@
 
       function cleaningTimeoutCard(reminder, options = {}) {
         const info = cleaningTimeoutInfo(reminder);
-        const isOverLatestWash = info.minutesUntilLatestWash <= 0;
-        const overdueText = isOverLatestWash ? `<br />该咖啡机已超过最晚洗机时间 <b>${escapeHtml(Math.abs(info.minutesUntilLatestWash) + " 分钟")}</b>。` : "";
+        const isOverLatestWash = info.secondsUntilLatestWash <= 0;
+        const isNewReminder = options.isNew === true;
+        const overdueText = isOverLatestWash ? `<br />该咖啡机已超过最晚洗机时间 <b>${escapeHtml(formatDurationSeconds(info.overdueSeconds))}</b>。` : "";
         const reminderTaskIds = reminder.tasks.map((task) => task.id).join(",");
         return `
           <div class="timeout-bubble ${isOverLatestWash ? "is-overdue" : "is-warning"}" data-cleaning-timeout="${escapeHtml(reminder.id)}">
             <div class="timeout-bubble-head">
-              <span class="timeout-bubble-badge">${isOverLatestWash ? "超时" : "提醒"}</span>
+              <span class="timeout-bubble-labels">
+                <span class="timeout-bubble-badge">${isOverLatestWash ? "超时" : "提醒"}</span>
+                ${isNewReminder ? `<span class="new-task-tag">新</span>` : ""}
+              </span>
               <strong>${options.relation === "assist" ? "可协助清洁进度提醒" : "主责清洁进度提醒"}</strong>
             </div>
             <div class="timeout-bubble-text">
@@ -5488,14 +5828,15 @@
       }
 
       function groupedCleaningTimeoutHTML(list) {
+        const showNewTag = list.some((item) => item.isNewReminder);
         const primary = list.filter((item) => item.relation === "primary");
         const assist = list.filter((item) => item.relation === "assist");
         var html = "";
         if (primary.length) {
-          html += `<div class="task-group-title">我主责的清洁进度提醒：<strong>${primary.length} 条</strong></div>${primary.map(cleaningTimeoutCard).join("")}`;
+          html += `<div class="task-group-title">我主责的清洁进度提醒：<strong>${primary.length} 条</strong></div>${primary.map((item) => cleaningTimeoutCard(item, { isNew: showNewTag || item.isNewReminder })).join("")}`;
         }
         if (assist.length) {
-          html += `<div class="task-group-divider"><span>以下为我可协助处理的清洁进度提醒：<strong>${assist.length} 条</strong></span></div>${assist.map((item) => cleaningTimeoutCard(item, { relation: "assist" })).join("")}`;
+          html += `<div class="task-group-divider"><span>以下为我可协助处理的清洁进度提醒：<strong>${assist.length} 条</strong></span></div>${assist.map((item) => cleaningTimeoutCard(item, { relation: "assist", isNew: showNewTag || item.isNewReminder })).join("")}`;
         }
         return html;
       }
@@ -5551,6 +5892,10 @@
         return rejectionRecordsForCleaningTask(taskId).length;
       }
 
+      function cleaningProcessTypeName(task) {
+        return rejectionCountForCleaningTask(task.id) ? "重新处理" : "首次处理";
+      }
+
       function feedbackPhotosHTML(message, unsat) {
         if (!unsat) return "";
         const task = feedbackCleaningTask(message);
@@ -5578,13 +5923,17 @@
         `;
       }
 
-      function feedbackHistoryHTML(message) {
-        const records = auditRecordsForCleaningTask(message.taskId).sort((a, b) => String(b.auditedAt || b.submittedAt || "").localeCompare(String(a.auditedAt || a.submittedAt || "")));
+      function feedbackHistoryHTML(message, options = {}) {
+        const records = (message.fallbackRecords || auditRecordsForCleaningTask(message.taskId)).sort((a, b) => String(b.auditedAt || b.submittedAt || "").localeCompare(String(a.auditedAt || a.submittedAt || "")));
         if (!records.length) return "";
+        const cleaningTask = feedbackCleaningTask(message);
+        const title = options.title || "审核记录";
         return `<details class="feedback-history">
-          <summary class="feedback-history-title"><span>审核记录 · ${records.length} 条</span></summary>
+          <summary class="feedback-history-title"><span>${escapeHtml(title)} · ${records.length} 条</span></summary>
           ${records.map((record, index) => {
             const photos = record.photosSnapshot || [];
+            const cleaningNote = record.cleaningNote || record.cleaningNoteSnapshot || cleaningTask?.note || message.cleaningNote || "无";
+            const handler = record.partTimer || record.submitter || message.partTimer || cleaningTask?.owner || "-";
             const photosHTML = photos.length
               ? `<div class="feedback-photo-group"><span>提交图片</span><div class="feedback-photo-strip">${photos.slice(0, 3).map((photo, photoIndex) => `<button class="review-photo" data-preview-audit-record="${escapeHtml(record.id)}" data-photo-index="${photoIndex}" type="button" aria-label="预览第${index + 1}次提交图片">${mockCleanPhoto({ ...record, store: record.store, submittedAt: record.submittedAt, photos }, photoIndex)}</button>`).join("")}</div></div>`
               : "";
@@ -5592,6 +5941,8 @@
               <div class="feedback-round-head"><strong>第 ${record.submitRound || index + 1} 次提交</strong></div>
               <div class="feedback-card-body">
                 <div class="feedback-row"><span>提交时间</span><strong>${escapeHtml(record.submittedAt || "-")}</strong></div>
+                <div class="feedback-row"><span>处理人</span><strong>${escapeHtml(handler)}</strong></div>
+                <div class="feedback-row"><span>清洁说明</span><strong>${escapeHtml(cleaningNote)}</strong></div>
                 <div class="feedback-row"><span>审核时间</span><strong>${escapeHtml(record.auditedAt || "-")}</strong></div>
                 <div class="feedback-row"><span>审核人</span><strong>${escapeHtml(record.operator || "-")}</strong></div>
                 <div class="feedback-row"><span>审核结果</span><strong>${escapeHtml(record.result || "-")}</strong></div>
@@ -5603,10 +5954,53 @@
         </details>`;
       }
 
+      function reviewSubmittedPhotosHTML(task) {
+        if (task.type !== "review") return "";
+        const sourceCleaningTask = findCleaningTaskByReview(task);
+        const submittedPhotos = task.auditPhotos && task.auditPhotos.length ? task.auditPhotos : sourceCleaningTask?.photos && sourceCleaningTask.photos.length ? sourceCleaningTask.photos : [];
+        if (!submittedPhotos.length) return "";
+        return `<div class="feedback-photo-panel">
+          <div class="feedback-photo-group">
+            <span>提交图片</span>
+            <div class="feedback-photo-strip">
+              ${submittedPhotos.slice(0, 3).map((photo, index) => `<button class="review-photo" data-preview-photo="${escapeHtml(task.id)}" data-photo-index="${index}" type="button" aria-label="预览提交图片">${mockCleanPhoto({ ...task, photos: submittedPhotos }, index)}</button>`).join("")}
+            </div>
+          </div>
+        </div>`;
+      }
+
+      function operatorReviewHistoryHTML(task) {
+        if (task.type !== "review") return "";
+        const sourceCleaningTask = findCleaningTaskByReview(task);
+        if (!sourceCleaningTask) return reviewSubmittedPhotosHTML(task);
+        const existingHistory = feedbackHistoryHTML({ taskId: sourceCleaningTask.id });
+        if (existingHistory) return existingHistory;
+        const fallbackRecord = {
+          id: `AUD-FALLBACK-${task.id}`,
+          taskId: sourceCleaningTask.id,
+          taskName: task.name,
+          store: task.store,
+          partTimer: task.submitter || sourceCleaningTask.owner || "-",
+          operator: task.owner || "-",
+          submitRound: task.reviewStatus === "待重新审核" || task.isReReview || (task.rejectCount || 0) > 0 ? Math.max(task.rejectCount || 1, 2) : 1,
+          submittedAt: task.submittedAt || sourceCleaningTask.completedAt || "-",
+          auditedAt: task.handledAt || task.completedAt || "-",
+          result: task.auditResult || task.reviewStatus || "-",
+          opinion: task.note || "无",
+          cleaningNote: task.cleaningNote || sourceCleaningTask.note || "无",
+          photosSnapshot: task.auditPhotos && task.auditPhotos.length ? task.auditPhotos : sourceCleaningTask.photos || [],
+        };
+        return feedbackHistoryHTML({ taskId: sourceCleaningTask.id, fallbackRecords: [fallbackRecord] }) || reviewSubmittedPhotosHTML(task);
+      }
+
       function feedbackCard(message) {
         const result = feedbackResultOf(message);
         const unsat = result === "驳回";
-        const statusLabel = unsat ? "待重新清洁" : result;
+        const statusLabel = unsat ? "待重新清洁" : "已完成";
+        const cleaningTask = feedbackCleaningTask(message);
+        const ownerName = cleaningTask ? taskOwnerName(cleaningTask) : (message.originalOwner || message.ownerAtAssign || message.partTimer || "-");
+        const createdAt = cleaningTask?.createdAt || message.createdAt || "-";
+        const processType = cleaningTask ? cleaningProcessTypeName(cleaningTask) : (message.rejectCount ? "重新处理" : "首次处理");
         return `
           <div class="feedback-card ${unsat ? "unsat" : ""}" data-feedback-card="${escapeHtml(message.id)}">
             <div class="feedback-card-head">
@@ -5617,10 +6011,12 @@
               <div class="feedback-row"><span>任务ID</span><strong>${escapeHtml(message.taskId || "-")}</strong></div>
               <div class="feedback-row"><span>店铺名称</span><strong>${escapeHtml(message.store || "-")}</strong></div>
               <div class="feedback-row"><span>任务类型</span><strong>清洁任务</strong></div>
+              <div class="feedback-row"><span>处理类型</span><strong>${escapeHtml(processType)}</strong></div>
+              <div class="feedback-row"><span>任务归属人</span><strong>${escapeHtml(ownerName)}</strong></div>
+              <div class="feedback-row"><span>创建时间</span><strong>${escapeHtml(createdAt)}</strong></div>
               <div class="feedback-row"><span>最新审核</span><strong>${escapeHtml(message.time || "-")}</strong></div>
             </div>
-            ${feedbackHistoryHTML(message) || feedbackPhotosHTML(message, unsat)}
-            ${unsat ? `<div class="feedback-actions"><button data-ack-feedback="${escapeHtml(message.id)}" onclick="locateCleaningTaskFromFeedbackId('${escapeHtml(message.id)}'); return false;" type="button">查看任务</button></div>` : ""}
+            ${feedbackHistoryHTML(message, { title: "处理记录" }) || feedbackPhotosHTML(message, unsat)}
           </div>
         `;
       }
@@ -5632,7 +6028,7 @@
           <div class="feedback-group" data-feedback-group>
             <div class="bubble" data-feedback-summary>
               <strong>${escapeHtml(title)}</strong><br />
-              共 <em class="feedback-total">${list.length}</em> 条审核结果，通过 <em class="sat-count">${satCount}</em> 条，待重新清洁 <em class="unsat-count">${unsatCount}</em> 条。每条结果会保留完整审核记录。
+              共 <em class="feedback-total">${list.length}</em> 条审核结果，通过 <em class="sat-count">${satCount}</em> 条，待重新清洁 <em class="unsat-count">${unsatCount}</em> 条。每条结果会保留完整处理记录。
             </div>
             ${list.map(feedbackCard).join("")}
           </div>
@@ -5675,6 +6071,10 @@
         return /智能巡检|一键巡检|执行巡检|智能巡店/.test(query) && !isInspectionConfigQuery(query);
       }
 
+      function partTimeForbiddenQuery(query) {
+        return /报警|今日报警|清洁审核|今日审核|兼职任务|今日兼职|超时提醒|清洁超时|暂缓|智能巡检|智能巡店|实时巡检|实时报警|定时巡检|巡检配置|配置中心/.test(query);
+      }
+
       function alarmTaskType(task) {
         const text = `${task.name || ""} ${task.object || ""} ${task.detail || ""} ${task.inspectionItem || ""}`;
         if (/物料|库存|糖浆|余量|临期|过期/.test(text)) return "物料库存";
@@ -5691,6 +6091,12 @@
         if (task.type === "cleaning") return "清洁任务";
         if (task.type === "alarm") return `报警任务 · ${alarmTaskType(task)}`;
         return "运营任务";
+      }
+
+      function reviewTypeName(task) {
+        const sourceCleaningTask = task.type === "review" ? findCleaningTaskByReview(task) : null;
+        const auditRoundCount = sourceCleaningTask ? auditRecordsForCleaningTask(sourceCleaningTask.id).length : 0;
+        return task.reviewStatus === "待重新审核" || task.isReReview || (task.rejectCount || 0) > 0 || auditRoundCount > 1 ? "重新审核" : "首次审核";
       }
 
       function alarmLevelRank(level) {
@@ -5840,7 +6246,7 @@
 
       function renderNewTaskAlert() {
         if (!newTaskAlert) return;
-        const shouldShow = roles[roleIndex] === "门店运营" && newTaskAlertVisible && quickPanelSheet?.hidden !== false;
+        const shouldShow = activePage === "workbench" && roles[roleIndex] === "门店运营" && newTaskAlertVisible && quickPanelSheet?.hidden !== false;
         newTaskAlert.hidden = !shouldShow;
       }
 
@@ -5891,23 +6297,26 @@
           return;
         }
         const visibleTasks = visibleTasksForRole();
-        const todoCount = visibleTasks.filter((task) => task.status === "待处理").length;
+        const partTimeTodos = role === "兼职" ? partTimeTodoTasks() : [];
+        const partTimeProcessed = role === "兼职" ? cleaningTasks.filter(isPartTimeProcessedTask) : [];
+        const todoCount = role === "兼职" ? partTimeTodos.filter((task) => task.status === "待处理").length : visibleTasks.filter((task) => task.status === "待处理").length;
         const fatalCount = visibleTasks.filter((task) => task.type === "alarm" && task.level === "致命报警" && !isDoneStatus(task.status)).length;
-        const doingCount = visibleTasks.filter((task) => task.status === "处理中").length;
-        const doneCount = visibleTasks.filter((task) => isDoneStatus(task.status)).length;
+        const doingCount = role === "兼职" ? partTimeTodos.filter((task) => task.status === "处理中").length : visibleTasks.filter((task) => task.status === "处理中").length;
+        const doneCount = role === "兼职" ? partTimeProcessed.length : visibleTasks.filter((task) => isDoneStatus(task.status)).length;
+        const reworkCount = role === "兼职" ? partTimeTodos.filter((task) => task.status === "已驳回").length : 0;
         document.getElementById("todoLabel").textContent = role === "兼职" ? "待处理" : "待处理";
-        document.getElementById("fatalLabel").textContent = role === "兼职" ? "待流转" : "致命报警";
+        document.getElementById("fatalLabel").textContent = role === "兼职" ? "待重清洁" : "致命报警";
         document.getElementById("doingLabel").textContent = "处理中";
-        document.getElementById("doneLabel").textContent = role === "兼职" ? "已提交" : "已完成";
+        document.getElementById("doneLabel").textContent = role === "兼职" ? "已处理" : role === "门店运营" ? "今日处理" : "已完成";
         document.getElementById("todoCount").textContent = todoCount;
-        document.getElementById("fatalCount").textContent = role === "兼职" ? cleaningTasks.filter((task) => !isDoneStatus(task.status)).length : fatalCount;
+        document.getElementById("fatalCount").textContent = role === "兼职" ? reworkCount : fatalCount;
         document.getElementById("doingCount").textContent = doingCount;
         document.getElementById("doneCount").textContent = doneCount;
         document.getElementById("briefTitle").textContent =
-          role === "兼职" ? `今日任务处理情况 ${doneCount}/${visibleTasks.length}` : role === "门店运营" ? `今日处理进度 ${doneCount}/${visibleTasks.length}` : "我已汇总运营处理情况";
+          role === "兼职" ? `今日任务处理情况 ${doneCount}/${partTimeTodos.length + doneCount}` : role === "门店运营" ? `今日处理进度 ${doneCount}/${visibleTasks.length}` : "我已汇总运营处理情况";
         document.getElementById("briefText").textContent =
           role === "兼职"
-            ? doneCount === visibleTasks.length
+            ? partTimeTodos.length === 0
               ? "今日任务已全部提交，需要审核的事项会自动流转给运营。"
               : "请完成今天分配的任务，需要审核的事项会在提交后流转给运营。"
             : role === "门店运营"
@@ -5986,7 +6395,6 @@
                   <strong class="task-title" title="${escapeHtml(task.name)}">${escapeHtml(task.name)}</strong>
                   ${task.isNewTask ? `<span class="new-task-tag">新</span>` : ""}
                 </span>
-                ${isAssistTask ? `<span class="task-relation">可协助</span>` : ""}
               </div>
               <div class="task-head-tags">
                 <em class="task-level">${escapeHtml(alarmLevelLabel)}</em>
@@ -5997,8 +6405,9 @@
               ${copyRow("任务ID", task.id)}
               ${copyRow("店铺名称", task.store)}
               ${fieldRow("任务类型", taskTypeName(task))}
+              ${fieldRow("任务归属人", taskOwnerName(task))}
+              ${fieldRow("处理关系", taskRelationLabel(task))}
               ${fieldRow("创建时间", task.createdAt)}
-              ${fieldRow("处理人", task.owner)}
               ${detailRows}
             </div>
             ${process}
@@ -6026,22 +6435,8 @@
         const cleaningStatusClass = rejected ? "rejected" : terminal ? "done" : "open";
         const latestReject = latestRejectionRecord(task.id);
         const rejectCount = rejectionCountForCleaningTask(task.id);
-        const rejectPhotos = latestReject?.photosSnapshot || [];
         const originalOwner = task.originalOwner || "";
-        const showReadonlyRejectPhotos = rejected && rejectPhotos.length && !active;
-        const rejectPhotosHTML = showReadonlyRejectPhotos
-          ? `<div class="review-panel">
-              <div class="review-type-row">
-                <div class="review-upload-head">
-                  <span>上次提交图片</span>
-                  <em>${rejectPhotos.length} 张</em>
-                </div>
-                <div class="review-photo-list">
-                  ${rejectPhotos.map((photo, index) => `<button class="review-photo" data-preview-audit-record="${escapeHtml(latestReject.id)}" data-photo-index="${index}" type="button" aria-label="预览上次提交图片">${mockCleanPhoto({ ...task, photos: rejectPhotos }, index)}</button>`).join("")}
-                </div>
-              </div>
-            </div>`
-          : "";
+        const reworkHistory = rejectCount ? feedbackHistoryHTML({ taskId: task.id }, { title: "处理记录" }) : "";
         const copyIcon = (value, label) => `
           <button class="copy-icon" data-copy-text="${escapeHtml(value)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -6107,20 +6502,18 @@
               ${copyRow("任务ID", task.id)}
               ${copyRow("店铺名称", task.store)}
               <div><span>任务类型</span><strong>清洁任务</strong></div>
+              <div><span>处理类型</span><strong>${escapeHtml(cleaningProcessTypeName(task))}</strong></div>
+              <div><span>任务归属人</span><strong>${escapeHtml(taskOwnerName(task))}</strong></div>
               <div><span>创建时间</span><strong>${escapeHtml(task.createdAt)}</strong></div>
-              <div><span>处理人</span><strong>${escapeHtml(task.owner)}</strong></div>
-              ${originalOwner ? `<div><span>原处理人</span><strong>${escapeHtml(originalOwner)}</strong></div>` : ""}
-              <div><span>任务状态</span><strong>${escapeHtml(statusLabel)}</strong></div>
-              ${rejected && latestReject ? `<div><span>提交时间</span><strong>${escapeHtml(latestReject.submittedAt || "-")}</strong></div>` : ""}
-              ${rejected && latestReject ? `<div><span>驳回时间</span><strong>${escapeHtml(latestReject.auditedAt || "-")}</strong></div>` : ""}
-              ${rejected && rejectCount ? `<div><span>驳回次数</span><strong>${escapeHtml(rejectCount + " 次")}</strong></div>` : ""}
-              ${rejected && latestReject ? `<div><span>审核意见</span><strong>${escapeHtml(latestReject.opinion || "无")}</strong></div>` : task.auditOpinion ? `<div><span>审核意见</span><strong>${escapeHtml(task.auditOpinion)}</strong></div>` : ""}
+              ${terminal ? `<div><span>处理人</span><strong>${escapeHtml(task.owner)}</strong></div>` : ""}
+              ${rejectCount ? `<div><span>驳回次数</span><strong>${escapeHtml(rejectCount + " 次")}</strong></div>` : ""}
+              ${!rejected && task.auditOpinion ? `<div><span>审核意见</span><strong>${escapeHtml(task.auditOpinion)}</strong></div>` : ""}
               <div><span>任务要求</span><strong>${escapeHtml(task.taskRequirement || "请按门店清洁标准完成对应区域清洁。")}</strong></div>
               <div><span>上传要求</span><strong class="upload-requirement-value">${escapeHtml(task.uploadRequirement || "请上传包含日期时间、位置的水印照片。")}</strong></div>
               ${terminal ? `<div><span>提交时间</span><strong>${escapeHtml(task.completedAt || "-")}</strong></div>` : ""}
               ${task.note ? `<div><span>清洁说明</span><strong>${escapeHtml(task.note)}</strong></div>` : ""}
             </div>
-            ${rejectPhotosHTML}
+            ${reworkHistory}
             ${process}
             ${actions}
           </article>
@@ -6130,7 +6523,7 @@
       function reviewTaskCard(task, helpers) {
         const { cls, active, terminal, canHandle, copyRow, fieldRow, isAssistTask } = helpers;
         const photos = task.auditPhotos || [];
-        const sourceCleaningTask = findCleaningTaskByReviewId(task.id);
+        const sourceCleaningTask = findCleaningTaskByReview(task);
         const examplePhotos = task.examplePhotos || sourceCleaningTask?.examplePhotos || [];
         const isReReview = task.reviewStatus === "待重新审核" || task.isReReview;
         const rejectCount = isReReview && sourceCleaningTask ? rejectionCountForCleaningTask(sourceCleaningTask.id) : 0;
@@ -6193,7 +6586,6 @@
                   <strong class="task-title" title="${escapeHtml(task.name)}">${escapeHtml(task.name)}</strong>
                   ${task.isNewTask ? `<span class="new-task-tag">新</span>` : ""}
                 </span>
-                ${isAssistTask ? `<span class="task-relation">可协助</span>` : ""}
                 ${copyRow("任务ID", task.id)}
                 ${copyRow("店铺名称", task.store)}
               </div>
@@ -6201,10 +6593,13 @@
             </div>
             <div class="task-meta">
               ${fieldRow("任务类型", taskTypeName(task))}
+              ${fieldRow("任务归属人", taskOwnerName(task))}
+              ${fieldRow("处理关系", taskRelationLabel(task))}
+              ${fieldRow("审核类型", reviewTypeName(task))}
               ${fieldRow("创建时间", task.createdAt)}
-              ${fieldRow("处理人", task.owner)}
               ${fieldRow("提交人", task.submitter)}
               ${fieldRow("提交时间", task.submittedAt)}
+              ${active ? fieldRow("审核人", task.owner) : ""}
               ${fieldRow("审核标准", sourceCleaningTask?.taskRequirement || "请按门店清洁标准完成对应区域清洁。")}
               ${fieldRow("清洁说明", task.cleaningNote || sourceCleaningTask?.note || "无")}
               ${rejectCount ? fieldRow("驳回次数", rejectCount + " 次") : ""}
@@ -6532,32 +6927,85 @@
 
       function opsCenterPage() {
         const isPartTime = roles[roleIndex] === "兼职";
+        const extraOperatorStoresForOps = [
+          ["S008", "中关村 E 世界店", "咖啡亭", "营业中", 3],
+          ["S009", "五道口地铁店", "太空舱", "营业中", 5],
+          ["S010", "西二旗软件园店", "咖啡亭", "营业中", 2],
+          ["S011", "望京科技园店", "太空舱", "营业中", 2],
+          ["S012", "国贸三期店", "咖啡亭", "营业中", 1],
+          ["S013", "朝阳大悦城店", "太空舱", "营业中", 4],
+          ["S014", "三里屯太古里店", "咖啡亭", "营业中", 0],
+          ["S015", "亦庄产业园店", "太空舱", "暂停营业", 1],
+          ["S016", "金融街中心店", "咖啡亭", "营业中", 3],
+          ["S017", "海淀黄庄店", "太空舱", "营业中", 2],
+          ["S018", "奥森南园店", "咖啡亭", "营业中", 2],
+          ["S019", "丽泽商务区店", "太空舱", "营业中", 2],
+          ["S020", "东直门银座店", "咖啡亭", "营业中", 1],
+          ["S021", "大望路写字楼店", "太空舱", "营业中", 4],
+          ["S022", "上地信息路店", "咖啡亭", "营业中", 0],
+          ["S023", "北苑路北店", "太空舱", "营业中", 1],
+          ["S024", "清河万象汇店", "咖啡亭", "营业中", 2],
+          ["S025", "和平里北街店", "太空舱", "营业中", 1],
+        ].map(([id, name, storeType, business, pending], index) => ({
+          id,
+          name,
+          storeType,
+          business,
+          equipment: index % 5 === 1 ? "异常" : "在线",
+          material: index % 4 === 2 ? "不足 1项" : "充足",
+          product: index % 6 === 3 ? "下线 1项" : "正常",
+          order: index % 7 === 4 ? "未制作 1单" : "正常",
+          cleaning: index % 3 === 0 ? "待清洁" : index % 3 === 1 ? "待审核" : "已完成",
+          pending,
+          alarms: pending > 2 ? 1 : 0,
+          operator: index % 4 === 1 ? "周岩" : "李晴",
+          relation: index % 4 === 1 ? "assist" : "primary",
+          partTimer: index % 2 ? "赵琳" : "王可",
+          tenant: "源点咖啡",
+          todayOrders: 46 + index * 4,
+          summary: "操作中心分页模拟门店，用于展示多门店管理场景。",
+        }));
         const operatorStoresForOps = isPartTime
           ? storeStatusList.filter((item) => item.partTimer === "王可")
-          : storeStatusList.filter((item) => item.operator === "李晴");
+          : [...storeStatusList.filter((item) => item.operator === "李晴").map((item) => ({ ...item, relation: "primary" })), ...extraOperatorStoresForOps];
         const store = operatorStoresForOps.find((item) => item.id === selectedOpsStoreId) || null;
         const ops = ["门店运维", "硬件控制", "商品控制", "订单列表", "物料库存", "预警报警", "数据看板", "操作记录", "问题反馈"];
         const searchText = opsStoreSearch.trim().toLowerCase();
-        const visibleOpsStores = operatorStoresForOps.filter((item) => {
+        const relationFilteredOpsStores = isPartTime
+          ? operatorStoresForOps
+          : operatorStoresForOps.filter((item) => opsStoreRelationFilter === "assist" ? item.relation === "assist" : item.relation !== "assist");
+        const visibleOpsStores = relationFilteredOpsStores.filter((item) => {
           const text = `${item.name} ${item.id} ${item.storeType} ${item.business}`.toLowerCase();
           return !searchText || text.includes(searchText);
         });
+        const primaryOpsStoreCount = operatorStoresForOps.filter((item) => item.relation !== "assist").length;
+        const assistOpsStoreCount = operatorStoresForOps.filter((item) => item.relation === "assist").length;
+        const pageSize = 5;
+        const totalPages = Math.max(1, Math.ceil(visibleOpsStores.length / pageSize));
+        opsStorePage = Math.min(Math.max(opsStorePage, 1), totalPages);
+        const pageStart = (opsStorePage - 1) * pageSize;
+        const pagedOpsStores = visibleOpsStores.slice(pageStart, pageStart + pageSize);
+        const pageRange = visibleOpsStores.length ? `${pageStart + 1}-${Math.min(pageStart + pageSize, visibleOpsStores.length)}` : "0";
         if (!store) {
           return `
             <div class="ops-center">
-              <div class="page-head">
-                <div class="bubble"><strong>操作中心</strong><br />请先选择需要操作的门店，选择后进入该门店操作台。</div>
+              <div class="ops-page-head">
+                <div class="bubble"><strong>操作中心</strong><span>请先选择需要操作的门店，选择后进入该门店操作台。</span></div>
                 <button data-back-workbench type="button">返回</button>
               </div>
               <section class="ops-picker">
                 <div class="ops-picker-head">
                   <strong>选择门店</strong>
-                  <span>${operatorStoresForOps.length} 家${isPartTime ? "兼职负责" : "运营负责"}门店</span>
+                  <span>${opsStoreRelationFilter === "assist" ? "可协助" : "主责"} ${visibleOpsStores.length} 家，当前 ${pageRange}</span>
                 </div>
+                ${isPartTime ? "" : `<div class="ops-relation-filter">
+                  <button class="${opsStoreRelationFilter === "primary" ? "active" : ""}" data-ops-store-relation="primary" type="button">我主责 ${primaryOpsStoreCount}</button>
+                  <button class="${opsStoreRelationFilter === "assist" ? "active" : ""}" data-ops-store-relation="assist" type="button">我可协助 ${assistOpsStoreCount}</button>
+                </div>`}
                 <input class="ops-store-search" id="opsStoreSearchInput" value="${escapeHtml(opsStoreSearch)}" placeholder="搜索店铺名称、ID、类型" />
                 <div class="ops-store-list">
                   ${visibleOpsStores.length
-                    ? visibleOpsStores
+                    ? pagedOpsStores
                     .map(
                       (item) => `
                         <button class="ops-store-option" data-select-ops-store="${escapeHtml(item.id)}" type="button">
@@ -6569,8 +7017,14 @@
                     .join("")
                     : `<section class="ops-empty"><strong>没有找到门店</strong><span>请换个店铺名称或店铺ID试试。</span></section>`}
                 </div>
+                ${visibleOpsStores.length > pageSize ? `
+                  <div class="ops-pagination">
+                    <button data-ops-page="prev" type="button" ${opsStorePage <= 1 ? "disabled" : ""}>上一页</button>
+                    <span>${opsStorePage} / ${totalPages}</span>
+                    <button data-ops-page="next" type="button" ${opsStorePage >= totalPages ? "disabled" : ""}>下一页</button>
+                  </div>
+                ` : ""}
               </section>
-              <section class="ops-empty"><strong>请选择门店后再操作</strong><span>为避免误操作，未选择门店前不会展示业务操作入口。</span></section>
             </div>
           `;
         }
@@ -6627,9 +7081,9 @@
           return ["近7天兼职审核情况", "本周运营处理情况", "本月全部人员处理情况", "查看门店状态看板"];
         }
         if (role === "兼职") {
-          return ["我今天的任务", "今日处理", "查看审核反馈", "查看门店状态看板"];
+          return ["我今天的任务", "今日处理", "查看门店状态看板"];
         }
-        return ["智能巡店", "查看待处理报警任务", "查看清洁审核任务", "兼职任务", "超时提醒", "已完成任务"];
+        return ["智能巡店", "今日报警", "今日审核", "今日兼职", "超时提醒", "查看门店状态看板", "今日处理"];
       }
 
       function promptGuideBubbleHTML(role = roles[roleIndex], title = "你可以这样问") {
@@ -6655,14 +7109,12 @@
         const examples = rolePromptExamples(role);
         const iconMap = {
           "智能巡店": "⌁",
-          "查看待处理报警任务": "!",
-          "查看清洁审核任务": "✓",
-          "兼职任务": "☑",
+          "今日报警": "!",
+          "今日审核": "✓",
+          "今日兼职": "☑",
           "超时提醒": "◷",
-          "已完成任务": "↺",
           "我今天的任务": "☑",
           "今日处理": "↺",
-          "查看审核反馈": "✉",
           "查看门店状态看板": "⌂",
           "近7天兼职审核情况": "✓",
           "本周运营处理情况": "↗",
@@ -6670,14 +7122,12 @@
         };
         const labelMap = {
           "智能巡店": "智能巡店",
-          "查看待处理报警任务": "报警任务",
-          "查看清洁审核任务": "清洁审核",
-          "兼职任务": "兼职任务",
+          "今日报警": "今日报警",
+          "今日审核": "今日审核",
+          "今日兼职": "今日兼职",
           "超时提醒": "超时提醒",
-          "已完成任务": "已完成",
           "我今天的任务": "今日任务",
           "今日处理": "今日处理",
-          "查看审核反馈": "审核反馈",
           "查看门店状态看板": "门店状态",
           "近7天兼职审核情况": "兼职审核",
           "本周运营处理情况": "运营处理",
@@ -6701,14 +7151,66 @@
         quickPanelSheet.innerHTML = promptGuideHTML();
       }
 
-      function addMessage(type, html) {
+      function formatMessageTime(date = new Date()) {
+        const pad = (num) => String(num).padStart(2, "0");
+        const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        const now = new Date();
+        const today = startOfDay(now);
+        const targetDay = startOfDay(date);
+        const diffDays = Math.round((today - targetDay) / 86400000);
+        const time = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        if (diffDays === 0) return time;
+        if (diffDays === 1) return `昨天 ${time}`;
+        const weekDay = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"][date.getDay()];
+        if (diffDays > 1 && diffDays < 7) return `${weekDay} ${time}`;
+        const dateText = now.getFullYear() === date.getFullYear()
+          ? `${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+          : `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+        return `${dateText} ${time}`;
+      }
+
+      function addMessage(type, html, options = {}) {
+        if (type === "user" && suppressNextUserMessage) {
+          suppressNextUserMessage = false;
+          return lastQuestionNode;
+        }
+        if (type === "assistant" && thinkingMessageNode && options.replaceThinking !== false) {
+          const node = thinkingMessageNode;
+          thinkingMessageNode = null;
+          node.className = `message ${type}`;
+          node.innerHTML = html;
+          if (node.querySelector(".task-card, .manager-dashboard, .store-dashboard, .inspection-summary, .feedback-card")) {
+            node.classList.add("result");
+          }
+          activeQueryMessageTime = null;
+          requestAnimationFrame(() => {
+            const anchor = lastQuestionNode || node;
+            const containerRect = conversation.getBoundingClientRect();
+            const anchorRect = anchor.getBoundingClientRect();
+            const nextTop = conversation.scrollTop + anchorRect.top - containerRect.top - 8;
+            conversation.scrollTop = Math.max(0, nextTop);
+          });
+          return node;
+        }
         const node = document.createElement("div");
         node.className = `message ${type}`;
-        node.innerHTML = html;
+        let messageTime = new Date();
+        let shouldShowTime = options.showTime !== false && type !== "home";
+        if (type === "user") {
+          activeQueryMessageTime = messageTime;
+        } else if (type === "assistant" && activeQueryMessageTime) {
+          messageTime = activeQueryMessageTime;
+          activeQueryMessageTime = null;
+          shouldShowTime = false;
+        }
+        node.innerHTML = shouldShowTime ? `<div class="message-time">${formatMessageTime(messageTime)}</div>${html}` : html;
         if (type === "assistant" && node.querySelector(".task-card, .manager-dashboard, .store-dashboard, .inspection-summary, .feedback-card")) {
           node.classList.add("result");
         }
         conversation.appendChild(node);
+        if (type === "user" && thinkingMessageNode) {
+          conversation.appendChild(thinkingMessageNode);
+        }
         if (type === "home") {
           conversation.scrollTop = 0;
           return;
@@ -6724,6 +7226,24 @@
           const nextTop = conversation.scrollTop + anchorRect.top - containerRect.top - 8;
           conversation.scrollTop = Math.max(0, nextTop);
         });
+      }
+
+      function showThinkingMessage() {
+        removeThinkingMessage();
+        const node = document.createElement("div");
+        node.className = "message assistant";
+        node.innerHTML = `<div class="thinking-bubble"><span class="thinking-dot">思</span><span>正在思考...</span></div>`;
+        conversation.appendChild(node);
+        thinkingMessageNode = node;
+        requestAnimationFrame(() => {
+          node.scrollIntoView({ block: "nearest" });
+        });
+      }
+
+      function removeThinkingMessage() {
+        if (!thinkingMessageNode) return;
+        thinkingMessageNode.remove();
+        thinkingMessageNode = null;
       }
 
       function appendAttentionItemsIfNeeded() {
@@ -6754,6 +7274,20 @@
         });
       }
 
+      function dismissAttentionAlertIfSeen() {
+        if (!newTaskAlertVisible || roles[roleIndex] !== "门店运营") return;
+        const target = conversation.querySelector("[data-attention-items='true']");
+        if (!target) return;
+        const containerRect = conversation.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const targetVisible = targetRect.top < containerRect.bottom - 80 && targetRect.bottom > containerRect.top + 40;
+        const nearBottom = conversation.scrollTop + conversation.clientHeight >= conversation.scrollHeight - 36;
+        if (targetVisible || nearBottom) {
+          newTaskAlertVisible = false;
+          renderNewTaskAlert();
+        }
+      }
+
       function emptyState(title, detail) {
         return `<div class="empty-state"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span></div>`;
       }
@@ -6771,7 +7305,7 @@
                   isManager
                     ? "我不会默认展示固定看板。你输入诉求后，我会按当前时间生成对应的数据看板。"
                     : isPartTime
-                      ? "你可以询问今天任务、审核反馈或任务要求，我会按你的诉求返回对应内容。"
+                      ? "你可以询问今天任务、今日处理或任务要求，我会按你的诉求返回对应内容。"
                       : "你可以询问，我会按照你的诉求返回对应的内容。"
                 }</span>
               </div>
@@ -6821,11 +7355,11 @@
         setQuickPanelOpen(false);
         syncComposerAction();
         if (activePage === "ops") {
-          addMessage("assistant", opsCenterPage());
+          addMessage("assistant", opsCenterPage(), { showTime: false });
           return;
         }
         if (activePage === "inspection") {
-          addMessage("assistant", inspectionConfigCenter());
+          addMessage("assistant", inspectionConfigCenter(), { showTime: false });
           return;
         }
         assistantIntro();
@@ -7061,14 +7595,23 @@
 
       function storeStatusDashboard() {
         const tagClass = (value) => (/(下线|未制作|异常|闭店|临期|待审核|不足)/.test(value) ? "danger" : "");
-        const canClick = (value) => tagClass(value);
-        const visibleStores = storeStatusList.filter((store) => {
-          const role = roles[roleIndex];
-          if (role === "门店运营") return store.operator === "李晴";
-          if (role === "兼职") return store.partTimer === "王可";
-          if (role === "租户") return store.tenant === "源点咖啡";
-          return true;
-        });
+        const canClick = (value) => roles[roleIndex] !== "兼职" && tagClass(value);
+        const currentOperator = currentOperatorName;
+        const assistStores = assistantStoreOwners[currentOperator] || [];
+        const role = roles[roleIndex];
+        const primaryStores = role === "门店运营"
+          ? storeStatusList.filter((store) => store.operator === currentOperator)
+          : [];
+        const assistedStores = role === "门店运营"
+          ? storeStatusList.filter((store) => store.operator !== currentOperator && assistStores.includes(store.name))
+          : [];
+        const visibleStores = role === "门店运营"
+          ? [...primaryStores, ...assistedStores]
+          : storeStatusList.filter((store) => {
+              if (role === "兼职") return store.partTimer === "王可";
+              if (role === "租户") return store.tenant === "源点咖啡";
+              return true;
+            });
         const statusTag = (store, type, label, value) => {
           const cls = tagClass(value);
           const text = `${label} ${escapeHtml(value)}`;
@@ -7076,33 +7619,34 @@
             ? `<button class="${cls}" data-store-issue="${escapeHtml(store.id)}" data-issue-type="${escapeHtml(type)}" type="button">${text} ›</button>`
             : `<span>${text}</span>`;
         };
+        const storeCard = (store) => `
+          <article class="store-status-card">
+            <div class="store-status-head">
+              <div class="store-status-title"><strong>${escapeHtml(store.name)}</strong><em>${escapeHtml(store.business)}</em></div>
+              <div class="store-task-count"><strong>${store.pending}</strong><span>待处理<br />${store.alarms} 报警</span></div>
+            </div>
+            <div class="store-meta-row">
+              <div><span>店铺ID</span><strong>${escapeHtml(store.id)}</strong></div>
+              <div><span>店铺类型</span><strong>${escapeHtml(store.storeType)}</strong></div>
+              <div><span>运营 / 今日单量</span><strong>${escapeHtml(store.operator)} · ${store.todayOrders}单</strong></div>
+            </div>
+            <div class="store-tags">
+              ${statusTag(store, "equipment", "设备", store.equipment)}
+              ${statusTag(store, "material", "物料", store.material)}
+              ${statusTag(store, "product", "商品", store.product)}
+              ${statusTag(store, "order", "订单", store.order)}
+              ${statusTag(store, "cleaning", "清洁", store.cleaning)}
+            </div>
+          </article>
+        `;
+        const operatorGroups = role === "门店运营"
+          ? `${primaryStores.length ? `<div class="task-group-title">我主责的门店：<strong>${primaryStores.length} 家</strong></div>${primaryStores.map(storeCard).join("")}` : ""}
+             ${assistedStores.length ? `<div class="task-group-divider"><span>我可协助跟进的门店：<strong>${assistedStores.length} 家</strong></span></div>${assistedStores.map(storeCard).join("")}` : ""}`
+          : "";
         return `
           <div class="store-dashboard">
-            <div class="bubble"><strong>门店状态看板</strong><br />我仅返回当前角色有权限查看的门店，按门店维度汇总营业、设备、物料、商品、订单履约、清洁和待处理任务状态。</div>
-            ${visibleStores
-              .map(
-                (store) => `
-                  <article class="store-status-card">
-                    <div class="store-status-head">
-                      <div class="store-status-title"><strong>${escapeHtml(store.name)}</strong><em>${escapeHtml(store.business)}</em></div>
-                      <div class="store-task-count"><strong>${store.pending}</strong><span>待处理<br />${store.alarms} 报警</span></div>
-                    </div>
-                    <div class="store-meta-row">
-                      <div><span>店铺ID</span><strong>${escapeHtml(store.id)}</strong></div>
-                      <div><span>店铺类型</span><strong>${escapeHtml(store.storeType)}</strong></div>
-                      <div><span>运营 / 今日单量</span><strong>${escapeHtml(store.operator)} · ${store.todayOrders}单</strong></div>
-                    </div>
-                    <div class="store-tags">
-                      ${statusTag(store, "equipment", "设备", store.equipment)}
-                      ${statusTag(store, "material", "物料", store.material)}
-                      ${statusTag(store, "product", "商品", store.product)}
-                      ${statusTag(store, "order", "订单", store.order)}
-                      ${statusTag(store, "cleaning", "清洁", store.cleaning)}
-                    </div>
-                  </article>
-                `,
-              )
-              .join("") || emptyState("暂无可查看门店", "当前角色没有门店状态权限。")}
+            <div class="bubble"><strong>门店状态看板</strong><br />${role === "门店运营" ? `当前返回我主责 ${primaryStores.length} 家、可协助跟进 ${assistedStores.length} 家门店。` : "我仅返回当前角色有权限查看的门店。"}按门店维度汇总营业、设备、物料、商品、订单履约、清洁和待处理任务状态。</div>
+            ${role === "门店运营" ? (operatorGroups || emptyState("暂无可查看门店", "当前运营暂无主责或可协助门店。")) : (visibleStores.map(storeCard).join("") || emptyState("暂无可查看门店", "当前角色没有门店状态权限。"))}
           </div>
         `;
       }
@@ -7126,7 +7670,7 @@
       }
 
       function isDoneTaskQuery(query) {
-        return query.includes("已处理") || query.includes("处理记录") || query.includes("刚才处理") || query.includes("完成了") || query.includes("已完成");
+        return query.includes("今日处理") || query.includes("今天处理") || query.includes("已处理") || query.includes("处理记录") || query.includes("刚才处理") || query.includes("完成了") || query.includes("已完成");
       }
 
       function operatorDoneTasksResponse(query) {
@@ -7136,14 +7680,14 @@
           .sort((a, b) => String(b.handledAt || b.completedAt || "").localeCompare(String(a.handledAt || a.completedAt || "")));
         if (!filtered.length) {
           const rangeLabel = timeRangeLabel(timeRange);
-          addMessage("assistant", `<div class="bubble"><strong>${rangeLabel}暂无已完成任务。</strong><br />任务处理完成后会自动沉淀在这里。你可以调整时间范围，例如输入"本周已完成"或"上月处理记录"。</div>`);
+          addMessage("assistant", `<div class="bubble"><strong>${rangeLabel}暂无处理记录。</strong><br />任务处理完成后会自动沉淀在这里。你可以调整时间范围，例如输入"本周处理记录"或"上月处理记录"。</div>`);
           return;
         }
         const rangeLabel = timeRangeLabel(timeRange);
         const takeoverCount = filtered.filter((task) => task.type === "cleaning-takeover").length;
         const reviewCount = filtered.filter((task) => task.type === "review").length;
         const alarmCount = filtered.filter((task) => task.type === "alarm").length;
-        const summary = `<div class="bubble"><strong>${rangeLabel}，共完成 ${filtered.length} 条任务</strong><br />包含报警任务 ${alarmCount} 条、清洁审核任务 ${reviewCount} 条、清洁任务 ${takeoverCount} 条，按完成时间倒序展示。</div>`;
+        const summary = `<div class="bubble"><strong>${rangeLabel}，共处理 ${filtered.length} 条任务</strong><br />包含报警任务 ${alarmCount} 条、清洁审核任务 ${reviewCount} 条、清洁任务 ${takeoverCount} 条，按处理时间倒序展示。</div>`;
         addMessage("assistant", summary + filtered.map(recordCard).join(""));
       }
 
@@ -7158,13 +7702,13 @@
 
       function newIncomingTasksHTML() {
         const sorted = [...demoIncomingTasks].sort((a, b) => operatorTaskPriority(a) - operatorTaskPriority(b) || String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
-        const fatalCount = sorted.filter((task) => task.type === "alarm" && task.level === "致命报警").length;
-        const timeoutReminders = cleaningTimeoutReminders();
-        const timeoutTaskCount = timeoutReminders.reduce((sum, item) => sum + item.tasks.length, 0);
+        const alarmTasks = sorted.filter((task) => task.type === "alarm");
+        const reviewTasks = sorted.filter((task) => task.type === "review");
+        const timeoutReminders = cleaningTimeoutReminders().map((item) => ({ ...item, isNewReminder: true }));
         const timeoutHTML = timeoutReminders.length
-          ? `<div class="task-group-title">清洁进度提醒：<strong>${timeoutReminders.length} 条</strong></div>${groupedCleaningTimeoutHTML(timeoutReminders)}`
+          ? groupedCleaningTimeoutHTML(timeoutReminders)
           : "";
-        return `<div class="bubble"><strong>待关注事项已更新</strong><br />新增 ${sorted.length} 条任务，其中 ${fatalCount} 条致命报警；另有 ${timeoutReminders.length} 条清洁进度提醒，涉及 ${timeoutTaskCount} 个未完成清洁任务。当前正在处理的任务不会被移动。</div><div class="task-group-title">新增任务：<strong>${sorted.length} 条</strong></div>${sorted.map(taskCard).join("")}${timeoutHTML}`;
+        return `<div class="bubble"><strong>待关注事项已更新</strong><br />报警任务 ${alarmTasks.length} 条、审核任务 ${reviewTasks.length} 条、清洁进度提醒 ${timeoutReminders.length} 条。</div>${sorted.map(taskCard).join("")}${timeoutHTML}`;
       }
 
       function reviewTaskSummaryHTML(reviewTasks) {
@@ -7174,7 +7718,7 @@
         const firstReviewCount = visibleReviewTasks.filter((task) => task.reviewStatus !== "待重新审核").length;
         const reReviewCount = visibleReviewTasks.filter((task) => task.reviewStatus === "待重新审核").length;
         return `<div class="bubble">
-          <div class="operator-push-title"><strong>当前清洁审核任务</strong><span>实时更新至 ${nowLabel().slice(11, 16)}</span></div>
+          <div class="operator-push-title"><strong>当前清洁审核任务</strong></div>
           <div class="operator-priority-note">主责任务优先展示，可协助审核任务在分隔线下方</div>
           <div class="operator-push-copy">
             当前共有 <b>${visibleReviewTasks.length} 条</b> 清洁审核任务：待审核 <b>${firstReviewCount} 条</b>，待重新审核 <b>${reReviewCount} 条</b>；其中我主责 <b>${primary.length} 条</b>，可协助审核 <b>${assist.length} 条</b>。
@@ -7185,6 +7729,10 @@
       function cleaningTaskProcessTime(task) {
         const latestReject = latestRejectionRecord(task.id);
         return task.completedAt || latestReject?.auditedAt || (task.logs || []).slice().reverse().find((log) => /完成清洁|提交|重新清洁|开始清洁/.test(log.text || ""))?.time || task.createdAt || "";
+      }
+
+      function feedbackForCleaningTask(task, result) {
+        return feedbackMessages.find((fb) => fb.taskId === task.id && (!result || fb.result === result));
       }
 
       function isTaskInTimeRange(timeValue, timeRange) {
@@ -7198,19 +7746,19 @@
         const timeRange = parseTimeRange(query) || parseTimeRange("今天");
         const rangeLabel = timeRangeLabel(timeRange);
         const processedTasks = cleaningTasks
-          .filter((task) => task.owner === "兼职-王可")
+          .filter(isPartTimeProcessedTask)
           .map((task) => ({ task, time: cleaningTaskProcessTime(task) }))
-          .filter((item) => isTaskInTimeRange(item.time, timeRange) && item.task.status !== "待处理")
+          .filter((item) => isTaskInTimeRange(item.time, timeRange))
           .sort((a, b) => String(b.time).localeCompare(String(a.time)));
         if (!processedTasks.length) {
           addMessage("assistant", `<div class="bubble"><strong>${escapeHtml(rangeLabel)}暂无处理记录。</strong><br />你完成清洁、提交审核或收到返工结果后，会在这里展示。</div>`);
           return;
         }
-        const submittedCount = processedTasks.filter((item) => item.task.status === "已提交" || (isDoneStatus(item.task.status) && !feedbackMessages.some((fb) => fb.taskId === item.task.id && fb.result === "通过"))).length;
-        const doneCount = processedTasks.filter((item) => feedbackMessages.some((fb) => fb.taskId === item.task.id && fb.result === "通过")).length;
+        const submittedCount = processedTasks.filter((item) => item.task.status === "已提交").length;
+        const doneCount = processedTasks.filter((item) => !!feedbackForCleaningTask(item.task, "通过")).length;
         const reworkCount = processedTasks.filter((item) => item.task.status === "已驳回").length;
         const cards = processedTasks.map((item) => {
-          const passed = feedbackMessages.some((fb) => fb.taskId === item.task.id && fb.result === "通过");
+          const passed = !!feedbackForCleaningTask(item.task, "通过");
           const statusLabel = item.task.status === "已驳回" ? "待重新清洁" : passed ? "已完成" : item.task.status === "已提交" || isDoneStatus(item.task.status) ? "已提交" : item.task.status;
           return cleaningReceiptCardHTML(item.task, {
             statusLabel,
@@ -7286,6 +7834,11 @@
           return;
         }
 
+        if (roles[roleIndex] === "兼职" && partTimeForbiddenQuery(query)) {
+          addMessage("assistant", `<div class="bubble"><strong>当前身份暂无该功能权限。</strong><br />兼职角色可以查看「今日任务」「今日处理」和「门店状态」，报警任务、审核任务、兼职任务、巡检和超时提醒由门店运营处理。</div>`);
+          return;
+        }
+
         if (isTimedInspectionQuery(query)) {
           addMessage("assistant", timedInspectionHTML());
           return;
@@ -7330,7 +7883,7 @@
             var timeRange = parseTimeRange(query);
             var fbList = feedbackMessages.filter(function (fb) {
               if (fb.closed) return false;
-              if (fb.partTimer !== "兼职-王可") return false;
+              if (fb.partTimer !== currentPartTimerName) return false;
               if (!timeRange) return true;
               var ft = new Date((fb.time || "").replace(/-/g, "/"));
               return ft >= timeRange.start && ft <= timeRange.end;
@@ -7348,7 +7901,13 @@
             addMessage("assistant", '<div class="bubble"><strong>你想查看' + escapeHtml(rangeLabel2) + '的什么内容？</strong></div><div class="quick-pick"><button data-suggest="' + escapeHtml(rangeLabel2) + '清洁任务" type="button">' + escapeHtml(rangeLabel2) + '清洁任务</button><button data-suggest="' + escapeHtml(rangeLabel2) + '审核结果" type="button">' + escapeHtml(rangeLabel2) + '审核结果</button></div>');
             return;
           }
-          addMessage("assistant", `<div class="bubble">你当前有 ${activeTasks.length} 个任务未提交。请尽快完成今日巡店任务，全部完成后运营对您的完成质量进行审核。</div>${activeTasks.map(cleaningTaskCard).join("")}`);
+          const todoTasks = partTimeTodoTasks();
+          const reworkCount = todoTasks.filter((task) => task.status === "已驳回").length;
+          if (!todoTasks.length) {
+            addMessage("assistant", `<div class="bubble"><strong>当前暂无待处理清洁任务。</strong><br />今天已提交或已完成的任务可通过「今日处理」查看。</div>`);
+            return;
+          }
+          addMessage("assistant", `<div class="bubble">你当前有 ${todoTasks.length} 个任务需要处理${reworkCount ? `，其中 ${reworkCount} 个待重新清洁` : ""}。请尽快完成今日巡店任务，提交后会流转给运营审核。</div>${todoTasks.map(cleaningTaskCard).join("")}`);
           return;
         }
 
@@ -7356,7 +7915,7 @@
           const suspendedTasks = alarmTasksForRole().filter((task) => task.status === "暂缓中");
           const visibleSuspendedTasks = tasksForOperatorScope(suspendedTasks);
           if (!visibleSuspendedTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有暂缓中的报警任务。暂缓任务不会混在待处理报警列表里，你可以输入"查看待处理报警任务"查看需要立即处理的报警。</div>`);
+            addMessage("assistant", `<div class="bubble">当前没有暂缓中的报警任务。暂缓任务不会混在待处理报警列表里，你可以输入"今日报警"查看需要立即处理的报警。</div>`);
             return;
           }
           addMessage("assistant", `<div class="bubble"><strong>当前有 ${visibleSuspendedTasks.length} 条暂缓中的报警任务</strong><br />这些任务已从待处理报警列表中分离，等待条件满足后可点击"继续处理"恢复跟进。</div>${groupedTaskListHTML(suspendedTasks, { primary: "我主责的暂缓报警任务", assist: "以下为我可协助处理的暂缓报警任务" })}`);
@@ -7367,7 +7926,7 @@
           const handlingTasks = alarmTasksForRole().filter((task) => task.status === "处理中");
           const visibleHandlingTasks = tasksForOperatorScope(handlingTasks);
           if (!visibleHandlingTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有处理中的报警任务。你可以输入"查看待处理报警任务"查看还未开始的报警，或输入"暂缓"查看暂缓中的报警任务。</div>`);
+            addMessage("assistant", `<div class="bubble">当前没有处理中的报警任务。你可以输入"今日报警"查看还未开始的报警，或输入"暂缓"查看暂缓中的报警任务。</div>`);
             return;
           }
           addMessage("assistant", `<div class="bubble"><strong>当前有 ${visibleHandlingTasks.length} 条处理中的报警任务</strong><br />这些报警已经开始跟进，可以继续补充备注、完成或暂缓。</div>${groupedTaskListHTML(handlingTasks, { primary: "我主责的处理中报警任务", assist: "以下为我可协助处理的处理中报警任务" })}`);
@@ -7419,45 +7978,49 @@
           return;
         }
 
-        if (query.includes("清洁审核")) {
+        if (query.includes("清洁审核") || query.includes("今日审核")) {
           const reviewTasks = activeTasks.filter((task) => task.type === "review");
           const visibleReviewTasks = tasksForOperatorScope(reviewTasks);
           if (!visibleReviewTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有待审核的清洁任务。兼职提交清洁任务后会自动生成审核任务。</div>`);
+            addMessage("assistant", `<div class="bubble">今日暂无待审核的清洁任务。兼职提交清洁任务后会自动生成审核任务。</div>`);
             return;
           }
           addMessage("assistant", `${reviewTaskSummaryHTML(reviewTasks)}${groupedTaskListHTML(reviewTasks, { primary: "我主责的审核任务", assist: "以下为我可协助审核的任务" })}`);
           return;
         }
 
-        if (query.includes("兼职任务")) {
+        if (query.includes("兼职任务") || query.includes("今日兼职")) {
           if (roles[roleIndex] !== "门店运营") {
             addMessage("assistant", `<div class="bubble">兼职任务接手入口仅开放给门店运营，用于临时协助处理清洁任务。</div>`);
             return;
           }
+          const relationScope = query.includes("可协助") ? "assist" : query.includes("主责") ? "primary" : partTimeTaskRelationScope;
           if (query.includes("按门店")) {
-            addMessage("assistant", operatorPartTimeTaskOptionsHTML("store"));
+            partTimeTaskRelationScope = relationScope;
+            addMessage("assistant", operatorPartTimeTaskOptionsHTML("store", relationScope));
             return;
           }
-          if (query.includes("按兼职")) {
-            addMessage("assistant", operatorPartTimeTaskOptionsHTML("owner"));
+          if (query.includes("按兼职人员") || query.includes("按兼职")) {
+            partTimeTaskRelationScope = relationScope;
+            addMessage("assistant", operatorPartTimeTaskOptionsHTML("owner", relationScope));
             return;
           }
-          if (query.includes("全部门店") || query.includes("全部兼职")) {
-            addMessage("assistant", operatorPartTimeTaskListHTML());
+          if (query.includes("全部门店") || query.includes("全部兼职人员") || query.includes("全部兼职")) {
+            addMessage("assistant", operatorPartTimeTaskListHTML({ relation: relationScope }));
             return;
           }
-          const matchedStore = cleaningTasks.find((task) => query.includes(task.store))?.store;
+          const matchedStore = cleaningTasks.find((task) => taskRelation(task) !== "none" && (!relationScope || taskRelation(task) === relationScope) && query.includes(task.store))?.store;
           if (matchedStore) {
-            addMessage("assistant", operatorPartTimeTaskListHTML({ store: matchedStore }));
+            addMessage("assistant", operatorPartTimeTaskListHTML({ store: matchedStore, relation: relationScope }));
             return;
           }
-          const ownerOptions = [...new Set(cleaningTasks.flatMap((task) => [task.originalOwner, task.owner]).filter(Boolean))];
+          const ownerOptions = [...new Set(cleaningTasks.filter((task) => taskRelation(task) !== "none" && (!relationScope || taskRelation(task) === relationScope)).flatMap((task) => [task.originalOwner, task.owner]).filter(Boolean))];
           const matchedOwner = ownerOptions.find((owner) => query.includes(owner));
           if (matchedOwner) {
-            addMessage("assistant", operatorPartTimeTaskListHTML({ owner: matchedOwner }));
+            addMessage("assistant", operatorPartTimeTaskListHTML({ owner: matchedOwner, relation: relationScope }));
             return;
           }
+          partTimeTaskRelationScope = "";
           addMessage("assistant", operatorPartTimeTaskHTML());
           return;
         }
@@ -7465,10 +8028,10 @@
         if (query.includes("报警") || query.includes("任务")) {
           const visibleAlarmTasks = tasksForOperatorScope(activeAlarmTasks);
           if (!visibleAlarmTasks.length) {
-            addMessage("assistant", `<div class="bubble">当前没有待处理报警任务。清洁审核请单独输入"查看清洁审核任务"，也可以输入"今天已完成""本周处理记录"查看历史闭环。</div>`);
+            addMessage("assistant", `<div class="bubble">今日暂无待处理报警任务。清洁审核请单独输入"今日审核"，也可以输入"今日处理""本周处理记录"查看历史闭环。</div>`);
             return;
           }
-          addMessage("assistant", `<div class="bubble">当前有 ${visibleAlarmTasks.length} 条待处理报警任务，其中 ${visibleAlarmTasks.filter((task) => task.level === "致命报警").length} 条致命报警、${visibleAlarmTasks.filter((task) => task.level === "严重报警").length} 条严重报警。主责任务优先展示，可协助任务在分隔线下方。</div>${groupedTaskListHTML(activeAlarmTasks, { primary: "我主责的报警任务", assist: "以下为我可协助处理的报警任务" })}`);
+          addMessage("assistant", `<div class="bubble">今日有 ${visibleAlarmTasks.length} 条待处理报警任务，其中 ${visibleAlarmTasks.filter((task) => task.level === "致命报警").length} 条致命报警、${visibleAlarmTasks.filter((task) => task.level === "严重报警").length} 条严重报警。主责任务优先展示，可协助任务在分隔线下方。</div>${groupedTaskListHTML(activeAlarmTasks, { primary: "我主责的报警任务", assist: "以下为我可协助处理的报警任务" })}`);
           return;
         }
 
@@ -7489,7 +8052,7 @@
         window.clearTimeout(showToast.timer);
         showToast.timer = window.setTimeout(() => {
           toast.hidden = true;
-        }, 1600);
+        }, 1500);
       }
 
       async function copyText(value, label) {
@@ -7636,6 +8199,10 @@
         if (progress) task.progress = progress.value;
       }
 
+      function findTaskById(taskId) {
+        return tasks.find((item) => item.id === taskId) || demoIncomingTasks.find((item) => item.id === taskId) || null;
+      }
+
       function generateReviewTaskFromCleaning(cleaningTask) {
         if (cleaningTask.originalOwner && cleaningTask.owner === currentOperatorName) return null;
         const reviewTask = tasks.find((item) => item.id === cleaningTask.reviewTaskId);
@@ -7659,12 +8226,18 @@
         return reviewTask;
       }
 
+      function findCleaningTaskByReview(reviewTask) {
+        if (!reviewTask) return null;
+        if (reviewTask.cleaningTaskId) return cleaningTasks.find((task) => task.id === reviewTask.cleaningTaskId) || null;
+        return cleaningTasks.find((task) => task.reviewTaskId === reviewTask.id) || null;
+      }
+
       function findCleaningTaskByReviewId(reviewTaskId) {
         return cleaningTasks.find((task) => task.reviewTaskId === reviewTaskId);
       }
 
       function createCleaningAuditRecord(task) {
-        const cleaningTask = findCleaningTaskByReviewId(task.id);
+        const cleaningTask = findCleaningTaskByReview(task);
         if (!cleaningTask) return null;
         const previousRecords = cleaningAuditRecords.filter((record) => record.taskId === cleaningTask.id);
         const record = {
@@ -7686,7 +8259,7 @@
       }
 
       function createFeedbackForCleaning(task) {
-        const cleaningTask = findCleaningTaskByReviewId(task.id);
+        const cleaningTask = findCleaningTaskByReview(task);
         if (!cleaningTask) return;
         feedbackNotified = false;
         const result = task.auditResult || "通过";
@@ -7709,7 +8282,7 @@
       }
 
       function returnCleaningTaskForReupload(reviewTask) {
-        const cleaningTask = findCleaningTaskByReviewId(reviewTask.id);
+        const cleaningTask = findCleaningTaskByReview(reviewTask);
         if (!cleaningTask) return;
         const latestReject = latestRejectionRecord(cleaningTask.id);
         cleaningTask.status = "已驳回";
@@ -7723,7 +8296,7 @@
       function generatePendingReviewTasks() {
         reviewTasksNotified = false;
         return cleaningTasks
-          .filter((task) => isDoneStatus(task.status))
+          .filter((task) => task.status === "已提交")
           .map(generateReviewTaskFromCleaning)
           .filter(Boolean);
       }
@@ -7769,10 +8342,10 @@
               copyReceiptRow("任务ID", task.id) +
               copyReceiptRow("店铺名称", task.store) +
               '<div><span>任务类型</span><strong>清洁任务</strong></div>' +
+              '<div><span>处理类型</span><strong>' + escapeHtml(cleaningProcessTypeName(task)) + '</strong></div>' +
+              '<div><span>任务归属人</span><strong>' + escapeHtml(taskOwnerName(task)) + '</strong></div>' +
               '<div><span>创建时间</span><strong>' + escapeHtml(task.createdAt || "-") + '</strong></div>' +
               '<div><span>处理人</span><strong>' + escapeHtml(task.owner || "-") + '</strong></div>' +
-              (task.originalOwner ? '<div><span>原处理人</span><strong>' + escapeHtml(task.originalOwner) + '</strong></div>' : '') +
-              '<div><span>任务状态</span><strong>' + receiptStatus + '</strong></div>' +
               '<div><span>' + escapeHtml(timeLabel) + '</span><strong>' + escapeHtml(timeValue) + '</strong></div>' +
               (isOperatorTakeover ? '<div><span>处理方式</span><strong>运营代处理</strong></div>' : '') +
               '<div><span>清洁说明</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
@@ -7798,39 +8371,6 @@
         });
       }
 
-      function locateCleaningTaskFromFeedback(message) {
-        const task = feedbackCleaningTask(message);
-        if (!task) {
-          showToast("未找到对应任务");
-          return;
-        }
-        if (feedbackResultOf(message) === "驳回") {
-          task.status = "已驳回";
-          task.auditOpinion = message.opinion || task.auditOpinion || "请按审核意见重新清洁。";
-          task.photos = task.photos && task.photos.length ? task.photos : [...(message.photosSnapshot || [])];
-        }
-        const title = feedbackResultOf(message) === "驳回" ? "已定位到需要重新清洁的任务。" : "已定位到对应任务。";
-        addMessage("assistant", `<div class="bubble">${title}</div>${cleaningTaskCard(task)}`);
-        const cards = conversation.querySelectorAll('[data-cleaning-card="' + CSS.escape(task.id) + '"]');
-        const card = cards[cards.length - 1];
-        if (card) {
-          card.classList.add("is-located");
-          card.scrollIntoView({ block: "center", behavior: "smooth" });
-          setTimeout(() => card.classList.remove("is-located"), 1400);
-        }
-      }
-
-      function locateCleaningTaskFromFeedbackId(feedbackId) {
-        const message = feedbackMessages.find((item) => item.id === feedbackId);
-        if (!message) {
-          showToast("未找到对应审核反馈");
-          return;
-        }
-        locateCleaningTaskFromFeedback(message);
-      }
-
-      window.locateCleaningTaskFromFeedbackId = locateCleaningTaskFromFeedbackId;
-
       function getPreviewTask(taskId) {
         const feedback = feedbackMessages.find((item) => item.id === taskId);
         if (feedback) {
@@ -7843,7 +8383,7 @@
       }
 
       function getPreviewPhotos(task, source) {
-        const sourceCleaningTask = task?.type === "review" ? findCleaningTaskByReviewId(task.id) : null;
+        const sourceCleaningTask = task?.type === "review" ? findCleaningTaskByReview(task) : null;
         const examplePhotos = task?.examplePhotos && task.examplePhotos.length ? task.examplePhotos : sourceCleaningTask?.examplePhotos || [];
         if (source === "example") return examplePhotos;
         if (source === "review-example") return examplePhotos;
@@ -7917,16 +8457,19 @@
         const statusColor = task.status === "已关闭" ? "var(--muted)" : task.status === "已驳回" ? "var(--danger)" : "var(--brand)";
         const statusBg = task.status === "已关闭" ? "#eee" : task.status === "已驳回" ? "#fff0f0" : "#e8f7f4";
         const isReview = task.type === "review";
-        const reviewCleaningTask = isReview ? findCleaningTaskByReviewId(task.id) : null;
+        const reviewCleaningTask = isReview ? findCleaningTaskByReview(task) : null;
         const reviewRejectCount = reviewCleaningTask ? rejectionCountForCleaningTask(reviewCleaningTask.id) : 0;
-        const noteLabel = isReview ? "审核意见" : "跟进备注";
-        const resultLabel = isReview ? "审核结果" : "处理结果";
-        const resultValue = isReview ? (task.reviewStatus || task.auditResult || "通过") : (task.progress || statusLabel);
+        const reviewHistory = isReview ? operatorReviewHistoryHTML(task) : "";
+        const reviewReceiptRows = isReview
+          ? '<div><span>任务类型</span><strong>' + escapeHtml(taskTypeName(task)) + '</strong></div>' +
+            '<div><span>任务归属人</span><strong>' + escapeHtml(taskOwnerName(task)) + '</strong></div>' +
+            '<div><span>处理关系</span><strong>' + escapeHtml(taskRelationLabel(task)) + '</strong></div>' +
+            '<div><span>审核类型</span><strong>' + escapeHtml(reviewTypeName(task)) + '</strong></div>' +
+            (reviewRejectCount ? '<div><span>驳回次数</span><strong>' + escapeHtml(reviewRejectCount + " 次") + '</strong></div>' : '') +
+            '<div><span>审核时间</span><strong>' + escapeHtml(task.handledAt || nowLabel()) + '</strong></div>'
+          : '';
         const alarmReceiptRows = !isReview
-          ? '<div><span>报警详情</span><strong>' + escapeHtml(task.detail || "-") + '</strong></div>' +
-            '<div><span>处理人</span><strong>' + escapeHtml(task.owner || "-") + '</strong></div>' +
-            '<div><span>创建时间</span><strong>' + escapeHtml(task.createdAt || "-") + '</strong></div>' +
-            '<div><span>开始时间</span><strong>' + escapeHtml(taskStartTime(task)) + '</strong></div>'
+          ? alarmTerminalRowsHTML(task, { timeValue: task.handledAt || nowLabel() })
           : '';
         conversation.querySelectorAll('[data-task-card]').forEach(function (card) {
           if (card.getAttribute("data-task-card") !== task.id) return;
@@ -7939,16 +8482,12 @@
               '<em class="task-level" style="color:' + statusColor + ';background:' + statusBg + ';">' + statusLabel + '</em>' +
             '</div>' +
             '<div class="task-meta">' +
-              '<div><span>任务ID</span><strong>' + escapeHtml(task.id) + '</strong></div>' +
-              '<div><span>店铺名称</span><strong>' + escapeHtml(task.store || "-") + '</strong></div>' +
+              copyFieldHTML("任务ID", task.id) +
+              copyFieldHTML("店铺名称", task.store || "-") +
+              reviewReceiptRows +
               alarmReceiptRows +
-              (isReview ? '<div><span>提交人</span><strong>' + escapeHtml(task.submitter || "-") + '</strong></div>' : '') +
-              (isReview ? '<div><span>提交时间</span><strong>' + escapeHtml(task.submittedAt || "-") + '</strong></div>' : '') +
-              (isReview && reviewRejectCount ? '<div><span>驳回次数</span><strong>' + escapeHtml(reviewRejectCount + " 次") + '</strong></div>' : '') +
-              '<div><span>完成时间</span><strong>' + escapeHtml(task.handledAt || nowLabel()) + '</strong></div>' +
-              (isReview ? '<div><span>' + resultLabel + '</span><strong>' + escapeHtml(resultValue) + '</strong></div>' : '') +
-              '<div><span>' + noteLabel + '</span><strong>' + escapeHtml(task.note || "无") + '</strong></div>' +
-            '</div>';
+            '</div>' +
+            reviewHistory;
         });
       }
 
@@ -7967,29 +8506,59 @@
         return startLog?.time || task.startedAt || task.createdAt || "-";
       }
 
+      function copyFieldHTML(label, value) {
+        const safeValue = value || "-";
+        return `<div class="copy-field">
+          <span>${escapeHtml(label)}</span>
+          <span class="task-value-with-copy"><strong>${escapeHtml(safeValue)}</strong></span>
+          <button class="copy-icon" data-copy-text="${escapeHtml(safeValue)}" data-copy-label="${escapeHtml(label)}" type="button" aria-label="复制${escapeHtml(label)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <rect x="8" y="8" width="10" height="10" rx="2"></rect>
+              <path d="M6 16H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>`;
+      }
+
+      function alarmTerminalRowsHTML(task, options = {}) {
+        const timeLabel = task.status === "已关闭" ? "关闭时间" : options.timeLabel || "完成时间";
+        const timeValue = options.timeValue || task.handledAt || task.completedAt || task.closedAt || nowLabel();
+        return `<div><span>任务类型</span><strong>${escapeHtml(taskTypeName(task))}</strong></div>
+          <div><span>任务归属人</span><strong>${escapeHtml(taskOwnerName(task))}</strong></div>
+          <div><span>处理关系</span><strong>${escapeHtml(taskRelationLabel(task))}</strong></div>
+          <div><span>报警详情</span><strong>${escapeHtml(task.detail || "-")}</strong></div>
+          <div><span>报警触发人</span><strong>${escapeHtml(task.trigger || "定时巡检")}</strong></div>
+          <div><span>处理人</span><strong>${escapeHtml(task.owner || "-")}</strong></div>
+          <div><span>创建时间</span><strong>${escapeHtml(task.createdAt || "-")}</strong></div>
+          <div><span>开始时间</span><strong>${escapeHtml(taskStartTime(task))}</strong></div>
+          <div><span>${escapeHtml(timeLabel)}</span><strong>${escapeHtml(timeValue || "-")}</strong></div>
+          <div><span>跟进备注</span><strong>${escapeHtml(task.note || "无")}</strong></div>`;
+      }
+
       function completionReceipt(task, options = {}) {
         const title = options.title || (task.type === "review" ? "审核已完成" : "任务已完成");
         const result = options.result || task.progress || task.reviewStatus || "已完成";
         const isReview = task.type === "review";
-        const alarmRows = !isReview
-          ? `<div><span>报警详情</span><strong>${escapeHtml(task.detail || "-")}</strong></div>
-              <div><span>开始时间</span><strong>${escapeHtml(taskStartTime(task))}</strong></div>`
-          : "";
+        const reviewCleaningTask = isReview ? findCleaningTaskByReview(task) : null;
+        const reviewRejectCount = task.rejectCount || (reviewCleaningTask ? rejectionCountForCleaningTask(reviewCleaningTask.id) : 0);
+        const reviewHistory = isReview ? operatorReviewHistoryHTML(task) : "";
+        const alarmRows = !isReview ? alarmTerminalRowsHTML(task, { timeValue: task.handledAt || task.completedAt || nowLabel() }) : "";
         return `
           <div class="bubble completion-receipt">
             <strong>${escapeHtml(title)}</strong>
             <div class="task-meta">
-              <div><span>${task.type === "review" ? "审核任务ID" : "任务ID"}</span><strong>${escapeHtml(task.id)}</strong></div>
+              ${copyFieldHTML(task.type === "review" ? "审核任务ID" : "任务ID", task.id)}
               <div><span>任务名称</span><strong>${escapeHtml(task.name)}</strong></div>
-              <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
+              ${copyFieldHTML("店铺名称", task.store || "-")}
               <div><span>任务类型</span><strong>${escapeHtml(taskTypeName(task))}</strong></div>
+              <div><span>任务归属人</span><strong>${escapeHtml(taskOwnerName(task))}</strong></div>
+              <div><span>处理关系</span><strong>${escapeHtml(taskRelationLabel(task))}</strong></div>
+              ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(reviewTypeName(task))}</strong></div>` : ""}
               ${alarmRows}
-              ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
-              ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
-              <div><span>完成时间</span><strong>${escapeHtml(task.handledAt || task.completedAt || nowLabel())}</strong></div>
-              ${isReview ? `<div><span>审核结果</span><strong>${escapeHtml(result)}</strong></div>` : ""}
-              <div><span>${isReview ? "审核意见" : "跟进备注"}</span><strong>${escapeHtml(task.note || options.note || "无")}</strong></div>
+              ${isReview && reviewRejectCount ? `<div><span>驳回次数</span><strong>${escapeHtml(reviewRejectCount + " 次")}</strong></div>` : ""}
+              ${isReview ? `<div><span>审核时间</span><strong>${escapeHtml(task.handledAt || task.completedAt || nowLabel())}</strong></div>` : ""}
             </div>
+            ${reviewHistory}
           </div>
         `;
       }
@@ -7998,16 +8567,15 @@
         const logs = task.logs || [];
         const latestLog = logs[logs.length - 1];
         const isReview = task.type === "review";
-        const reviewCleaningTask = isReview ? findCleaningTaskByReviewId(task.id) : null;
+        const reviewCleaningTask = isReview ? findCleaningTaskByReview(task) : null;
         const reviewRejectCount = task.rejectCount || (reviewCleaningTask ? rejectionCountForCleaningTask(reviewCleaningTask.id) : 0);
+        const reviewHistory = isReview ? operatorReviewHistoryHTML(task) : "";
         const isTakeover = task.type === "cleaning-takeover";
         const alarmRows = !isReview && !isTakeover
-          ? `<div><span>报警详情</span><strong>${escapeHtml(task.detail || "-")}</strong></div>
-              <div><span>开始时间</span><strong>${escapeHtml(taskStartTime(task))}</strong></div>`
+          ? alarmTerminalRowsHTML(task, { timeValue: task.handledAt || latestLog?.time || "-" })
           : "";
         const takeoverRows = isTakeover
           ? `<div><span>处理人</span><strong>${escapeHtml(task.owner || "-")}</strong></div>
-              <div><span>原处理人</span><strong>${escapeHtml(task.originalOwner || "-")}</strong></div>
               <div><span>处理方式</span><strong>运营代处理</strong></div>`
           : "";
         return `
@@ -8016,21 +8584,22 @@
               <div>
                 <strong class="task-title" title="${escapeHtml(task.name)}">${escapeHtml(task.name)}</strong>
               </div>
-              <em class="task-level ${task.status === "已驳回" ? "rejected" : ""}">${escapeHtml(task.status === "已驳回" ? "已驳回" : "已完成")}</em>
+              <em class="task-level ${task.status === "已驳回" ? "rejected" : ""}">${escapeHtml(task.status === "已驳回" ? "已驳回" : task.status === "已关闭" ? "已关闭" : "已完成")}</em>
             </div>
             <div class="task-meta">
-              <div><span>任务ID</span><strong>${task.id}</strong></div>
-              <div><span>店铺名称</span><strong>${escapeHtml(task.store || "-")}</strong></div>
-              <div><span>任务类型</span><strong>${escapeHtml(taskTypeName(task))}</strong></div>
+              ${copyFieldHTML("任务ID", task.id)}
+              ${copyFieldHTML("店铺名称", task.store || "-")}
+              ${isReview || isTakeover ? `<div><span>任务类型</span><strong>${escapeHtml(taskTypeName(task))}</strong></div>` : ""}
+              ${isReview || isTakeover ? `<div><span>任务归属人</span><strong>${escapeHtml(taskOwnerName(task))}</strong></div>` : ""}
+              ${isReview || isTakeover ? `<div><span>处理关系</span><strong>${escapeHtml(taskRelationLabel(task))}</strong></div>` : ""}
+              ${isReview ? `<div><span>审核类型</span><strong>${escapeHtml(reviewTypeName(task))}</strong></div>` : ""}
               ${alarmRows}
               ${takeoverRows}
-              ${isReview ? `<div><span>提交人</span><strong>${escapeHtml(task.submitter || "-")}</strong></div>` : ""}
-              ${isReview ? `<div><span>提交时间</span><strong>${escapeHtml(task.submittedAt || "-")}</strong></div>` : ""}
               ${isReview && reviewRejectCount ? `<div><span>驳回次数</span><strong>${escapeHtml(reviewRejectCount + " 次")}</strong></div>` : ""}
-              <div><span>完成时间</span><strong>${task.handledAt || latestLog?.time || "-"}</strong></div>
-              ${isReview ? `<div><span>审核结果</span><strong>${escapeHtml(task.reviewStatus || task.auditResult || "通过")}</strong></div>` : ""}
-              <div><span>${isReview ? "审核意见" : "处理备注"}</span><strong>${escapeHtml(task.note || (isReview ? "无" : isTakeover ? "运营已完成清洁代处理" : "已确认问题处理完成"))}</strong></div>
+              ${isReview || isTakeover ? `<div><span>${isReview ? "审核时间" : "完成时间"}</span><strong>${task.handledAt || latestLog?.time || "-"}</strong></div>` : ""}
+              ${isTakeover ? `<div><span>跟进备注</span><strong>${escapeHtml(task.note || "运营已完成清洁代处理")}</strong></div>` : ""}
             </div>
+            ${reviewHistory}
           </article>
         `;
       }
@@ -8089,7 +8658,7 @@
         var inspectionTasks = sortedTasks.map(function (task) {
           return { ...task, trigger: "智能巡检", source: "" };
         });
-        html += groupedTaskListHTML(inspectionTasks, { primary: "我主责的智能巡检报警任务", assist: "以下为我可协助处理的智能巡检报警任务" });
+        html += groupedTaskListHTML(inspectionTasks, { primary: "我主责的报警任务", assist: "以下为我可协助处理的报警任务" });
         return html;
       }
 
@@ -8140,10 +8709,37 @@
         const value = userInput.value;
         if (!value.trim()) return;
         try {
-          answer(value);
+          const query = value.trim();
+          const isNetworkErrorDemo = /无网络|断网|网络不可用/.test(query);
+          const isServiceErrorDemo = /服务异常|接口异常|系统异常/.test(query);
+          if (isNetworkErrorDemo || isServiceErrorDemo) {
+            addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
+            removeThinkingMessage();
+            activeQueryMessageTime = null;
+            showToast(isNetworkErrorDemo ? "当前网络不可用，请检查网络后重试" : "当前服务开小差了，请稍后重试");
+            userInput.value = "";
+            syncComposerAction();
+            return;
+          }
+          addMessage("user", `<div class="bubble">${escapeHtml(query)}</div>`);
+          showThinkingMessage();
+          suppressNextUserMessage = true;
+          window.setTimeout(() => {
+            try {
+              answer(query);
+            } catch (error) {
+              console.error(error);
+              removeThinkingMessage();
+              activeQueryMessageTime = null;
+              suppressNextUserMessage = false;
+              showToast("当前服务开小差了，请稍后重试");
+            }
+          }, 1000);
         } catch (error) {
           console.error(error);
-          addMessage("assistant", `<div class="bubble">当前操作没有成功，请稍后再试。</div>`);
+          removeThinkingMessage();
+          activeQueryMessageTime = null;
+          showToast("当前服务开小差了，请稍后重试");
         }
         userInput.value = "";
         syncComposerAction();
@@ -8162,6 +8758,7 @@
       userInput.addEventListener("input", syncComposerAction);
       userInput.addEventListener("focus", syncComposerAction);
       userInput.addEventListener("blur", syncComposerAction);
+      conversation.addEventListener("scroll", dismissAttentionAlertIfSeen, { passive: true });
 
       function locateCleaningTimeoutTasksFromButton(button) {
         const taskIds = (button?.dataset?.locateCleaningTimeoutTasks || "").split(",").filter(Boolean);
@@ -8404,7 +9001,7 @@
         const openDoneTasks = event.target.closest("[data-open-done-tasks]");
         if (openDoneTasks) {
           if (roles[roleIndex] === "门店运营") {
-            answer("已完成任务");
+            answer("今日处理");
           } else if (roles[roleIndex] === "兼职") {
             answer("我今天的任务");
           }
@@ -8425,6 +9022,10 @@
 
         const storeIssue = event.target.closest("[data-store-issue]");
         if (storeIssue) {
+          if (roles[roleIndex] === "兼职") {
+            showToast("当前身份仅支持查看门店状态");
+            return;
+          }
           const task = taskForStoreIssue(storeIssue.dataset.storeIssue, storeIssue.dataset.issueType);
           if (!task) {
             showToast("当前异常暂无对应任务");
@@ -8443,7 +9044,25 @@
           activePage = "ops";
           selectedOpsStoreId = "";
           opsStoreSearch = "";
+          opsStorePage = 1;
+          opsStoreRelationFilter = "primary";
+          renderNewTaskAlert();
           setDrawerOpen(false);
+          renderWorkbench();
+          return;
+        }
+
+        const opsStoreRelation = event.target.closest("[data-ops-store-relation]");
+        if (opsStoreRelation) {
+          opsStoreRelationFilter = opsStoreRelation.dataset.opsStoreRelation;
+          opsStorePage = 1;
+          renderWorkbench();
+          return;
+        }
+
+        const opsPage = event.target.closest("[data-ops-page]");
+        if (opsPage) {
+          opsStorePage += opsPage.dataset.opsPage === "next" ? 1 : -1;
           renderWorkbench();
           return;
         }
@@ -8459,6 +9078,7 @@
         if (resetOpsStore) {
           selectedOpsStoreId = "";
           opsStoreSearch = "";
+          opsStorePage = 1;
           renderWorkbench();
           return;
         }
@@ -8842,7 +9462,7 @@
 
         const start = event.target.closest("[data-start]");
         if (start) {
-          const task = tasks.find((item) => item.id === start.dataset.start) || demoIncomingTasks.find((item) => item.id === start.dataset.start);
+          const task = findTaskById(start.dataset.start);
           if (!task) return;
           task.isNewTask = false;
           task.status = "处理中";
@@ -8865,10 +9485,6 @@
             task.originalOwner = task.originalOwner || task.owner;
             task.owner = currentOperatorName;
             task.takeoverAt = nowLabel();
-          }
-          if (task.status === "已驳回" && !(task.photos || []).length) {
-            const latestReject = latestRejectionRecord(task.id);
-            task.photos = [...(latestReject?.photosSnapshot || [])];
           }
           task.status = "处理中";
           renderBrief();
@@ -8898,21 +9514,20 @@
             return;
           }
           task.error = "";
-          task.status = "已完成";
           task.completedAt = nowLabel();
           task.auditOpinion = "";
           const isOperatorTakeover = !!task.originalOwner && task.owner === currentOperatorName;
-          const allSubmitted = cleaningTasks.every((item) => isDoneStatus(item.status));
-          if (allSubmitted) generatePendingReviewTasks();
+          task.status = isOperatorTakeover ? "已完成" : "已提交";
+          const generatedReviews = isOperatorTakeover ? [] : generatePendingReviewTasks();
           renderBrief();
           replaceCleaningCardWithReceipt(task);
-          showToast(isOperatorTakeover ? "运营代处理已完成" : allSubmitted ? "清洁已全部提交，已生成运营审核任务" : "清洁已提交");
+          showToast(isOperatorTakeover ? "运营代处理已完成" : generatedReviews.length ? "清洁已提交，已生成运营审核任务" : "清洁已提交");
           return;
         }
 
         const previewGeneratedReview = event.target.closest("[data-preview-generated-review]");
         if (previewGeneratedReview) {
-          const task = tasks.find((item) => item.id === previewGeneratedReview.dataset.previewGeneratedReview);
+          const task = findTaskById(previewGeneratedReview.dataset.previewGeneratedReview);
           if (!task || task.status === "未生成") {
             showToast("兼职尚未提交，暂无运营审核任务");
             return;
@@ -8930,7 +9545,7 @@
 
         const auditResult = event.target.closest("[data-audit-result]");
         if (auditResult) {
-          const task = tasks.find((item) => item.id === auditResult.dataset.taskId);
+          const task = findTaskById(auditResult.dataset.taskId);
           if (!task) return;
           task.auditResult = auditResult.dataset.auditResult;
           task.isReReview = task.isReReview || task.reviewStatus === "待重新审核";
@@ -8942,7 +9557,7 @@
 
         const suspend = event.target.closest("[data-suspend]");
         if (suspend) {
-          const task = tasks.find((item) => item.id === suspend.dataset.suspend);
+          const task = findTaskById(suspend.dataset.suspend);
           if (!task) return;
           updateTaskFromDom(task);
           task.status = "暂缓中";
@@ -8957,7 +9572,7 @@
 
         const close = event.target.closest("[data-close]");
         if (close) {
-          const task = tasks.find((item) => item.id === close.dataset.close);
+          const task = findTaskById(close.dataset.close);
           if (!task) return;
           updateTaskFromDom(task);
           task.status = "已关闭";
@@ -8972,7 +9587,7 @@
 
         const resume = event.target.closest("[data-resume]");
         if (resume) {
-          const task = tasks.find((item) => item.id === resume.dataset.resume);
+          const task = findTaskById(resume.dataset.resume);
           if (!task) return;
           task.status = "处理中";
           recordTask(task, `继续处理：${task.note || "恢复任务跟进"}`);
@@ -8986,7 +9601,7 @@
 
         const complete = event.target.closest("[data-complete]");
         if (complete) {
-          const task = tasks.find((item) => item.id === complete.dataset.complete);
+          const task = findTaskById(complete.dataset.complete);
           if (!task) return;
           updateTaskFromDom(task);
           if (task.type === "review" && task.auditResult === "驳回" && !String(task.note || "").trim()) {
@@ -9016,17 +9631,9 @@
           return;
         }
 
-        const ackFeedback = event.target.closest("[data-ack-feedback]");
-        if (ackFeedback) {
-          const message = feedbackMessages.find((item) => item.id === ackFeedback.dataset.ackFeedback);
-          if (!message) return;
-          locateCleaningTaskFromFeedback(message);
-          return;
-        }
-
         const showRecord = event.target.closest("[data-show-record]");
         if (showRecord) {
-          const task = tasks.find((item) => item.id === showRecord.dataset.showRecord);
+          const task = findTaskById(showRecord.dataset.showRecord);
           if (!task) return;
           addMessage("assistant", recordCard(task));
         }
@@ -9046,6 +9653,7 @@
 
         if (event.target.id === "opsStoreSearchInput") {
           opsStoreSearch = event.target.value;
+          opsStorePage = 1;
           renderWorkbench();
           requestAnimationFrame(() => {
             const input = document.getElementById("opsStoreSearchInput");
@@ -9085,7 +9693,7 @@
 
         const note = event.target.closest("[data-note]");
         if (note) {
-          const task = tasks.find((item) => item.id === note.dataset.note);
+          const task = findTaskById(note.dataset.note);
           if (!task) return;
           task.note = note.value.slice(0, 100);
           note.value = task.note;
